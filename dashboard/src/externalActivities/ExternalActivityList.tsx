@@ -33,10 +33,7 @@ const ExternalActivityButton = () => {
         return null;
     return (
         <>
-            <Button  label={record.title} onClick={() => {
-                setGameId(record.id);
-                redirect('/users/' + record.id + '/show');
-            }}></Button>
+            <TextField source="title" />
             <TextField source="description" />
             <TextField source="type" />
             <TextField source="language" />

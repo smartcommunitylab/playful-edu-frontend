@@ -17,10 +17,16 @@ const messages = {
             menu:"Utenti"
           },
         educator:{
-            menu:"Educatori"
+            menu:"Educatori",
+            firstname:"Nome",
+            lastname:"Cognome",
+            email:"Email"
         },
         learner:{
-            menu:"Studenti"
+            menu:"Studenti",
+            firstname:"Nome",
+            lastname:"Cognome",
+            email:"Email"
         },
           concept: {
             menu:"Concetti"

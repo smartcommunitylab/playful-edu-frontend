@@ -17,10 +17,16 @@ const messages = {
       menu:"Users"
     },
     educator:{
-      menu:"Educators"
+      menu:"Educators",
+      firstname:"Name",
+      lastname:"Surname",
+      email:"Email"
   },
   learner:{
-      menu:"Learners"
+      menu:"Learners",
+      firstname:"Name",
+      lastname:"Surname",
+      email:"Email"
   },
     concept: {
       menu:"Concepts"
@@ -38,7 +44,12 @@ const messages = {
       menu:"Scenarios",
     },
     modulo: {
+      menu:"Modules",
       back: "Modules",
+    },
+    fragments: {
+      menu:"Fragments",
+      back: "Fragments",
     },
   },
 };

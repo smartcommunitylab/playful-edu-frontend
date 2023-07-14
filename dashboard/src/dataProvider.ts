@@ -27,7 +27,8 @@ const springDataProvider = (
                 sort: field + ',' + order, //sorting
                 page: page - 1, //page starts from zero
                 size: perPage,
-                domainId:meta?.domainId
+                domainId:meta?.domainId,
+                learningScenarioId:meta?.learningScenarioId
             };
 
             const url = `${apiUrl}/${resource}?${stringify(query)}`;

@@ -15,7 +15,7 @@ import {
   useRecordContext,
   DateField,
 } from "react-admin";
-import { MODULO_KEY } from "../constants";
+import { DOMAIN_KEY, MODULO_KEY, SCENARIO_KEY } from "../constants";
 
 const ListActions = () => (
   <TopToolbar>
@@ -25,9 +25,12 @@ const ListActions = () => (
 );
 const ModuleFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const ModuleList = () => {
+  const [domainId] = useStore(DOMAIN_KEY);
+  const [learningScenarioId] = useStore(SCENARIO_KEY);
+
   const translate = useTranslate();
   return (
-    <List actions={<ListActions />} filters={ModuleFilters}>
+    <List actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId } }}>
       <Datagrid>
         <ModuleButton></ModuleButton>
         <EditButton />
