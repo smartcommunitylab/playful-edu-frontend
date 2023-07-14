@@ -13,7 +13,9 @@ import {
   Button,
   useRedirect,
   useRecordContext,
+  DateField,
 } from "react-admin";
+import { MODULO_KEY } from "../constants";
 
 const ListActions = () => (
   <TopToolbar>
@@ -38,22 +40,23 @@ const ModuleButton = () => {
   // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [gameId, setGameId] = useStore("Module.selected");
+  const [gameId, setModuleId] = useStore(MODULO_KEY);
+  
   if (!record) return null;
   return (
     <>
       <Button
         label={record.title}
         onClick={() => {
-          setGameId(record.id);
-          redirect("/users/" + record.id + "/show");
+          setModuleId(record.id);
+          redirect("/modules/" + record.id + "/show");
         }}
       ></Button>
-      <TextField source="description" />
-      <TextField source="type" />
+      <TextField source="desc" />
+      <TextField source="level" />
       <TextField source="language" />
-      <TextField source="tool" />
-      <TextField source="difficulty" />
+      <DateField source="dateFrom" />
+      <DateField source="dateFrom" />
     </>
   );
 };

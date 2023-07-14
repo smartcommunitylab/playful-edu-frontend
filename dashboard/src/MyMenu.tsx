@@ -63,8 +63,8 @@ export const MyMenu = () => {
       )}
       {moduloId && (
         <Menu>
-           <BackButtonMenu name={MODULO_KEY} label="resources.modulo.back" redirect="modulos"/>
-          <Menu.Item to="/learningFragments" primaryText="resources.learningFragments.menu" leftIcon={<UsersIcon />}/>
+           <BackButtonMenu name={MODULO_KEY} label="resources.modulo.back" redirect="modules"/>
+          <Menu.Item to="/fragments" primaryText="resources.fragments.menu" leftIcon={<UsersIcon />}/>
         </Menu>
       )}
     </>

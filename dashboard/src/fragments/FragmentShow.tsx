@@ -1,6 +1,6 @@
 import { Show, SimpleShowLayout, TextField } from "react-admin"
 
-export const LearningFragmentShow = () => {
+export const FragmentShow = () => {
     return (
         <Show>
             <SimpleShowLayout>

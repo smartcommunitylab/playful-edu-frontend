@@ -9,32 +9,32 @@ const ListActions = () => (
         <ExportButton/>
     </TopToolbar>
 );
-const LearningFragmentFilters = [
+const FragmentFilters = [
     <TextInput label="Search" source="name" alwaysOn />]
-export const LearningFragmentList = () => {
+export const FragmentList = () => {
     const [domainId] = useStore(DOMAIN_KEY);
     return (
-        <List actions={<ListActions/>} filters={LearningFragmentFilters} queryOptions={{ meta: { domainId } }}>
+        <List actions={<ListActions/>} filters={FragmentFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
-            <LearningFragmentButton ></LearningFragmentButton>
+            <FragmentButton ></FragmentButton>
             <EditButton />
             <ShowButton />
         </Datagrid>
     </List>
     )
 }
-const LearningFragmentButton = () => {
+const FragmentButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [gameId, setGameId] = useStore('learningFragment.selected');
+    const [gameId, setGameId] = useStore('Fragment.selected');
     if (!record)
         return null;
     return (
         <>
             <Button  label={record.title} onClick={() => {
                 setGameId(record.id);
-                redirect('/users/' + record.id + '/show');
+                redirect('/fragments/' + record.id + '/show');
             }}></Button>
             <TextField source="description" />
             <TextField source="type" />

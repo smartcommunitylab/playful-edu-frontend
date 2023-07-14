@@ -6,12 +6,14 @@ import { MyAppBar } from './MyAppBar';
 import domains from './domains'
 import concepts from './concepts'
 import externalActivities from './externalActivities'
+import modules from './modules'
 import scenarios from './learningScenarios'
 
 import { i18nProvider } from './i18n/i18nProvider';
 import competences from './competences';
 import learners from './learners';
 import educators from './educators';
+import fragments from './fragments';
 const MyLayout = (props:any) => <Layout {...props} menu={MyMenu}  appBar={MyAppBar} />;
 const API_URL: string = process.env.REACT_APP_API_URL as string;
 const httpClient = async (url: string, options: Options = {}) => {
@@ -52,13 +54,15 @@ export const App = () => (
     dataProvider={dataProvider}>
         {/* <Resource name="domain" {...domains}></Resource> */}
         <Resource name="domains" {...domains}></Resource>
-        <Resource name="educators" {...educators}></Resource>
-        <Resource name="learners" {...learners}></Resource>
+        <Resource name="educators" {...educators} recordRepresentation="firstname"></Resource>
+        <Resource name="learners" {...learners} recordRepresentation="firstname"></Resource>
         <Resource name="concepts" {...concepts}></Resource>
         <Resource name="externalActivities" {...externalActivities}></Resource>
         <Resource name="scenarios" {...scenarios}></Resource>
         <Resource name="competences" {...competences}></Resource>
         <Resource name="concepts" {...concepts} recordRepresentation="title"></Resource>
+        <Resource name="modules" {...modules} recordRepresentation="title"></Resource>
+        <Resource name="fragments" {...fragments} recordRepresentation="title"></Resource>
     </Admin>
 );
 
