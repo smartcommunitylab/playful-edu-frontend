@@ -1,0 +1,34 @@
+{
+  "name": "dashboard",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@smartcommunitylab/ra-back-button": "1.0.0",
+    "@smartcommunitylab/ra-language-italian": "1.0.0",
+    "buffer": "^6.0.3",
+    "lodash": "^4.17.21",
+    "querystring": "^0.2.1",
+    "ra-data-fakerest": "^4.11.2",
+    "ra-data-json-server": "^4.9.2",
+    "ra-data-simple-rest": "^4.11.2",
+    "ra-data-springboot-rest": "^1.0.1",
+    "react": "^18.2.0",
+    "react-admin": "^4.9.0",
+    "react-admin-import-csv": "^4.0.1",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.195",
+    "@types/node": "^18.16.1",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "@vitejs/plugin-react": "^2.2.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.0"
+  }
+}
