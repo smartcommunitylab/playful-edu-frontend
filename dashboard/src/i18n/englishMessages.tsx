@@ -47,10 +47,18 @@ const messages = {
       menu:"Modules",
       back: "Modules",
     },
-    fragments: {
-      menu:"Fragments",
-      back: "Fragments",
+    fragment: {
+      menu:"Fragment",
+      back: "Fragment",
     },
+    composedActivity: {
+      menu:"Attivitá composta",
+      back: "Attivitá composta",
+    },
+    activitie: {
+      menu:"Attivitá",
+      back: "Attivitá",
+    }
   },
 };
 

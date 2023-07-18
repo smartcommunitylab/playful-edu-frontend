@@ -1,11 +1,10 @@
 import { ReferenceArrayField, Show, SimpleShowLayout, TextField } from "react-admin"
 
-export const FragmentShow = () => {
+export const ComposedActivityShow = () => {
     return (
         <Show>
             <SimpleShowLayout>
-            <TextField source="title"  />
-            <ReferenceArrayField label="ComposedActivity" reference="composedActivity" source="composedActivity" />
+            <ReferenceArrayField label="activity" reference="activity" source="activity" />
         </SimpleShowLayout>
         </Show>
     )

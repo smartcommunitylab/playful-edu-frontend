@@ -50,8 +50,21 @@ const messages = {
             back:"Moduli",
             menu: "Moduli"
 
-        }
-    }
+        },
+        fragments: {
+            menu:"Fragment",
+            back: "Fragment",
+          },
+          composedActivity: {
+            menu:"Attivitá composta",
+            back: "Attivitá composta",
+          },
+          },
+          activity: {
+            menu:"Attivitá",
+            back: "Attivitá",
+          }
+
 };
 
 export default messages;

@@ -24,13 +24,13 @@ const ListActions = () => (
   </TopToolbar>
 );
 const ModuleFilters = [<TextInput label="Search" source="name" alwaysOn />];
-export const ModuleList = () => {
+export const ModuleList = ({scenarioId}:{scenarioId:string}) => {
   const [domainId] = useStore(DOMAIN_KEY);
-  const [learningScenarioId] = useStore(SCENARIO_KEY);
-
+  const [storeLearningScenarioId] = useStore(SCENARIO_KEY);
+  const learningScenarioId=scenarioId?scenarioId:storeLearningScenarioId;
   const translate = useTranslate();
   return (
-    <List actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId } }}>
+    <List actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
       <Datagrid>
         <ModuleButton></ModuleButton>
         <EditButton />

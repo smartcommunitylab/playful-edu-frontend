@@ -1,10 +1,9 @@
 import { Show, SimpleShowLayout, TextField } from "react-admin"
-import { FragmentShow } from "../fragments/FragmentShow"
 
-export const ModuleShow = () => {
+export const ActivityShow = () => {
     return (
         <Show>
-        <SimpleShowLayout>
+            <SimpleShowLayout>
             <TextField source="title"  />
             <TextField source="description" />
             <TextField source="type" />
@@ -12,7 +11,6 @@ export const ModuleShow = () => {
             <TextField source="tool" />
             <TextField source="difficulty" />
         </SimpleShowLayout>
-        <FragmentShow />
         </Show>
     )
 }

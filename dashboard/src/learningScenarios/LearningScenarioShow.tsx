@@ -1,6 +1,10 @@
-import { ReferenceArrayField, Show, SimpleShowLayout, TextField } from "react-admin"
+import { ReferenceArrayField, Show, SimpleShowLayout, TextField, useRecordContext } from "react-admin"
+import { ModuleList } from "../modules/ModuleList"
 
 export const LearningScenarioShow = () => {
+    // const record= useRecordContext();
+    // if (!record)
+    //     return <></>;
     return (
         <Show>
             <SimpleShowLayout>
@@ -11,6 +15,7 @@ export const LearningScenarioShow = () => {
             <ReferenceArrayField label="Learners" reference="learners" source="learners" />
 
         </SimpleShowLayout>
+        {/* <ModuleList scenarioId={record.id}/> */}
         </Show>
     )
 }

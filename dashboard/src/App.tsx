@@ -5,15 +5,16 @@ import { MyMenu } from './MyMenu';
 import { MyAppBar } from './MyAppBar';
 import domains from './domains'
 import concepts from './concepts'
-import externalActivities from './externalActivities'
-import modules from './modules'
+import externalActivities from './externalActivities';
+import modules from './modules';
 import scenarios from './learningScenarios'
-
 import { i18nProvider } from './i18n/i18nProvider';
 import competences from './competences';
 import learners from './learners';
 import educators from './educators';
 import fragments from './fragments';
+import activities from './activities';
+import composedActivities from './composedActivities';
 const MyLayout = (props:any) => <Layout {...props} menu={MyMenu}  appBar={MyAppBar} />;
 const API_URL: string = process.env.REACT_APP_API_URL as string;
 const httpClient = async (url: string, options: Options = {}) => {
@@ -63,6 +64,8 @@ export const App = () => (
         <Resource name="concepts" {...concepts} recordRepresentation="title"></Resource>
         <Resource name="modules" {...modules} recordRepresentation="title"></Resource>
         <Resource name="fragments" {...fragments} recordRepresentation="title"></Resource>
+        <Resource name="composedActivities" {...composedActivities} recordRepresentation="title"></Resource>
+        <Resource name="activities" {...activities} recordRepresentation="title"></Resource>
     </Admin>
 );
 

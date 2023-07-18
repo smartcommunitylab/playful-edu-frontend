@@ -1,5 +1,5 @@
 import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
-import { DOMAIN_KEY, FRAGMENT_KEY } from "../constants";
+import { DOMAIN_KEY } from "../constants";
 
 
 
@@ -9,33 +9,36 @@ const ListActions = () => (
         <ExportButton/>
     </TopToolbar>
 );
-const FragmentFilters = [
+const ComposedActivityFilters = [
     <TextInput label="Search" source="name" alwaysOn />]
-export const FragmentList = () => {
+export const ComposedActivityList = () => {
     const [domainId] = useStore(DOMAIN_KEY);
+    const translate = useTranslate();
     return (
-        <List actions={<ListActions/>} filters={FragmentFilters} queryOptions={{ meta: { domainId } }}>
+        <List actions={<ListActions/>} filters={ComposedActivityFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
-            <FragmentButton ></FragmentButton>
+            <ComposedActivityButton ></ComposedActivityButton>
             <EditButton />
             <ShowButton />
         </Datagrid>
     </List>
     )
 }
-const FragmentButton = () => {
+const ComposedActivityButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [gameId, setFragmentId] = useStore(FRAGMENT_KEY);
+    const [gameId, setGameId] = useStore('Activity.selected');
     if (!record)
         return null;
     return (
         <>
-            <Button  label={record.title} onClick={() => {
-                setFragmentId(record.id);
-                redirect('/fragments/' + record.id + '/show');
-            }}></Button>
+            <TextField source="title" />
+            <TextField source="description" />
+            <TextField source="type" />
+            <TextField source="language" />
+            <TextField source="tool" />
+            <TextField source="difficulty" />
         </>
     );
 

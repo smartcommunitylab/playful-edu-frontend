@@ -1,15 +1,11 @@
-import { Edit, SimpleForm, TextInput, required } from "react-admin"
+import { Edit, ReferenceArrayInput, SimpleForm, TextInput, required } from "react-admin"
 
 export const FragmentEdit = () => {
     return (
         <Edit>
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
-            <TextInput source="description" />
-            <TextInput source="type" />
-            <TextInput source="language" />
-            <TextInput source="tool" />
-            <TextInput source="difficulty" />
+            <ReferenceArrayInput label="ComposedActivity" reference="composedActivity" source="composedActivity" />
         </SimpleForm>
         </Edit>
     )
