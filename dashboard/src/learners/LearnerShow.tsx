@@ -5,7 +5,7 @@ export const LearnerShow = () => {
         <Show>
             <SimpleShowLayout>
             <TextField source="firstname"  />
-            <TextField source="lastMame" />
+            <TextField source="lastname" />
             <TextField source="email" />
         </SimpleShowLayout>
         </Show>

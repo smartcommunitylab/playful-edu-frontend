@@ -19,13 +19,13 @@ const messages = {
     educator:{
       menu:"Educators",
       firstname:"Name",
-      lastname:"Surname",
+      lastname:"Lastname",
       email:"Email"
   },
   learner:{
       menu:"Learners",
       firstname:"Name",
-      lastname:"Surname",
+      lastname:"Lastname",
       email:"Email"
   },
     concept: {

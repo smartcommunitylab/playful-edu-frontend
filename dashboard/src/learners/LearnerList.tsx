@@ -38,7 +38,7 @@ const LearnerButton = () => {
                 redirect('/learners/' + record.id + '/show');
             }}></Button> */}
             <TextField source="firstname" /><span> </span>
-            <TextField source="lastName" /><span> </span>
+            <TextField source="lastname" /><span> </span>
             <TextField source="email" />
         </>
     );
