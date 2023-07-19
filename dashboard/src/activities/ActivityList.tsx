@@ -1,4 +1,4 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
+import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, BooleanField } from "react-admin"
 import { DOMAIN_KEY } from "../constants";
 
 
@@ -34,11 +34,8 @@ const ActivityButton = () => {
     return (
         <>
             <TextField source="title" />
-            <TextField source="description" />
-            <TextField source="type" />
-            <TextField source="language" />
-            <TextField source="tool" />
-            <TextField source="difficulty" />
+            <TextField source="desc" />
+            <BooleanField source="group" />
         </>
     );
 

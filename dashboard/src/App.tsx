@@ -58,13 +58,13 @@ export const App = () => (
         <Resource name="educators" {...educators} recordRepresentation="firstname"></Resource>
         <Resource name="learners" {...learners} recordRepresentation="firstname"></Resource>
         <Resource name="concepts" {...concepts}></Resource>
-        <Resource name="externalActivities" {...externalActivities}></Resource>
+        <Resource name="external-activities" {...externalActivities} recordRepresentation="title"></Resource>
         <Resource name="scenarios" {...scenarios}></Resource>
         <Resource name="competences" {...competences}></Resource>
         <Resource name="concepts" {...concepts} recordRepresentation="title"></Resource>
         <Resource name="modules" {...modules} recordRepresentation="title"></Resource>
         <Resource name="fragments" {...fragments} recordRepresentation="title"></Resource>
-        <Resource name="composedActivities" {...composedActivities} recordRepresentation="title"></Resource>
+        <Resource name="composed-activities" {...composedActivities} recordRepresentation="title"></Resource>
         <Resource name="activities" {...activities} recordRepresentation="title"></Resource>
     </Admin>
 );

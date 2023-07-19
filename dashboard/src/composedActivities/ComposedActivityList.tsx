@@ -1,5 +1,5 @@
 import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
-import { DOMAIN_KEY } from "../constants";
+import { COMPOSED_ACTIVITY_KEY, DOMAIN_KEY } from "../constants";
 
 
 
@@ -28,17 +28,16 @@ const ComposedActivityButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [gameId, setGameId] = useStore('Activity.selected');
+    const [gameId, setComposedActivityId] = useStore(COMPOSED_ACTIVITY_KEY);
     if (!record)
         return null;
     return (
         <>
-            <TextField source="title" />
-            <TextField source="description" />
+             <Button  label={record.title} onClick={() => {
+                setComposedActivityId(record.id);
+                redirect('/composed-activities/' + record.id + '/show');
+            }}></Button>
             <TextField source="type" />
-            <TextField source="language" />
-            <TextField source="tool" />
-            <TextField source="difficulty" />
         </>
     );
 
