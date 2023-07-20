@@ -1,9 +1,10 @@
 import { Edit, ReferenceArrayInput, SelectInput, SimpleForm, TextInput, required, useStore } from "react-admin"
-import { DOMAIN_KEY } from "../constants";
+import { useSearchParams } from "react-router-dom";
+import { DOMAIN_URL_PARAM } from "../constants";
 
 export const ComposedActivityEdit = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
-
+    const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
     return (
         <Edit transform={(data: any) => ({ ...data, domainId })}>
             <SimpleForm>

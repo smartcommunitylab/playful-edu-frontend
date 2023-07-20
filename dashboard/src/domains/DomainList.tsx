@@ -1,4 +1,5 @@
 import { List, Datagrid, SearchInput, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, ButtonProps } from "react-admin"
+import { DOMAIN_URL_PARAM } from "../constants";
 
 
 
@@ -26,15 +27,16 @@ const DomainButton = (props: {source:string}) => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [domainId, setDomainId] = useStore('domain.selected');
+    // const [domainId, setDomainId] = useStore('domain.selected');
 
     if (!record)
         return null;
     return (
         <>
             <Button  label={record.title} onClick={() => {
-                setDomainId(record.id);
-                redirect('/domains/' + record.id + '/show');
+                // setDomainId(record.id);
+                redirect(`/domains/${record.id}/show?${DOMAIN_URL_PARAM}=${record.id}`);
+
             }}></Button>
         </>
     );

@@ -1,8 +1,10 @@
-import { Create, ReferenceArrayInput, SelectInput, SimpleForm, TextInput, required, useStore } from "react-admin"
-import { DOMAIN_KEY } from "../constants";
+import { Create, SelectInput, SimpleForm, TextInput, required } from "react-admin"
+import { useSearchParams } from "react-router-dom";
+import { DOMAIN_URL_PARAM } from "../constants";
 
 export const ComposedActivityCreate = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
+    const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
     return (
         <Create redirect="list" transform={(data: any) => ({ ...data, domainId })}>
         <SimpleForm>

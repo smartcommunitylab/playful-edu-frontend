@@ -1,7 +1,7 @@
 import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
 import { ImportButton } from "react-admin-import-csv";
-import { DOMAIN_KEY } from "../constants";
-
+import { DOMAIN_URL_PARAM } from "../constants";
+import { useSearchParams } from 'react-router-dom';
 
 
 const ListActions = () => (
@@ -15,7 +15,8 @@ const ListActions = () => (
 const conceptFilters = [
     <TextInput label="Search" source="title" alwaysOn />]
 export const ConceptList = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
     const translate = useTranslate();
     return (
         <List actions={<ListActions/>} filters={conceptFilters} queryOptions={{ meta: { domainId } }}>

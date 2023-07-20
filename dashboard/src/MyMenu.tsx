@@ -1,15 +1,14 @@
 import {
   Button,
 Menu,
-useCreatePath,
-useGetResourceLabel,
 useRedirect,
 useRemoveFromStore,
 useResourceDefinitions,
-useStore,
 useTranslate,
+
 } from "react-admin";
-import { ACTIVITY_KEY, COMPOSED_ACTIVITY_KEY, DOMAIN_KEY, FRAGMENT_KEY, MODULO_KEY, SCENARIO_KEY } from "./constants";
+import { useSearchParams } from 'react-router-dom';
+import { ACTIVITY_URL_PARAM, COMPOSED_ACTIVITY_URL_PARAM, DOMAIN_URL_PARAM, FRAGMENT_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "./constants";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UsersIcon from '@mui/icons-material/People';
@@ -20,7 +19,7 @@ const BackButtonMenu = (props:{name:string, label:string, redirect:string}) => {
 const removeFromStore = useRemoveFromStore();
 const navigate = useNavigate();
 function back(KEY: string) {
-  removeFromStore(KEY);
+  // removeFromStore(KEY);
   redirect('/' + props.redirect);
 }
 
@@ -28,15 +27,43 @@ return <Button color="primary" onClick={() => back(props.name)} label={translate
 };
 export const MyMenu = () => {
 const resources = useResourceDefinitions();
-const getResourceLabel = useGetResourceLabel();
-const createPath = useCreatePath();
-const listHiddenMenu = ["domains"];
-const [domainId] = useStore(DOMAIN_KEY);
-const [scenarioId] = useStore(SCENARIO_KEY);
-const [moduloId] = useStore(MODULO_KEY);
-const [fragmentId] = useStore(FRAGMENT_KEY);
-const [composedActivityId] = useStore(COMPOSED_ACTIVITY_KEY);
-const [activityId] = useStore(ACTIVITY_KEY);
+// const getResourceLabel = useGetResourceLabel();
+// const createPath = useCreatePath();
+const [searchParams, setSearchParams] = useSearchParams();
+const domainId = searchParams.get(DOMAIN_URL_PARAM);
+const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+const moduloId = searchParams.get(MODULO_URL_PARAM);
+const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
+const activityId = searchParams.get(ACTIVITY_URL_PARAM);
+
+  function attachDomain():string {
+    return `${DOMAIN_URL_PARAM}=${domainId}`;
+  }
+
+  function attachScenario() {
+    return `${SCENARIO_URL_PARAM}=${scenarioId}`;
+  }
+
+  function attachFragment() {
+    return `${FRAGMENT_URL_PARAM}=${fragmentId}`;
+  }
+
+  function attachComposedActivities() {
+    return `${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}`;
+  }
+
+  function attachActivities() {
+    return `${ACTIVITY_URL_PARAM}=${activityId}`;
+  }
+
+// const listHiddenMenu = ["domains"];
+//const [domainId] = useStore(DOMAIN_KEY);
+// const [scenarioId] = useStore(SCENARIO_KEY);
+// const [moduloId] = useStore(MODULO_KEY);
+// const [fragmentId] = useStore(FRAGMENT_KEY);
+// const [composedActivityId] = useStore(COMPOSED_ACTIVITY_KEY);
+// const [activityId] = useStore(ACTIVITY_KEY);
 // se il dominio non e' selezionato, mostro nulla, se e' selezionato mostro tasto back e sottomenu di dominio
 //e poi in funzione di cosa e' settato (learning scenario, modulo) mostro altri back e sottomenu
 return (
@@ -48,38 +75,38 @@ return (
     )}
     {domainId && !scenarioId && (
       <Menu>
-         <BackButtonMenu name={DOMAIN_KEY} label="resources.domain.back" redirect="domains"/>
-        <Menu.Item to="/educators" primaryText="resources.educator.menu" leftIcon={<UsersIcon />}/>
-        <Menu.Item to="/learners" primaryText="resources.learner.menu" leftIcon={<UsersIcon />}/>
-        <Menu.Item to="/concepts"  primaryText="resources.concept.menu" leftIcon={<UsersIcon />}/>
-        <Menu.Item to="/competences" primaryText="resources.competence.menu" leftIcon={<UsersIcon />}/>
-        <Menu.Item to="/external-activities" primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
-        <Menu.Item to="/scenarios" primaryText="resources.scenario.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={DOMAIN_URL_PARAM} label="resources.domain.back" redirect="domains"/>
+        <Menu.Item to={`/educators?${attachDomain()}`} primaryText="resources.educator.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/learners?${attachDomain()}`} primaryText="resources.learner.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/concepts?${attachDomain()}`}  primaryText="resources.concept.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/competences?${attachDomain()}`} primaryText="resources.competence.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/external-activities?${attachDomain()}`} primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/scenarios?${attachDomain()}`} primaryText="resources.scenario.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {scenarioId && !moduloId && (
       <Menu>
-         <BackButtonMenu name={SCENARIO_KEY} label="resources.scenario.back" redirect="scenarios"/>
-        <Menu.Item to="/modules" primaryText="resources.modulo.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={SCENARIO_URL_PARAM} label="resources.scenario.back" redirect={`scenarios?${attachDomain()}`}/>
+        <Menu.Item to={`/modules?${attachDomain()},${attachScenario()}`} primaryText="resources.modulo.menu" leftIcon={<UsersIcon />}/>
 
       </Menu>
     )}
     {moduloId && !fragmentId && (
       <Menu>
-         <BackButtonMenu name={MODULO_KEY} label="resources.modulo.back" redirect="modules"/>
-        <Menu.Item to="/fragments" primaryText="resources.fragment.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={MODULO_URL_PARAM} label="resources.modulo.back" redirect={`/modules?${attachDomain()},${attachScenario()}`}/>
+        <Menu.Item to={`/fragments?${attachDomain()},${attachScenario()},${attachFragment()}`} primaryText="resources.fragment.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {fragmentId && !composedActivityId &&(
       <Menu>
-         <BackButtonMenu name={FRAGMENT_KEY} label="resources.fragment.back" redirect="fragments"/>
-        <Menu.Item to="/composed-activities" primaryText="resources.composedActivity.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={FRAGMENT_URL_PARAM} label="resources.fragment.back" redirect={`/fragments?${attachDomain()},${attachScenario()},${attachFragment()}`}/>
+        <Menu.Item to={`/composed-activities?${attachDomain()},${attachScenario()},${attachFragment()},${attachComposedActivities()}`} primaryText="resources.composedActivity.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {composedActivityId && !activityId &&(
       <Menu>
-         <BackButtonMenu name={COMPOSED_ACTIVITY_KEY} label="resources.composedActivity.back" redirect="composed-activities"/>
-        <Menu.Item to="/activities" primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.composedActivity.back" redirect={`/composed-activities?${attachDomain()},${attachScenario()},${attachFragment()},${attachComposedActivities()}`}/>
+        <Menu.Item to={`/activities?${attachDomain()},${attachScenario()},${attachFragment()},${attachComposedActivities()},${attachActivities()}`} primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
   </>

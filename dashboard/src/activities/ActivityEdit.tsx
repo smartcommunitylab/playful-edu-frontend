@@ -1,8 +1,10 @@
-import { BooleanInput, Edit, FormDataConsumer, ReferenceArrayInput, SelectInput, SimpleForm, TextInput, required, useRecordContext, useStore } from "react-admin"
-import { DOMAIN_KEY } from "../constants";
+import { BooleanInput, Edit, FormDataConsumer, ReferenceArrayInput, SelectInput, SimpleForm, TextInput, required } from "react-admin"
+import { useSearchParams } from "react-router-dom";
+import { DOMAIN_URL_PARAM } from "../constants";
 
 export const ActivityEdit = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
 
     return (
         <Edit>

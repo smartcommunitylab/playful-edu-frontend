@@ -1,5 +1,6 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
-import { DOMAIN_KEY } from "../constants";
+import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useStore, useRedirect, useRecordContext } from "react-admin"
+import { DOMAIN_URL_PARAM } from "../constants";
+import { useSearchParams } from 'react-router-dom';
 
 
 
@@ -12,8 +13,8 @@ const ListActions = () => (
 const ExternalActivityFilters = [
     <TextInput label="Search" source="name" alwaysOn />]
 export const ExternalActivityList = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
-    const translate = useTranslate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
     return (
         <List actions={<ListActions/>} filters={ExternalActivityFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>

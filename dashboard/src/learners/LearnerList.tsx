@@ -1,6 +1,6 @@
 import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
-import { DOMAIN_KEY } from "../constants";
-
+import { DOMAIN_URL_PARAM } from "../constants";
+import { useSearchParams } from 'react-router-dom';
 
 
 const ListActions = () => (
@@ -13,8 +13,9 @@ const LearnerFilters = [
     <TextInput label="Search" source="name" alwaysOn />
 ]
 export const LearnerList = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
-    return (
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+        return (
         <List actions={<ListActions/>} filters={LearnerFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <LearnerButton ></LearnerButton>
@@ -25,7 +26,6 @@ export const LearnerList = () => {
     )
 }
 const LearnerButton = () => {
-    const [domainId] = useStore(DOMAIN_KEY);
     const redirect = useRedirect();
     const record = useRecordContext();
     const [gameId, setGameId] = useStore('Learner.selected');

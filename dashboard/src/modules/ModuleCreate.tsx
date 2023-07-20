@@ -1,12 +1,14 @@
 import { Create, DateInput, SimpleForm, TextInput, required, useStore } from "react-admin"
-import { SCENARIO_KEY,DOMAIN_KEY } from "../constants";
+import { SCENARIO_URL_PARAM, DOMAIN_URL_PARAM } from "../constants";
+import { useSearchParams } from 'react-router-dom';
 
 export const ModuleCreate = () => {
-    const [scenarioId] = useStore(SCENARIO_KEY);
-    const [domainId] = useStore(DOMAIN_KEY);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
 
     return (
-        <Create redirect="list" transform={(data: any) => ({ ...data, domainId,scenarioId })}>
+        <Create redirect="list" transform={(data: any) => ({ ...data, domainId, scenarioId})}>
         <SimpleForm>
              <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />
