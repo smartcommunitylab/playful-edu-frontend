@@ -6,7 +6,8 @@ const PostEditActions = () => {
     const recordId = useGetRecordId();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/modules/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const to=`/modules/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
     if (!recordId)
         return null;
     return (

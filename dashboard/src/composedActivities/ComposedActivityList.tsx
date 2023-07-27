@@ -56,21 +56,21 @@ export const ComposedActivityList = () => {
   );
 };
 const ComposedActivityButton = () => {
-  // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
-  // const [gameId, setComposedActivityId] = useStore(COMPOSED_ACTIVITY_KEY);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const moduleId = searchParams.get(MODULO_URL_PARAM);
   if (!record) return null;
   return (
     <>
       <Button
         label={record.title}
         onClick={() => {
-          // setComposedActivityId(record.id);
           redirect(
-            `/composed-activities/${record.id}/show?${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}`
-          );
-        }}
+            `/composed-activities/${record.id}/show?${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${record.id}`
+          )}}
       ></Button>
       <TextField source="type" />
     </>

@@ -1,13 +1,16 @@
 import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
-import { DOMAIN_URL_PARAM } from "../constants";
+import { DOMAIN_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 
 
 const PostShowActions = () => {
     const recordId = useGetRecordId();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/learners/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const moduleId = searchParams.get(MODULO_URL_PARAM);
+    const to=`/fragments/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
+
     if (!recordId)
         return null;
     return (

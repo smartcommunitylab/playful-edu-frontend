@@ -26,9 +26,6 @@ const ListActions = () => (
 );
 const ModuleFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const ModuleList = ({scenarioId}:{scenarioId:string}) => {
-  // const [domainId] = useStore(DOMAIN_KEY);
-  // const [storeLearningScenarioId] = useStore(SCENARIO_KEY);
-  // const learningScenarioId=scenarioId?scenarioId:storeLearningScenarioId;
   const [searchParams, setSearchParams] = useSearchParams();
 const domainId = searchParams.get(DOMAIN_URL_PARAM);
 const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
@@ -45,20 +42,18 @@ const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   );
 };
 const ModuleButton = () => {
-  // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
-  // const [gameId, setModuleId] = useStore(MODULO_KEY);
-  
+  const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+          const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
   if (!record) return null;
   return (
     <>
       <Button
         label={record.title}
         onClick={() => {
-          // setModuleId(record.id);
-          redirect(`/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}`);
-
+          redirect(`/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`);
         }}
       ></Button>
       <TextField source="desc" />
@@ -71,13 +66,12 @@ const ModuleButton = () => {
 };
 
 const EditModuleButton = () => {
-  // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/modules/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
-
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const to = `/modules/${record.id}/edit?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
   if (!record)
       return null;
   return (
@@ -89,13 +83,13 @@ const EditModuleButton = () => {
 };
 
 const ShowModuleButton = () => {
-  // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const to=`/modules/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
-  if (!record)
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const to = `/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
+   if (!record)
       return null;
   return (
       <>
@@ -104,11 +98,10 @@ const ShowModuleButton = () => {
   );
 };
 const CreateModuleButton = () => {
-  const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}`;
-  if (!record) return null;
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
