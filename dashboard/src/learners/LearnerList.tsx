@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const ListActions = () => (
     <TopToolbar>
-        <CreateButton/>
+        <CreateLearnerButton/>
         <ExportButton/>
     </TopToolbar>
 );
@@ -19,8 +19,8 @@ export const LearnerList = () => {
         <List actions={<ListActions/>} filters={LearnerFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <LearnerButton ></LearnerButton>
-            <EditButton />
-            <ShowButton />
+            <EditLearnerButton />
+            <ShowLearnerButton />
         </Datagrid>
     </List>
     )
@@ -44,3 +44,47 @@ const LearnerButton = () => {
     );
 
 };
+
+const EditLearnerButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/learners/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+            <EditButton  to={to}></EditButton>
+        </>
+    );
+
+};
+
+const ShowLearnerButton = () => {
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/learners/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+              <ShowButton to={to}></ShowButton>
+        </>
+    );
+};
+
+const CreateLearnerButton = () => {
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+      const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to = `/learners/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (
+      <>
+        <CreateButton to={to}></CreateButton>
+      </>
+    );
+  };

@@ -17,7 +17,6 @@
     "ra-data-fakerest": "^4.11.2",
     "ra-data-json-server": "^4.9.2",
     "ra-data-simple-rest": "^4.11.2",
-    "ra-data-springboot-rest": "^1.0.1",
     "react": "^18.2.0",
     "react-admin": "^4.9.0",
     "react-admin-import-csv": "^4.0.1",

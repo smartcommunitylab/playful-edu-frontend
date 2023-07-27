@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 const ListActions = () => (
     <TopToolbar>
-        <CreateButton/>
+        <CreateDomainButton/>
         <ExportButton/>
     </TopToolbar>
 );
@@ -20,15 +20,53 @@ export const CompetencesList = () => {
         <TextField source="title"  label="resources.competence.title"  />
         <TextField source="desc"  label="resources.competence.description" />
         <ReferenceArrayField label="Concepts" reference="concepts" source="concepts" />
-
-            {/* <ArrayField source="concepts">
-                <SingleFieldList>
-                    <ChipField source="title" size="small" />
-                </SingleFieldList>
-            </ArrayField> */}
-            <EditButton />
-            <ShowButton />
+            <EditCompetenceButton />
+            <ShowCompetenceButton />
         </Datagrid>
     </List>
     )
 }
+
+const EditCompetenceButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/competences/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+                    <EditButton  to={to}></EditButton>
+        </>
+    );
+
+};
+
+const ShowCompetenceButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/competences/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+              <ShowButton to={to}></ShowButton>
+        </>
+    );
+};
+const CreateDomainButton = () => {
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+      const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to = `/domains/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (
+      <>
+        <CreateButton to={to}></CreateButton>
+      </>
+    );
+  };

@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const ListActions = () => (
     <TopToolbar>
-        <CreateButton/>
+        <CreateEducatorButton/>
         <ExportButton/>
     </TopToolbar>
 );
@@ -19,8 +19,8 @@ export const EducatorList = () => {
         <List actions={<ListActions/>} filters={EducatorFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <EducatorButton ></EducatorButton>
-            <EditButton />
-            <ShowButton />
+            <EditEducatorButton />
+            <ShowEducatorButton />
         </Datagrid>
     </List>
     )
@@ -45,3 +45,48 @@ const EducatorButton = () => {
     );
 
 };
+
+const EditEducatorButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/educators/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+            <EditButton  to={to}></EditButton>
+        </>
+    );
+
+};
+
+const ShowEducatorButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/educators/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+          <ShowButton  to={to}></ShowButton>
+        </>
+    );
+};
+const CreateEducatorButton = () => {
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+      const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to = `/educators/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    
+    return (
+      <>
+        <CreateButton to={to}></CreateButton>
+      </>
+    );
+  };

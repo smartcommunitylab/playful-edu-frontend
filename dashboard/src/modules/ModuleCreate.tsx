@@ -1,6 +1,7 @@
 import { Create, DateInput, SimpleForm, TextInput, required, useStore } from "react-admin"
 import { SCENARIO_URL_PARAM, DOMAIN_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const ModuleCreate = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -9,7 +10,8 @@ export const ModuleCreate = () => {
 
     return (
         <Create redirect="list" transform={(data: any) => ({ ...data, domainId, scenarioId})}>
-        <SimpleForm>
+        <BackButton />
+ <SimpleForm>
              <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />
             <TextInput source="level" />

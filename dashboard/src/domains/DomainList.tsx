@@ -1,24 +1,24 @@
-import { List, Datagrid, SearchInput, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, ButtonProps } from "react-admin"
+import { List, Datagrid, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, Button, useRedirect, useRecordContext } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 
 
 
 const ListActions = () => (
     <TopToolbar>
-        <CreateButton/>
+        <CreateDomainButton/>
         <ExportButton/>
     </TopToolbar>
 );
 const domainFilters = [
     <TextInput label="resources.domain.search" source="q"  alwaysOn />]
 export const DomainList = () => {
-        const translate = useTranslate();
+    const redirect = useRedirect();
     return (
         <List actions={<ListActions/>} filters={domainFilters}>
         <Datagrid>
             <DomainButton source="title"></DomainButton>
-            <EditButton />
-            <ShowButton />
+            <EditDomainButton />
+            <ShowDomainButton />
         </Datagrid>
     </List>
     )
@@ -27,8 +27,6 @@ const DomainButton = (props: {source:string}) => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    // const [domainId, setDomainId] = useStore('domain.selected');
-
     if (!record)
         return null;
     return (
@@ -36,9 +34,45 @@ const DomainButton = (props: {source:string}) => {
             <Button  label={record.title} onClick={() => {
                 // setDomainId(record.id);
                 redirect(`/domains/${record.id}/show?${DOMAIN_URL_PARAM}=${record.id}`);
-
             }}></Button>
         </>
     );
 
 };
+const EditDomainButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const to= `/domains/${record.id}/edit?${DOMAIN_URL_PARAM}=${record.id}`;
+
+    if (!record)
+        return null;
+    return (
+        <>
+            <EditButton  to={to}></EditButton>
+        </>
+    );
+
+};
+const ShowDomainButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const to= `/domains/${record.id}/show?${DOMAIN_URL_PARAM}=${record.id}`;
+    if (!record)
+        return null;
+    return (
+        <>
+            <ShowButton  to={to}></ShowButton>
+        </>
+    );
+};
+const CreateDomainButton = () => {
+    const record = useRecordContext();
+    const to = `/domains/create`
+    return (
+      <>
+        <CreateButton to={to}></CreateButton>
+      </>
+    );
+  };

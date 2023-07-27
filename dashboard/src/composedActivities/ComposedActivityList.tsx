@@ -25,7 +25,7 @@ import { useSearchParams } from "react-router-dom";
 
 const ListActions = () => (
   <TopToolbar>
-    <CreateButton />
+    <CreateComposedActivityButton />
     <ExportButton />
   </TopToolbar>
 );
@@ -49,8 +49,8 @@ export const ComposedActivityList = () => {
     >
       <Datagrid>
         <ComposedActivityButton></ComposedActivityButton>
-        <EditButton />
-        <ShowButton />
+        <EditComposedActivityButton />
+        <ShowComposedActivityButton />
       </Datagrid>
     </List>
   );
@@ -73,6 +73,49 @@ const ComposedActivityButton = () => {
         }}
       ></Button>
       <TextField source="type" />
+    </>
+  );
+};
+
+const EditComposedActivityButton = () => {
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/composed-activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+                    <EditButton  to={to}></EditButton>
+        </>
+    );
+};
+
+const ShowComposedActivityButton = () => {
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/composed-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+              <ShowButton to={to}></ShowButton>
+        </>
+    );
+};
+
+const CreateComposedActivityButton = () => {
+  const record = useRecordContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const to = `/composed-activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  if (!record) return null;
+  return (
+    <>
+      <CreateButton to={to}></CreateButton>
     </>
   );
 };

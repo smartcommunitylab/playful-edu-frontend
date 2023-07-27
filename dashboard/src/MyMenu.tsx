@@ -87,26 +87,26 @@ return (
     {scenarioId && !moduloId && (
       <Menu>
          <BackButtonMenu name={SCENARIO_URL_PARAM} label="resources.scenario.back" redirect={`scenarios?${attachDomain()}`}/>
-        <Menu.Item to={`/modules?${attachDomain()},${attachScenario()}`} primaryText="resources.modulo.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/modules?${attachDomain()}&${attachScenario()}`} primaryText="resources.modulo.menu" leftIcon={<UsersIcon />}/>
 
       </Menu>
     )}
     {moduloId && !fragmentId && (
       <Menu>
-         <BackButtonMenu name={MODULO_URL_PARAM} label="resources.modulo.back" redirect={`/modules?${attachDomain()},${attachScenario()}`}/>
-        <Menu.Item to={`/fragments?${attachDomain()},${attachScenario()},${attachFragment()}`} primaryText="resources.fragment.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={MODULO_URL_PARAM} label="resources.modulo.back" redirect={`/modules?${attachDomain()}&${attachScenario()}`}/>
+        <Menu.Item to={`/fragments?${attachDomain()}&${attachScenario()}&${attachFragment()}`} primaryText="resources.fragment.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {fragmentId && !composedActivityId &&(
       <Menu>
-         <BackButtonMenu name={FRAGMENT_URL_PARAM} label="resources.fragment.back" redirect={`/fragments?${attachDomain()},${attachScenario()},${attachFragment()}`}/>
-        <Menu.Item to={`/composed-activities?${attachDomain()},${attachScenario()},${attachFragment()},${attachComposedActivities()}`} primaryText="resources.composedActivity.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={FRAGMENT_URL_PARAM} label="resources.fragment.back" redirect={`/fragments?${attachDomain()}&${attachScenario()}&${attachFragment()}`}/>
+        <Menu.Item to={`/composed-activities?${attachDomain()}&${attachScenario()}&${attachFragment()}&${attachComposedActivities()}`} primaryText="resources.composedActivity.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {composedActivityId && !activityId &&(
       <Menu>
-         <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.composedActivity.back" redirect={`/composed-activities?${attachDomain()},${attachScenario()},${attachFragment()},${attachComposedActivities()}`}/>
-        <Menu.Item to={`/activities?${attachDomain()},${attachScenario()},${attachFragment()},${attachComposedActivities()},${attachActivities()}`} primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
+         <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.composedActivity.back" redirect={`/composed-activities?${attachDomain()}&${attachScenario()}&${attachFragment()}&${attachComposedActivities()}`}/>
+        <Menu.Item to={`/activities?${attachDomain()}&${attachScenario()}&${attachFragment()}&${attachComposedActivities()}&${attachActivities()}`} primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
   </>

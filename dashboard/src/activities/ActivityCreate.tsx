@@ -1,6 +1,7 @@
 import { BooleanInput, Create, SelectInput, SimpleForm, TextInput, required, useRecordContext } from "react-admin"
 import { useSearchParams } from "react-router-dom";
 import { DOMAIN_URL_PARAM } from "../constants";
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const ActivityCreate = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -10,6 +11,7 @@ export const ActivityCreate = () => {
     //     return null;
     return (
         <Create redirect="list" transform={(data: any) => ({ ...data, domainId })}>
+            <BackButton />
         <SimpleForm>
         <TextInput source="title" validate={[required()]} fullWidth />
         <TextInput source="desc" />

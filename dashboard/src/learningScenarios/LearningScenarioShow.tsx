@@ -1,12 +1,27 @@
-import { ReferenceArrayField, Show, SimpleShowLayout, TextField, useRecordContext } from "react-admin"
+import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
 import { ModuleList } from "../modules/ModuleList"
+import { useSearchParams } from 'react-router-dom';
+import { DOMAIN_URL_PARAM } from "../constants";
 
-export const LearningScenarioShow = () => {
-    // const record= useRecordContext();
-    // if (!record)
-    //     return <></>;
+
+const PostShowActions = () => {
+    const recordId = useGetRecordId();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/learners/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!recordId)
+        return null;
     return (
-        <Show>
+        <>
+            <TopToolbar>
+                <EditButton  to={to}></EditButton>
+            </TopToolbar>
+            </>
+        )
+};
+export const LearningScenarioShow = () => {
+    return (
+        <Show actions={<PostShowActions />}>
             <SimpleShowLayout>
             <TextField source="title"  />
             <TextField source="desc" />

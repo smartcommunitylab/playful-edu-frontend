@@ -20,7 +20,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const ListActions = () => (
   <TopToolbar>
-    <CreateButton />
+    <CreateModuleButton />
     <ExportButton />
   </TopToolbar>
 );
@@ -38,8 +38,8 @@ const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
     <List actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
       <Datagrid>
         <ModuleButton></ModuleButton>
-        <EditButton />
-        <ShowButton />
+        <EditModuleButton />
+        <ShowModuleButton />
       </Datagrid>
     </List>
   );
@@ -66,6 +66,52 @@ const ModuleButton = () => {
       <TextField source="language" />
       <DateField source="dateFrom" />
       <DateField source="dateFrom" />
+    </>
+  );
+};
+
+const EditModuleButton = () => {
+  // const translate = useTranslate();
+  const redirect = useRedirect();
+  const record = useRecordContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/modules/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+
+  if (!record)
+      return null;
+  return (
+      <>
+          <EditButton  to={to}></EditButton>
+      </>
+  );
+
+};
+
+const ShowModuleButton = () => {
+  // const translate = useTranslate();
+  const redirect = useRedirect();
+  const record = useRecordContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const to=`/modules/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+  if (!record)
+      return null;
+  return (
+      <>
+            <ShowButton to={to}></ShowButton>
+      </>
+  );
+};
+const CreateModuleButton = () => {
+  const record = useRecordContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  if (!record) return null;
+  return (
+    <>
+      <CreateButton to={to}></CreateButton>
     </>
   );
 };

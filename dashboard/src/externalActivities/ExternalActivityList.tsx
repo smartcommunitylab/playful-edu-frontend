@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const ListActions = () => (
     <TopToolbar>
-        <CreateButton/>
+        <CreateExternalActivityButton/>
         <ExportButton/>
     </TopToolbar>
 );
@@ -19,8 +19,8 @@ export const ExternalActivityList = () => {
         <List actions={<ListActions/>} filters={ExternalActivityFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <ExternalActivityButton ></ExternalActivityButton>
-            <EditButton />
-            <ShowButton />
+            <EditExternalActivityButton />
+            <ShowExternalActivityButton />
         </Datagrid>
     </List>
     )
@@ -44,3 +44,46 @@ const ExternalActivityButton = () => {
     );
 
 };
+const EditExternalActivityButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/external-activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+            <EditButton  to={to}></EditButton>
+        </>
+    );
+
+};
+
+const ShowExternalActivityButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/external-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+          <ShowButton  to={to}></ShowButton>
+        </>
+    );
+};
+const CreateExternalActivityButton = () => {
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+      const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to = `/external-activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (
+      <>
+        <CreateButton to={to}></CreateButton>
+      </>
+    );
+  };

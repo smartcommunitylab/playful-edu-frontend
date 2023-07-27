@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const ListActions = () => (
     <TopToolbar>
-        <CreateButton/>
+        <CreateFragmentButton/>
         <ExportButton/>
     </TopToolbar>
 );
@@ -18,13 +18,16 @@ const domainId = searchParams.get(DOMAIN_URL_PARAM);
 const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
 const moduloId = searchParams.get(MODULO_URL_PARAM);
 const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-
+const record = useRecordContext();
+if (!record)
+    return null;
+const redirect = useRedirect();
     return (
         <List actions={<ListActions/>} filters={FragmentFilters} queryOptions={{ meta: { domainId, learningScenarioId,moduloId} }}>
         <Datagrid>
             <FragmentButton ></FragmentButton>
-            <EditButton />
-            <ShowButton />
+            <EditFragmentButton />
+            <ShowFragmentButton />
         </Datagrid>
     </List>
     )
@@ -33,16 +36,58 @@ const FragmentButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    // const [gameId, setFragmentId] = useStore(FRAGMENT_KEY);
     if (!record)
         return null;
     return (
         <>
             <Button  label={record.title} onClick={() => {
-                // setFragmentId(record.id);
                 redirect(`/fragments/${record.id}/show?${FRAGMENT_URL_PARAM}=${record.id}`);
             }}></Button>
         </>
     );
 
 };
+
+const EditFragmentButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/competences/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+                    <EditButton  to={to}></EditButton>
+        </>
+    );
+
+};
+
+const ShowFragmentButton = () => {
+    // const translate = useTranslate();
+    const redirect = useRedirect();
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/competences/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    if (!record)
+        return null;
+    return (
+        <>
+              <ShowButton to={to}></ShowButton>
+        </>
+    );
+};
+const CreateFragmentButton = () => {
+    const record = useRecordContext();
+    const [searchParams, setSearchParams] = useSearchParams();
+      const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to = `/fragments/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (
+      <>
+        <CreateButton to={to}></CreateButton>
+      </>
+    );
+  };
