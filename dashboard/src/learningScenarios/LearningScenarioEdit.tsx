@@ -1,6 +1,7 @@
 import { Edit, ReferenceArrayInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useStore } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();

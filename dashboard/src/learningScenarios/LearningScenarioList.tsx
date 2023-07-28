@@ -68,7 +68,9 @@ const ShowScenarioButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const to=`/scenarios/${record.id}/show?${SCENARIO_URL_PARAM}=${record.id}`;
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const to=`/scenarios/${record.id}/show?${SCENARIO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}`;
     if (!record)
         return null;
     return (

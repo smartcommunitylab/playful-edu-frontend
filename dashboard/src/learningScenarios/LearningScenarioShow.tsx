@@ -9,7 +9,7 @@ const PostShowActions = () => {
     const recordId = useGetRecordId();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/learning-scenario/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const to=`/scenarios/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
     if (!recordId)
         return null;
     return (

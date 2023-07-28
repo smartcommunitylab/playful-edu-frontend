@@ -51,7 +51,7 @@ const messages = {
             menu: "Moduli"
 
         },
-        fragments: {
+        fragment: {
             menu:"Fragment",
             back: "Fragment",
           },
