@@ -97,7 +97,8 @@ const ShowFragmentButton = () => {
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
   const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const to = `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
+  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+  const to = `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
   if (!record) return null;
   return (
     <>

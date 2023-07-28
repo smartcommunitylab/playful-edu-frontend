@@ -24,7 +24,6 @@ const PostShowActions = () => {
 export const ModuleShow = () => {
     return (
         <Show actions={<PostShowActions />}>
-            <BackButton />
         <SimpleShowLayout>
             <TextField source="title"  />
             <TextField source="description" />

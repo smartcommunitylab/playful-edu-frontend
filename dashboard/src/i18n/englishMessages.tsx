@@ -52,12 +52,10 @@ const messages = {
       back: "Fragment",
     },
     composedActivity: {
-      menu:"Attivitá composta",
+      menu: "Attivitá composta",
       back: "Attivitá composta",
-    },
-    activitie: {
-      menu:"Attivitá",
-      back: "Attivitá",
+      title:"Titolo",
+      description:"Descrizione"
     }
   },
 };

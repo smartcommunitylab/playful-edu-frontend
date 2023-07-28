@@ -22,7 +22,6 @@ export const ModuleEdit = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
     const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
-
     return (
         <Edit actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId, scenarioId})}>
             <SimpleForm>

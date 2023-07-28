@@ -29,7 +29,6 @@ export const LearningScenarioShow = () => {
             <TextField source="language" />
             <ReferenceArrayField label="Educators" reference="educators" source="educators" />
             <ReferenceArrayField label="Learners" reference="learners" source="learners" />
-
         </SimpleShowLayout>
         {/* <ModuleList scenarioId={record.id}/> */}
         </Show>

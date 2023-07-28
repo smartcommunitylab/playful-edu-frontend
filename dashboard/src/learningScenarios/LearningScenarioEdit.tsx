@@ -1,4 +1,4 @@
-import { Edit, ReferenceArrayInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useStore } from "react-admin"
+import { Edit, ReferenceArrayInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect, useStore } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
 import { BackButton } from "@smartcommunitylab/ra-back-button";
@@ -21,8 +21,12 @@ const PostEditActions = () => {
 export const LearningScenarioEdit = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        redirect(`/scenarios?${DOMAIN_URL_PARAM}=${domainId}`);
+    };
     return (
-        <Edit actions={<PostEditActions />}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="description" />

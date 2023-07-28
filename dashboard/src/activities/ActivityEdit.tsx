@@ -1,12 +1,17 @@
 import { BooleanInput, Edit, EditButton, FormDataConsumer, ReferenceArrayInput, SelectInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect } from "react-admin"
 import { useSearchParams } from "react-router-dom";
-import { DOMAIN_URL_PARAM } from "../constants";
+import { COMPOSED_ACTIVITY_URL_PARAM, DOMAIN_URL_PARAM, FRAGMENT_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/activities/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const moduleId = searchParams.get(MODULO_URL_PARAM);
+    const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+    const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
+
+    const to=`/activities/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}`;
     if (!recordId)
         return null;
     return (
@@ -18,11 +23,14 @@ const PostEditActions = () => {
         )
 };
 export const ActivityEdit = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
     const redirect = useRedirect();
+    const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const onSuccess = () => {
-        redirect(`/educators?${DOMAIN_URL_PARAM}=${domainId}`);
+    const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const moduleId = searchParams.get(MODULO_URL_PARAM);
+    const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+    const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);    const onSuccess = () => {
+        redirect(`/activities?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}`);
     };
     return (
         <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />}>
