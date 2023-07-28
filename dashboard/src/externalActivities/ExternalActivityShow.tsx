@@ -8,7 +8,7 @@ const PostShowActions = () => {
     const recordId = useGetRecordId();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/learners/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const to=`/external-activities/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
     if (!recordId)
         return null;
     return (
@@ -22,6 +22,7 @@ const PostShowActions = () => {
 export const ExternalActivityShow = () => {
     return (
         <Show actions={<PostShowActions />}>
+            <BackButton />
             <SimpleShowLayout>
             <TextField source="title"  />
             <TextField source="description" />

@@ -1,4 +1,4 @@
-import { BooleanInput, Edit, EditButton, FormDataConsumer, ReferenceArrayInput, SelectInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId } from "react-admin"
+import { BooleanInput, Edit, EditButton, FormDataConsumer, ReferenceArrayInput, SelectInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect } from "react-admin"
 import { useSearchParams } from "react-router-dom";
 import { DOMAIN_URL_PARAM } from "../constants";
 
@@ -19,10 +19,13 @@ const PostEditActions = () => {
 };
 export const ActivityEdit = () => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const redirect = useRedirect();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-
+    const onSuccess = () => {
+        redirect(`/educators?${DOMAIN_URL_PARAM}=${domainId}`);
+    };
     return (
-        <Edit actions={<PostEditActions />}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />}>
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />

@@ -1,4 +1,4 @@
-import { Edit, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId } from "react-admin"
+import { Edit, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
 
@@ -18,11 +18,17 @@ const PostEditActions = () => {
             </>
         )
 };
+
+
 export const ExternalActivityEdit = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const redirect = useRedirect();
+    const onSuccess = () => {
+        redirect(`/external-activities?${DOMAIN_URL_PARAM}=${domainId}`);
+    };
     return (
-        <Edit actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="description" />
