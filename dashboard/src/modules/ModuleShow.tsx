@@ -2,6 +2,7 @@ import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecord
 import { FragmentShow } from "../fragments/FragmentShow"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 
 const PostShowActions = () => {
@@ -23,6 +24,7 @@ const PostShowActions = () => {
 export const ModuleShow = () => {
     return (
         <Show actions={<PostShowActions />}>
+            <BackButton />
         <SimpleShowLayout>
             <TextField source="title"  />
             <TextField source="description" />

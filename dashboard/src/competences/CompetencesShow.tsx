@@ -16,6 +16,7 @@ import {
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
@@ -35,6 +36,7 @@ const PostShowActions = () => {
 export const CompetencesShow = () => {
   return (
       <Show actions={<PostShowActions />}>
+        <BackButton />
       <SimpleShowLayout>
         <TextField source="title" label="resources.competence.title" />
         <TextField source="desc" label="resources.competence.description" />

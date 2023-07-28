@@ -63,7 +63,7 @@ const CreateDomainButton = () => {
     const record = useRecordContext();
     const [searchParams, setSearchParams] = useSearchParams();
       const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to = `/domains/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    const to = `/competences/create?${DOMAIN_URL_PARAM}=${domainId}`;
     return (
       <>
         <CreateButton to={to}></CreateButton>

@@ -2,6 +2,7 @@ import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, Top
 import { ModuleList } from "../modules/ModuleList"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 
 const PostShowActions = () => {

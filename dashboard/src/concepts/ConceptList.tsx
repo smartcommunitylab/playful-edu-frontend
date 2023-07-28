@@ -74,11 +74,9 @@ const ShowConceptButton = () => {
 };
 
 const CreateConceptButton = () => {
-  const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
   const to = `/concepts/create?${DOMAIN_URL_PARAM}=${domainId}`;
-  if (!record) return null;
   return (
     <>
       <CreateButton to={to}></CreateButton>

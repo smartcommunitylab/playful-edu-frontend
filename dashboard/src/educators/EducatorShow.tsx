@@ -1,6 +1,7 @@
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
+import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 
 const PostShowActions = () => {
@@ -21,6 +22,7 @@ const PostShowActions = () => {
 export const EducatorShow = () => {
     return (
         <Show actions={<PostShowActions />}>
+            <BackButton />
             <SimpleShowLayout>
             <TextField source="firstname"  />
             <TextField source="lastname" />
