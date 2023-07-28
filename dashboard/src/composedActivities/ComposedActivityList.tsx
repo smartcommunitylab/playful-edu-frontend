@@ -38,16 +38,16 @@ export const ComposedActivityList = () => {
   const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduloId = searchParams.get(MODULO_URL_PARAM);
   const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-  const translate = useTranslate();
+
   return (
-    <List
+<List
       actions={<ListActions />}
       filters={ComposedActivityFilters}
       queryOptions={{
         meta: { domainId, learningScenarioId, moduloId, fragmentId },
       }}
     >
-      <Datagrid>
+  <Datagrid>
         <ComposedActivityButton></ComposedActivityButton>
         <EditComposedActivityButton />
         <ShowComposedActivityButton />
@@ -62,6 +62,7 @@ const ComposedActivityButton = () => {
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
   const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduleId = searchParams.get(MODULO_URL_PARAM);
+  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
   if (!record) return null;
   return (
     <>
@@ -69,12 +70,11 @@ const ComposedActivityButton = () => {
         label={record.title}
         onClick={() => {
           redirect(
-            `/composed-activities/${record.id}/show?${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${record.id}`
+            `/composed-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}&${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}`
           )}}
       ></Button>
       <TextField source="type" />
-    </>
-  );
+    </>)
 };
 
 const EditComposedActivityButton = () => {
@@ -82,7 +82,10 @@ const EditComposedActivityButton = () => {
     const record = useRecordContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/composed-activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const moduleId = searchParams.get(MODULO_URL_PARAM);
+    const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+    const to=`/composed-activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
     if (!record)
         return null;
     return (
@@ -93,11 +96,14 @@ const EditComposedActivityButton = () => {
 };
 
 const ShowComposedActivityButton = () => {
-    const redirect = useRedirect();
-    const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/composed-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+  const redirect = useRedirect();
+  const record = useRecordContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const moduleId = searchParams.get(MODULO_URL_PARAM);
+  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+    const to=`/composed-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}&${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}`;
     if (!record)
         return null;
     return (
@@ -108,11 +114,12 @@ const ShowComposedActivityButton = () => {
 };
 
 const CreateComposedActivityButton = () => {
-  const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const to = `/composed-activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
-  if (!record) return null;
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const moduleId = searchParams.get(MODULO_URL_PARAM);
+  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+  const to = `/composed-activities/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
   return (
     <>
       <CreateButton to={to}></CreateButton>

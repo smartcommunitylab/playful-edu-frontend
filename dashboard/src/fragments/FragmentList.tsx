@@ -106,7 +106,6 @@ const ShowFragmentButton = () => {
   );
 };
 const CreateFragmentButton = () => {
-  const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
   const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
