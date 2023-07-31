@@ -21,12 +21,16 @@ const messages = {
       firstname: "Nome",
       lastname: "Cognome",
       email: "Email",
+      empty:"Nessun educatore presente",
+      addOne:"Vuoi aggiungerne uno?"
     },
     learner: {
       menu: "Studenti",
       firstname: "Nome",
       lastname: "Cognome",
       email: "Email",
+      empty:"Nessuno studente presente",
+      addOne:"Vuoi aggiungerne uno?"
     },
     concept: {
       menu: "Concetti",
@@ -36,34 +40,49 @@ const messages = {
       title: "Titolo",
       description: "Descrizione",
       menu: "Competenze",
+      empty:"Nessuna competenza presente",
+      addOne:"Vuoi aggiungerne una?"
     },
-    activity: {
-      back: "Attivitá",
-      menu: "Attivitá",
+    externalActivity: {
+      back: "Attivitá esterna",
+      menu: "Attivitá esterna",
+      empty:"Nessuna attivitá esternapresente",
+      addOne:"Vuoi aggiungerne una?"
     },
     scenario: {
       back: "Scenari",
       menu: "Scenari",
+      empty:"Nessuno scenario presente",
+      addOne:"Vuoi aggiungerne uno?"
     },
     modulo: {
       back: "Moduli",
       menu: "Moduli",
+      empty:"Nessun modulo presente",
+      addOne:"Vuoi aggiungerne uno?"
     },
     fragment: {
       menu: "Fragment",
       back: "Fragment",
+      empty:"Nessun frammento presente",
+      addOne:"Vuoi aggiungerne uno?"
     },
     composedActivity: {
       menu: "Attivitá composta",
       back: "Attivitá composta",
       title:"Titolo",
-      description:"Descrizione"
+      description:"Descrizione",
+      empty:"Nessuna attivitá composta presente",
+      addOne:"Vuoi aggiungerne una?"
+    },
+    activity: {
+      menu: "Attivitá",
+      back: "Attivitá",
+      empty:"Nessuna attivitá  presente",
+      addOne:"Vuoi aggiungerne una?"
     },
   },
-  activity: {
-    menu: "Attivitá",
-    back: "Attivitá",
-  },
+
 };
 
 export default messages;

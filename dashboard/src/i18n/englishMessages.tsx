@@ -20,13 +20,17 @@ const messages = {
       menu:"Educators",
       firstname:"Name",
       lastname:"Lastname",
-      email:"Email"
+      email:"Email",
+      empty:"No Educators yet",
+      addOne:"Do you want to add one?"
   },
   learner:{
       menu:"Learners",
       firstname:"Name",
       lastname:"Lastname",
-      email:"Email"
+      email:"Email",
+      empty:"No Learner yet",
+      addOne:"Do you want to add one?"
   },
     concept: {
       menu:"Concepts"
@@ -34,29 +38,49 @@ const messages = {
     competence: {
       title: "Title",
       description: "Description",
-      menu: "Competences"
+      menu: "Competences",
+      empty:"No Competences yet",
+      addOne:"Do you want to add one?"
     },
     activity: {
-        menu: "Activities"
-    },
+      menu: "Activities",
+      back: "Activities",
+      empty:"No Activities yet",
+      addOne:"Do you want to add one?"
+  },
+  externalActivity: {
+    menu: "External Activities",
+    back: "External Activities",
+    empty:"No External Activities yet",
+    addOne:"Do you want to add one?"
+},
     scenario: {
       back: "Scenarios",
       menu:"Scenarios",
+      empty:"No Learning Scenario yet",
+      addOne:"Do you want to add one?"
     },
     modulo: {
       menu:"Modules",
       back: "Modules",
+      empty:"No Module yet",
+      addOne:"Do you want to add one?"
     },
     fragment: {
       menu:"Fragment",
       back: "Fragment",
+      empty:"No Fragment yet",
+      addOne:"Do you want to add one?"
     },
     composedActivity: {
       menu: "Attivitá composta",
       back: "Attivitá composta",
       title:"Titolo",
-      description:"Descrizione"
-    }
+      description:"Descrizione",
+      empty:"No Composed Activity yet",
+      addOne:"Do you want to add one?"
+    },
+
   },
 };
 

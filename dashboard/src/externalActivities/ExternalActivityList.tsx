@@ -1,7 +1,7 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useStore, useRedirect, useRecordContext } from "react-admin"
+import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useStore, useRedirect, useRecordContext, useTranslate } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
-
+import { Box, Typography } from '@mui/material';
 
 
 const ListActions = () => (
@@ -16,7 +16,7 @@ export const ExternalActivityList = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
     return (
-        <List actions={<ListActions/>} filters={ExternalActivityFilters} queryOptions={{ meta: { domainId } }}>
+        <List empty={<Empty />} actions={<ListActions/>} filters={ExternalActivityFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <ExternalActivityButton ></ExternalActivityButton>
             <EditExternalActivityButton />
@@ -87,3 +87,19 @@ const CreateExternalActivityButton = () => {
       </>
     );
   };
+  
+  const Empty = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const translate = useTranslate();
+  const to = `/external-activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (<Box textAlign="center" m={1}>
+        <Typography variant="h4" paragraph>
+        {translate('resources.externalActivity.empty')}
+        </Typography>
+        <Typography variant="body1">
+        {translate('resources.externalActivity.addOne')}
+        </Typography>
+        <CreateButton to={to}/>
+    </Box>)
+};

@@ -17,6 +17,7 @@ import {
 } from "react-admin";
 import { DOMAIN_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 
 const ListActions = () => (
   <TopToolbar>
@@ -32,7 +33,7 @@ const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
 
   const translate = useTranslate();
   return (
-    <List actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
+    <List empty={<Empty />} actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
       <Datagrid>
         <ModuleButton></ModuleButton>
         <EditModuleButton />
@@ -107,4 +108,20 @@ const CreateModuleButton = () => {
       <CreateButton to={to}></CreateButton>
     </>
   );
+};
+
+const Empty = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const translate = useTranslate();
+const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  return (<Box textAlign="center" m={1}>
+      <Typography variant="h4" paragraph>
+      {translate('resources.modulo.empty')}
+      </Typography>
+      <Typography variant="body1">
+      {translate('resources.modulo.addOne')}
+      </Typography>
+      <CreateButton to={to}/>
+  </Box>)
 };

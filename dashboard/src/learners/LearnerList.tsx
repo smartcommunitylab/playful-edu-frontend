@@ -1,7 +1,7 @@
 import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
-
+import { Box, Typography } from '@mui/material';
 
 const ListActions = () => (
     <TopToolbar>
@@ -16,7 +16,7 @@ export const LearnerList = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
         return (
-        <List actions={<ListActions/>} filters={LearnerFilters} queryOptions={{ meta: { domainId } }}>
+        <List empty={<Empty />} actions={<ListActions/>} filters={LearnerFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <LearnerButton ></LearnerButton>
             <EditLearnerButton />
@@ -88,3 +88,18 @@ const CreateLearnerButton = () => {
       </>
     );
   };
+  const Empty = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const translate = useTranslate();
+  const to = `/learners/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (<Box textAlign="center" m={1}>
+        <Typography variant="h4" paragraph>
+        {translate('resources.learner.empty')}
+        </Typography>
+        <Typography variant="body1">
+        {translate('resources.learner.addOne')}
+        </Typography>
+        <CreateButton to={to}/>
+    </Box>)
+};

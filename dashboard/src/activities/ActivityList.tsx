@@ -17,7 +17,7 @@ import {
 } from "react-admin";
 import { useSearchParams } from "react-router-dom";
 import { ACTIVITY_URL_PARAM, COMPOSED_ACTIVITY_URL_PARAM, DOMAIN_URL_PARAM, FRAGMENT_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
-
+import { Box, Typography } from '@mui/material';
 const ListActions = () => (
   <TopToolbar>
     <CreateActivityButton />
@@ -31,6 +31,7 @@ export const ActivityList = () => {
   const translate = useTranslate();
   return (
     <List
+    empty={<Empty />}
       actions={<ListActions />}
       filters={ActivityFilters}
       queryOptions={{ meta: { domainId } }}
@@ -111,3 +112,18 @@ const CreateActivityButton = () => {
   );
 };
 
+const Empty = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const translate = useTranslate();
+const to = `/activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  return (<Box textAlign="center" m={1}>
+      <Typography variant="h4" paragraph>
+      {translate('resources.educator.empty')}
+      </Typography>
+      <Typography variant="body1">
+      {translate('resources.educator.addOne')}
+      </Typography>
+      <CreateButton to={to}/>
+  </Box>)
+};

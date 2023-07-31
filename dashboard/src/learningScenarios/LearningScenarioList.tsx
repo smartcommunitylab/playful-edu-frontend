@@ -1,7 +1,7 @@
 import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
-
+import { Box, Typography } from '@mui/material';
 
 
 const ListActions = () => (
@@ -17,7 +17,7 @@ export const LearningScenarioList = () => {
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
     const translate = useTranslate();
     return (
-        <List actions={<ListActions/>} filters={LearningScenarioFilters} queryOptions={{ meta: { domainId } }}>
+        <List empty={<Empty />} actions={<ListActions/>} filters={LearningScenarioFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <LearningScenarioButton ></LearningScenarioButton>
             <EditScenarioButton/>
@@ -90,3 +90,18 @@ const CreateScenarioButton = () => {
       </>
     );
   };
+  const Empty = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const translate = useTranslate();
+  const to = `/scenarios/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    return (<Box textAlign="center" m={1}>
+        <Typography variant="h4" paragraph>
+        {translate('resources.scenario.empty')}
+        </Typography>
+        <Typography variant="body1">
+        {translate('resources.scenario.addOne')}
+        </Typography>
+        <CreateButton to={to}/>
+    </Box>)
+};

@@ -83,7 +83,7 @@ return (
         <Menu.Item to={`/learners?${attachDomain()}`} primaryText="resources.learner.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/concepts?${attachDomain()}`}  primaryText="resources.concept.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/competences?${attachDomain()}`} primaryText="resources.competence.menu" leftIcon={<UsersIcon />}/>
-        <Menu.Item to={`/external-activities?${attachDomain()}`} primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
+        <Menu.Item to={`/external-activities?${attachDomain()}`} primaryText="resources.externalActivity.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/scenarios?${attachDomain()}`} primaryText="resources.scenario.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
