@@ -6,7 +6,7 @@
 // export const ACTIVITY_KEY = "activity.select"
 
 export const DOMAIN_URL_PARAM = "domainId"
-export const SCENARIO_URL_PARAM = "scenarioId"
+export const SCENARIO_URL_PARAM = "learningScenarioId"
 export const MODULO_URL_PARAM = "moduleId"
 export const FRAGMENT_URL_PARAM = "fragmentId"
 export const COMPOSED_ACTIVITY_URL_PARAM = "composedActivityId"

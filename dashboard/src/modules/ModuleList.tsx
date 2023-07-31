@@ -26,7 +26,7 @@ const ListActions = () => (
   </TopToolbar>
 );
 const ModuleFilters = [<TextInput label="Search" source="name" alwaysOn />];
-export const ModuleList = ({scenarioId}:{scenarioId:string}) => {
+export const ModuleList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 const domainId = searchParams.get(DOMAIN_URL_PARAM);
 const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
@@ -47,14 +47,14 @@ const ModuleButton = () => {
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-          const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+          const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   if (!record) return null;
   return (
     <>
       <Button
         label={record.title}
         onClick={() => {
-          redirect(`/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`);
+          redirect(`/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`);
         }}
       ></Button>
       <TextField source="desc" />
@@ -71,8 +71,8 @@ const EditModuleButton = () => {
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const to = `/modules/${record.id}/edit?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const to = `/modules/${record.id}/edit?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
   if (!record)
       return null;
   return (
@@ -88,8 +88,8 @@ const ShowModuleButton = () => {
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const to = `/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const to = `/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
    if (!record)
       return null;
   return (
@@ -101,8 +101,8 @@ const ShowModuleButton = () => {
 const CreateModuleButton = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}`;
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
@@ -114,7 +114,8 @@ const Empty = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
   const translate = useTranslate();
-const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
   return (<Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
       {translate('resources.modulo.empty')}

@@ -31,7 +31,7 @@ const resources = useResourceDefinitions();
 // const createPath = useCreatePath();
 const [searchParams, setSearchParams] = useSearchParams();
 const domainId = searchParams.get(DOMAIN_URL_PARAM);
-const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
 const moduloId = searchParams.get(MODULO_URL_PARAM);
 const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
 const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
@@ -42,7 +42,7 @@ const activityId = searchParams.get(ACTIVITY_URL_PARAM);
   }
 
   function attachScenario() {
-    return `${SCENARIO_URL_PARAM}=${scenarioId}`;
+    return `${SCENARIO_URL_PARAM}=${learningScenarioId}`;
   }
 
   function attachFragment() {
@@ -60,15 +60,7 @@ const activityId = searchParams.get(ACTIVITY_URL_PARAM);
     return `${ACTIVITY_URL_PARAM}=${activityId}`;
   }
 
-// const listHiddenMenu = ["domains"];
-//const [domainId] = useStore(DOMAIN_KEY);
-// const [scenarioId] = useStore(SCENARIO_KEY);
-// const [moduloId] = useStore(MODULO_KEY);
-// const [fragmentId] = useStore(FRAGMENT_KEY);
-// const [composedActivityId] = useStore(COMPOSED_ACTIVITY_KEY);
-// const [activityId] = useStore(ACTIVITY_KEY);
-// se il dominio non e' selezionato, mostro nulla, se e' selezionato mostro tasto back e sottomenu di dominio
-//e poi in funzione di cosa e' settato (learning scenario, modulo) mostro altri back e sottomenu
+
 return (
   <>
     {!domainId && (
@@ -76,7 +68,7 @@ return (
         <Menu.Item to="/domains" />
       </Menu>
     )}
-    {domainId && !scenarioId && (
+    {domainId && !learningScenarioId && (
       <Menu>
          <BackButtonMenu name={DOMAIN_URL_PARAM} label="resources.domain.back" redirect="domains"/>
         <Menu.Item to={`/educators?${attachDomain()}`} primaryText="resources.educator.menu" leftIcon={<UsersIcon />}/>
@@ -87,7 +79,7 @@ return (
         <Menu.Item to={`/scenarios?${attachDomain()}`} primaryText="resources.scenario.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
-    {scenarioId && !moduloId && (
+    {learningScenarioId && !moduloId && (
       <Menu>
          <BackButtonMenu name={SCENARIO_URL_PARAM} label="resources.scenario.back" redirect={`scenarios?${attachDomain()}`}/>
         <Menu.Item to={`/modules?${attachDomain()}&${attachScenario()}`} primaryText="resources.modulo.menu" leftIcon={<UsersIcon />}/>

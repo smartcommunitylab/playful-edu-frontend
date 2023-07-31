@@ -34,14 +34,14 @@ const FragmentFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const FragmentList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const learninglearningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduloId = searchParams.get(MODULO_URL_PARAM);
   return (
     <List
     empty={<Empty />}
       actions={<ListActions />}
       filters={FragmentFilters}
-      queryOptions={{ meta: { domainId, learningScenarioId, moduloId } }}
+      queryOptions={{ meta: { domainId, learninglearningScenarioId, moduloId } }}
     >
       <Datagrid>
         <FragmentButton></FragmentButton>
@@ -57,7 +57,7 @@ const FragmentButton = () => {
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const learninglearningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduleId = searchParams.get(MODULO_URL_PARAM);
   if (!record) return null;
   return (
@@ -66,7 +66,7 @@ const FragmentButton = () => {
         label={record.title}
         onClick={() => {
           redirect(
-            `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${record.id}`
+            `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learninglearningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${record.id}`
           );
         }}
       ></Button>
@@ -80,9 +80,9 @@ const EditFragmentButton = () => {
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const learninglearningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const to = `/fragments/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
+  const to = `/fragments/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learninglearningScenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
   if (!record) return null;
   return (
     <>
@@ -97,10 +97,10 @@ const ShowFragmentButton = () => {
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduleId = searchParams.get(MODULO_URL_PARAM);
   const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-  const to = `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
+  const to = `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
   if (!record) return null;
   return (
     <>
@@ -111,9 +111,9 @@ const ShowFragmentButton = () => {
 const CreateFragmentButton = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const scenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
   const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const to = `/fragments/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${scenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
+  const to = `/fragments/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
