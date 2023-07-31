@@ -17,10 +17,13 @@ export const ExternalActivityCreate = () => {
              <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />
             <TextInput source="language" />
+            <TextInput source="extId" />
+            <TextInput source="extGroupId" />
             <TextInput source="extUrl" />
             <TextInput source="type" />
             <TextInput source="tool" />
             <TextInput source="difficulty" />
+            <TextInput source="groupCorrelator" />
             <ReferenceArrayInput source="preconditions" reference="concepts" queryOptions={{ meta: { domainId } }}/>
             <ReferenceArrayInput source="effects" reference="concepts" queryOptions={{ meta: { domainId } }} />
         </SimpleForm>

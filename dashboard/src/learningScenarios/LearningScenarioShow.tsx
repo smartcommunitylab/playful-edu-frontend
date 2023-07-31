@@ -1,4 +1,4 @@
-import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
+import { BooleanField, EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
 import { ModuleList } from "../modules/ModuleList"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
@@ -27,6 +27,7 @@ export const LearningScenarioShow = () => {
             <TextField source="title"  />
             <TextField source="desc" />
             <TextField source="language" />
+            <BooleanField source="publicScenario" />
             <ReferenceArrayField label="Educators" reference="educators" source="educators" />
             <ReferenceArrayField label="Learners" reference="learners" source="learners" />
         </SimpleShowLayout>

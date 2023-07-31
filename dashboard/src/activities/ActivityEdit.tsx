@@ -40,15 +40,19 @@ export const ActivityEdit = () => {
             <BooleanInput source="group" />
             <SelectInput source="type" choices={[
             { id: 'concrete', name: 'Concreta' },
-             { id: 'abstract', name: 'Astratta' }
+            { id: 'abstract', name: 'Astratta' },
+            { id: 'group', name: 'Gruppo' }
     ]} />
     <FormDataConsumer>
     {({ formData, ...rest }) => {
         if (formData.type && formData.type == 'concrete' )
-        return <ReferenceArrayInput source="concepts" reference="concepts"  queryOptions={{ meta: { domainId } }} />
-         else  return  <ReferenceArrayInput source="external-activities" reference="external-activities"  queryOptions={{ meta: { domainId } }} />
+        return <ReferenceArrayInput source="concepts" reference="concepts"  queryOptions={{ meta: { domainId,learningScenarioId, moduleId } }}/>
+        else  if (formData.type == 'abstract' )
+        return  <ReferenceArrayInput source="external-activities" reference="external-activities"  queryOptions={{ meta: { domainId,learningScenarioId, moduleId,fragmentId,composedActivityId } }} />
+        else  if (formData.type == 'group' )
+        return  <ReferenceArrayInput source="external-activities" reference="external-activities"  queryOptions={{ meta: { domainId,learningScenarioId, moduleId,fragmentId,composedActivityId } }}/>
     }
-                 }
+    }
 
              </FormDataConsumer>
         </SimpleForm>

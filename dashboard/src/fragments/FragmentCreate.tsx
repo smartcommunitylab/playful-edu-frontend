@@ -5,7 +5,7 @@ export const FragmentCreate = () => {
     return (
         <Create redirect="list">
         <BackButton />
- <SimpleForm>
+        <SimpleForm>
              <TextInput source="title" validate={[required()]} fullWidth />
         </SimpleForm>
     </Create>

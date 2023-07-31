@@ -14,17 +14,21 @@ const PostEditActions = () => {
     return (
         <>
             <TopToolbar>
-                <ShowButton  to={to}></ShowButton>
+                {/* <ShowButton  to={to}></ShowButton> */}
             </TopToolbar>
             </>
         )
 };
 export const FragmentEdit = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const moduleId = searchParams.get(MODULO_URL_PARAM);
     return (
         <Edit actions={<PostEditActions />}>
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
-            <ReferenceArrayInput label="ComposedActivity" reference="composedActivity" source="composedActivity" />
+            <ReferenceArrayInput label="composed-activity" reference="composed-activity" source="composed-activity" queryOptions={{ meta: { domainId,learningScenarioId, moduleId } }} />
         </SimpleForm>
         </Edit>
     )

@@ -1,7 +1,6 @@
-import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
+import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
-import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 
 const PostShowActions = () => {
@@ -17,7 +16,7 @@ const PostShowActions = () => {
     return (
         <>
             <TopToolbar>
-                <EditButton  to={to}></EditButton>
+                {/* <EditButton  to={to}></EditButton> */}
             </TopToolbar>
             </>
         )
@@ -27,7 +26,7 @@ export const FragmentShow = () => {
         <Show actions={<PostShowActions />}>
             <SimpleShowLayout>
             <TextField source="title"  />
-            <ReferenceArrayField label="ComposedActivity" reference="composedActivity" source="composedActivity" />
+            <ReferenceArrayField label="ComposedActivity" reference="composed-activity" source="composed-activity" />
         </SimpleShowLayout>
         </Show>
     )

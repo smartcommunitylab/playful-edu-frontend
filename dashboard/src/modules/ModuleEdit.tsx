@@ -1,6 +1,7 @@
 import { DateInput, Edit, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
+import { FragmentEdit } from "../fragments/FragmentEdit";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
@@ -28,12 +29,13 @@ export const ModuleEdit = () => {
     };
     return (
         <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId, learningScenarioId})}>
-            <SimpleForm>
+        <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />
             <TextInput source="level" />
             <DateInput source="dateFrom" />
             <DateInput source="dateTo" />
+            <FragmentEdit />
         </SimpleForm>
         </Edit>
     )

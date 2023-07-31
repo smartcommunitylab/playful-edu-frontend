@@ -1,6 +1,8 @@
 import {
   BooleanInput,
   Create,
+  FormDataConsumer,
+  ReferenceArrayInput,
   SelectInput,
   SimpleForm,
   TextInput,
@@ -9,7 +11,13 @@ import {
   useRedirect,
 } from "react-admin";
 import { useSearchParams } from "react-router-dom";
-import { COMPOSED_ACTIVITY_URL_PARAM, DOMAIN_URL_PARAM, FRAGMENT_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
+import {
+  COMPOSED_ACTIVITY_URL_PARAM,
+  DOMAIN_URL_PARAM,
+  FRAGMENT_URL_PARAM,
+  MODULO_URL_PARAM,
+  SCENARIO_URL_PARAM,
+} from "../constants";
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const ActivityCreate = () => {
@@ -19,13 +27,25 @@ export const ActivityCreate = () => {
   const moduleId = searchParams.get(MODULO_URL_PARAM);
   const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
   const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
-    const record = useRecordContext();
-    const redirect = useRedirect();
-    const onSuccess = () => {
-        redirect(`/activities?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}`);
-    };
+  const record = useRecordContext();
+  const redirect = useRedirect();
+  const onSuccess = () => {
+    redirect(
+      `/activities?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}`
+    );
+  };
   return (
-    <Create mutationOptions={{ onSuccess }} transform={(data: any) => ({ ...data, domainId,learningScenarioId,moduleId,fragmentId,composedActivityId })}>
+    <Create
+      mutationOptions={{ onSuccess }}
+      transform={(data: any) => ({
+        ...data,
+        domainId,
+        learningScenarioId,
+        moduleId,
+        fragmentId,
+        composedActivityId,
+      })}
+    >
       <BackButton />
       <SimpleForm>
         <TextInput source="title" validate={[required()]} fullWidth />
@@ -36,14 +56,55 @@ export const ActivityCreate = () => {
           choices={[
             { id: "concrete", name: "Concreta" },
             { id: "abstract", name: "Astratta" },
+            { id: "group", name: "Gruppo" },
           ]}
         />
-        {record.type && record.type == "concrete" && (
-          <TextInput source="concrete" />
-        )}
-        {record.type && record.type == "abstract" && (
-          <TextInput source="abstract" />
-        )}
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            if (formData.type && formData.type == "concrete")
+              return (
+                <ReferenceArrayInput
+                  source="concepts"
+                  reference="concepts"
+                  queryOptions={{
+                    meta: { domainId, learningScenarioId, moduleId },
+                  }}
+                />
+              );
+            else if (formData.type == "abstract")
+              return (
+                <ReferenceArrayInput
+                  source="external-activities"
+                  reference="external-activities"
+                  queryOptions={{
+                    meta: {
+                      domainId,
+                      learningScenarioId,
+                      moduleId,
+                      fragmentId,
+                      composedActivityId,
+                    },
+                  }}
+                />
+              );
+            else if (formData.type == "group")
+              return (
+                <ReferenceArrayInput
+                  source="external-activities"
+                  reference="external-activities"
+                  queryOptions={{
+                    meta: {
+                      domainId,
+                      learningScenarioId,
+                      moduleId,
+                      fragmentId,
+                      composedActivityId,
+                    },
+                  }}
+                />
+              );
+          }}
+        </FormDataConsumer>
       </SimpleForm>
     </Create>
   );

@@ -1,4 +1,4 @@
-import { Create, ReferenceArrayInput, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
+import { BooleanInput, Create, ReferenceArrayInput, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useSearchParams } from 'react-router-dom';
 import { BackButton } from "@smartcommunitylab/ra-back-button";
@@ -17,6 +17,7 @@ export const LearningScenarioCreate = () => {
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />
             <TextInput source="language" />
+            <BooleanInput source="publicScenario" />
             <ReferenceArrayInput source="educators" reference="educators" queryOptions={{ meta: { domainId } }}/>
             <ReferenceArrayInput source="learners" reference="learners" queryOptions={{ meta: { domainId } }}/>
         </SimpleForm>
