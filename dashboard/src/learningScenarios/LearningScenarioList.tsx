@@ -33,7 +33,7 @@ const EditScenarioButton = () => {
     const record = useRecordContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/scenarios/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const to=`/scenarios/${record.id}/edit?${SCENARIO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}`;
     if (!record)
         return null;
     return (

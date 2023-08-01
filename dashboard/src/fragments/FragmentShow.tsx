@@ -16,7 +16,6 @@ const PostShowActions = () => {
     return (
         <>
             <TopToolbar>
-                {/* <EditButton  to={to}></EditButton> */}
             </TopToolbar>
             </>
         )
@@ -26,7 +25,7 @@ export const FragmentShow = () => {
         <Show actions={<PostShowActions />}>
             <SimpleShowLayout>
             <TextField source="title"  />
-            <ReferenceArrayField label="ComposedActivity" reference="composed-activity" source="composed-activity" />
+            {/* <ReferenceArrayField label="ComposedActivity" reference="composed-activity" source="composed-activity" /> */}
         </SimpleShowLayout>
         </Show>
     )

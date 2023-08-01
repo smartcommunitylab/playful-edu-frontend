@@ -64,8 +64,12 @@ const EditActivityButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const to = `/activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const moduleId = searchParams.get(MODULO_URL_PARAM);
+  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+  const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
+  const to = `/activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}&${ACTIVITY_URL_PARAM}=${record.id}`;
   if (!record) return null;
   return (
     <>
@@ -115,8 +119,12 @@ const CreateActivityButton = () => {
 const Empty = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const moduleId = searchParams.get(MODULO_URL_PARAM);
+  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+  const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
   const translate = useTranslate();
-const to = `/activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
+const to = `/activities/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}}`;
   return (<Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
       {translate('resources.educator.empty')}

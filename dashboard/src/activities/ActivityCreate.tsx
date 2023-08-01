@@ -50,7 +50,6 @@ export const ActivityCreate = () => {
       <SimpleForm>
         <TextInput source="title" validate={[required()]} fullWidth />
         <TextInput source="desc" />
-        <BooleanInput source="group" />
         <SelectInput
           source="type"
           choices={[

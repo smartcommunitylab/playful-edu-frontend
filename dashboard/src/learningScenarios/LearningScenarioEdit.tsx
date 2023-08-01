@@ -1,13 +1,13 @@
 import { BooleanInput, Edit, ReferenceArrayInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect, useStore } from "react-admin"
 import { useSearchParams } from 'react-router-dom';
-import { DOMAIN_URL_PARAM } from "../constants";
+import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
     const [searchParams, setSearchParams] = useSearchParams();
     const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/scenarios/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const to=`/scenarios/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${recordId}`;
     if (!recordId)
         return null;
     return (

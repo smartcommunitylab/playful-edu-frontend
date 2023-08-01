@@ -31,7 +31,7 @@ export const ModuleShow = () => {
             <DateField source="dateFrom" />
             <DateField source="dateTo" />
         </SimpleShowLayout>
-        <FragmentShow />
+        {/* <FragmentShow /> */}
         </Show>
     )
 }
