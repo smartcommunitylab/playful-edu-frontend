@@ -9,12 +9,12 @@ const ListActions = () => (
         <ExportButton/>
     </TopToolbar>
 );
-const domainFilters = [
-    <TextInput label="resources.domain.search" source="q"  alwaysOn />]
+// const domainFilters = [
+//     <TextInput label="resources.domain.search" source="q"  alwaysOn />]
 export const DomainList = () => {
     const redirect = useRedirect();
     return (
-        <List actions={<ListActions/>} filters={domainFilters}>
+        <List actions={<ListActions/>} >
         <Datagrid>
             <DomainButton source="title"></DomainButton>
             <EditDomainButton />

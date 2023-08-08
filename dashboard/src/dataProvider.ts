@@ -19,18 +19,24 @@ const springDataProvider = (
             const { page, perPage } = params.pagination;
             const { field, order } = params.sort;
             let meta = undefined;
+            let filter = undefined;
             if (params?.meta)
                 meta = params?.meta;
+            if (params?.filter)
+                filter = params?.filter;
 
 
-            const query = {
+            let query: any = {
                 sort: field + ',' + order, //sorting
                 page: page - 1, //page starts from zero
                 size: perPage,
-                domainId:meta?.domainId,
-                learningScenarioId:meta?.learningScenarioId
             };
-
+            if (meta?.domainId)
+                query["domainId"] = meta?.domainId;
+            if (meta?.learningScenarioId)
+                query["learningScenarioId"] = meta?.domainId;
+            if (filter?.text)
+                query["text"] = filter?.text;
             const url = `${apiUrl}/${resource}?${stringify(query)}`;
             return httpClient(url).then(({ status, json }) => {
                 if (status !== 200) {
