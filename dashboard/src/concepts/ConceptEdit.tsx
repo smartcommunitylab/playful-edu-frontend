@@ -1,12 +1,12 @@
 import { Edit, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect, useStore } from "react-admin"
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/concepts/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const to=`/concepts/d/${domainId}/${recordId}`;
     if (!recordId)
         return null;
     return (
@@ -19,11 +19,11 @@ const PostEditActions = () => {
 };
 
 export const ConceptEdit = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const params = useParams();
     const redirect = useRedirect();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const domainId =params.domainId;
     const onSuccess = () => {
-        redirect(`/concepts?${DOMAIN_URL_PARAM}=${domainId}`);
+        redirect(`/concepts/d/${domainId}`);
     };
     return (
         <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>

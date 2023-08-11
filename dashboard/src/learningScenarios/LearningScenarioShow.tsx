@@ -1,13 +1,12 @@
 import { BooleanField, EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
-import { useSearchParams } from 'react-router-dom';
-import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
+import { useParams } from 'react-router-dom';
 
 
 const PostShowActions = () => {
     const recordId = useGetRecordId();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/scenarios/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${recordId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const to=`/scenarios/d/${domainId}/s/${recordId}/edit`;
     if (!recordId)
         return null;
     return (
@@ -29,7 +28,6 @@ export const LearningScenarioShow = () => {
             <ReferenceArrayField label="Educators" reference="educators" source="educators" />
             <ReferenceArrayField label="Learners" reference="learners" source="learners" />
         </SimpleShowLayout>
-        {/* <ModuleList scenarioId={record.id}/> */}
         </Show>
     )
 }

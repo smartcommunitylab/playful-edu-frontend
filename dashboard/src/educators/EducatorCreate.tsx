@@ -1,17 +1,16 @@
 import { Create, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const EducatorCreate = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const params = useParams();
     const redirect = useRedirect();
     const onSuccess = () => {
-        redirect(`/educators?${DOMAIN_URL_PARAM}=${domainId}`);
+        redirect(`/educators/d/${params.domainId}`);
     };
     return (
-        <Create mutationOptions={{ onSuccess }} transform={(data: any) => ({ ...data, domainId })}>
+        <Create mutationOptions={{ onSuccess }} transform={(data: any) => ({ ...data, domainId:params.domainId })}>
         <BackButton />
  <SimpleForm>
             <TextInput source="firstname" validate={[required()]} fullWidth label="resources.educator.firstname" />

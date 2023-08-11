@@ -1,6 +1,6 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
+import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, ResourceContextProvider } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 const ListActions = () => (
@@ -12,19 +12,21 @@ const ListActions = () => (
 const LearnerFilters = [
     <TextInput label="Search" source="name" alwaysOn />
 ]
-export const LearnerList = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-        return (
-        <List empty={<Empty />} actions={<ListActions/>} filters={LearnerFilters} queryOptions={{ meta: { domainId } }}>
+export const LearnerList =() => {
+    const params = useParams();
+    return (
+    <ResourceContextProvider value="learners">
+        <List empty={<Empty />} actions={<ListActions/>} filter={{ domainId:params.domainId}}  queryOptions={{ meta: { domainId:params.domainId } }}>
         <Datagrid>
             <LearnerButton ></LearnerButton>
             <EditLearnerButton />
             <ShowLearnerButton />
         </Datagrid>
     </List>
+    </ResourceContextProvider>
     )
 }
+
 const LearnerButton = () => {
     const redirect = useRedirect();
     const record = useRecordContext();
@@ -33,10 +35,6 @@ const LearnerButton = () => {
         return null;
     return (
         <>
-            {/* <Button  label={record.name} onClick={() => {
-                setGameId(record.id);
-                redirect('/learners/' + record.id + '/show');
-            }}></Button> */}
             <TextField source="firstname" /><span> </span>
             <TextField source="lastname" /><span> </span>
             <TextField source="email" />
@@ -49,9 +47,9 @@ const EditLearnerButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/learners/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const to=`/learners/d/${domainId}/${record.id}/edit`;
     if (!record)
         return null;
     return (
@@ -65,9 +63,9 @@ const EditLearnerButton = () => {
 const ShowLearnerButton = () => {
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/learners/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const to=`/learners/d/${domainId}/${record.id}`;
     if (!record)
         return null;
     return (
@@ -79,9 +77,9 @@ const ShowLearnerButton = () => {
 
 const CreateLearnerButton = () => {
     const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-      const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to = `/learners/create?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+      const domainId =params.domainId;
+    const to = `/learners/d/${domainId}create`;
     return (
       <>
         <CreateButton to={to}></CreateButton>
@@ -89,10 +87,10 @@ const CreateLearnerButton = () => {
     );
   };
   const Empty = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const params = useParams();
+    const domainId =params.domainId;
     const translate = useTranslate();
-  const to = `/learners/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  const to = `/learners/d/${domainId}/create`;
     return (<Box textAlign="center" m={1}>
         <Typography variant="h4" paragraph>
         {translate('resources.learner.empty')}

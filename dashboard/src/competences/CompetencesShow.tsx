@@ -15,13 +15,13 @@ import {
   useRedirect,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
   const to=`/competences/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
   if (!recordId)
       return null;
@@ -40,7 +40,11 @@ export const CompetencesShow = () => {
       <SimpleShowLayout>
         <TextField source="title" label="resources.competence.title" />
         <TextField source="desc" label="resources.competence.description" />
-        <ReferenceArrayField label="Concepts" reference="concepts" source="concepts" />
+        <ReferenceArrayField label="Concepts" reference="concepts" source="concepts" >
+                 <Datagrid>
+                    <TextField source="title" />
+                </Datagrid>
+          </ReferenceArrayField>
       </SimpleShowLayout>
     </Show>
   );

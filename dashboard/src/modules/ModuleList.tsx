@@ -14,9 +14,10 @@ import {
   useRedirect,
   useRecordContext,
   DateField,
+  ResourceContextProvider,
 } from "react-admin";
 import { DOMAIN_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 const ListActions = () => (
@@ -27,12 +28,13 @@ const ListActions = () => (
 );
 const ModuleFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const ModuleList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-const domainId = searchParams.get(DOMAIN_URL_PARAM);
-const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-
+  const params = useParams();
+const domainId =params.domainId;
+const learningScenarioId = params.learningScenarioId;
+console.log(domainId,learningScenarioId);
   const translate = useTranslate();
   return (
+    <ResourceContextProvider value="modules">
     <List empty={<Empty />} actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
       <Datagrid>
         <ModuleButton></ModuleButton>
@@ -40,21 +42,22 @@ const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
         <ShowModuleButton />
       </Datagrid>
     </List>
+    </ResourceContextProvider>
   );
 };
 const ModuleButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-          const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
   if (!record) return null;
   return (
     <>
       <Button
         label={record.title}
         onClick={() => {
-          redirect(`/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`);
+          redirect(`/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}`);
         }}
       ></Button>
       <TextField source="desc" />
@@ -69,10 +72,10 @@ const ModuleButton = () => {
 const EditModuleButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const to = `/modules/${record.id}/edit?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}/edit`;
   if (!record)
       return null;
   return (
@@ -86,10 +89,10 @@ const EditModuleButton = () => {
 const ShowModuleButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const to = `/modules/${record.id}/show?${MODULO_URL_PARAM}=${record.id}&${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}`;
    if (!record)
       return null;
   return (
@@ -99,10 +102,10 @@ const ShowModuleButton = () => {
   );
 };
 const CreateModuleButton = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
@@ -111,11 +114,11 @@ const CreateModuleButton = () => {
 };
 
 const Empty = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
   const translate = useTranslate();
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-const to = `/modules/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
+  const learningScenarioId = params.learningScenarioId;
+const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
   return (<Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
       {translate('resources.modulo.empty')}

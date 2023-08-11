@@ -10,7 +10,7 @@ import {
   useRecordContext,
   useRedirect,
 } from "react-admin";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   COMPOSED_ACTIVITY_URL_PARAM,
   DOMAIN_URL_PARAM,
@@ -21,17 +21,17 @@ import {
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const ActivityCreate = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-  const composedActivityId = searchParams.get(COMPOSED_ACTIVITY_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
+  const fragmentId = params.fragmentId;
+  const composedActivityId = params.composedActivityId;
   const record = useRecordContext();
   const redirect = useRedirect();
   const onSuccess = () => {
     redirect(
-      `/activities?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}}&${COMPOSED_ACTIVITY_URL_PARAM}=${composedActivityId}`
+      `/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}`
     );
   };
   return (

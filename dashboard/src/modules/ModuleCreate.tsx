@@ -1,15 +1,15 @@
 import { Create, DateInput, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
 import { SCENARIO_URL_PARAM, DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const ModuleCreate = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const params = useParams();
+    const domainId =params.domainId;
+    const learningScenarioId = params.learningScenarioId;
     const redirect = useRedirect();
     const onSuccess = () => {
-        redirect(`/modules?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`);
+        redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
     };
     return (
         <Create mutationOptions={{ onSuccess }} transform={(data: any) => ({ ...data, domainId, learningScenarioId})}>

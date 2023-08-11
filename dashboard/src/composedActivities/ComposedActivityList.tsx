@@ -12,6 +12,7 @@ import {
   Button,
   useRedirect,
   useRecordContext,
+  ResourceContextProvider,
 } from "react-admin";
 import {
   ACTIVITY_URL_PARAM,
@@ -21,7 +22,7 @@ import {
   MODULO_URL_PARAM,
   SCENARIO_URL_PARAM,
 } from "../constants";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Box, Typography } from '@mui/material';
 const ListActions = () => (
   <TopToolbar>
@@ -33,13 +34,15 @@ const ComposedActivityFilters = [
   <TextInput label="Search" source="name" alwaysOn />,
 ];
 export const ComposedActivityList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduloId = searchParams.get(MODULO_URL_PARAM);
-  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduloId = params.moduloId;
+  const fragmentId = params.fragmentId;
 
   return (
+    <ResourceContextProvider value="composed-activities">
+
 <List
 empty={<Empty />}
       actions={<ListActions />}
@@ -54,16 +57,17 @@ empty={<Empty />}
         <ShowComposedActivityButton />
       </Datagrid>
     </List>
+    </ResourceContextProvider>
   );
 };
 const ComposedActivityButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
+  const fragmentId = params.fragmentId;
   if (!record) return null;
   return (
     <>
@@ -71,7 +75,7 @@ const ComposedActivityButton = () => {
         label={record.title}
         onClick={() => {
           redirect(
-            `/composed-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}&${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}`
+            `/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${record.id}`
           )}}
       ></Button>
       <TextField source="type" />
@@ -81,12 +85,12 @@ const ComposedActivityButton = () => {
 const EditComposedActivityButton = () => {
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-    const moduleId = searchParams.get(MODULO_URL_PARAM);
-    const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-    const to=`/composed-activities/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const learningScenarioId = params.learningScenarioId;
+    const moduleId = params.moduleId;
+    const fragmentId = params.fragmentId;
+    const to=`/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${record.id}/edit`;
     if (!record)
         return null;
     return (
@@ -99,12 +103,12 @@ const EditComposedActivityButton = () => {
 const ShowComposedActivityButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-    const to=`/composed-activities/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}&${COMPOSED_ACTIVITY_URL_PARAM}=${record.id}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
+  const fragmentId = params.fragmentId;
+    const to=`/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${record.id}`;
     if (!record)
         return null;
     return (
@@ -115,12 +119,12 @@ const ShowComposedActivityButton = () => {
 };
 
 const CreateComposedActivityButton = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-  const to = `/composed-activities/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
+  const fragmentId = params.fragmentId;
+  const to = `/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/create`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
@@ -129,10 +133,13 @@ const CreateComposedActivityButton = () => {
 };
 
 const Empty = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const translate = useTranslate();
-const to = `/composed-activities/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
+  const fragmentId = params.fragmentId;
+    const translate = useTranslate();
+const to = `/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/create`;
   return (<Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
       {translate('resources.educator.empty')}

@@ -15,13 +15,7 @@ import {
   useRecordContext,
   useGetRecordId,
 } from "react-admin";
-import {
-  DOMAIN_URL_PARAM,
-  FRAGMENT_URL_PARAM,
-  MODULO_URL_PARAM,
-  SCENARIO_URL_PARAM,
-} from "../constants";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Box, Typography } from '@mui/material';
 
 const ListActions = () => (
@@ -32,16 +26,16 @@ const ListActions = () => (
 );
 const FragmentFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const FragmentList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learninglearningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduloId = searchParams.get(MODULO_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduloId = params.moduloId;
   return (
     <List
     empty={<Empty />}
       actions={<ListActions />}
       filters={FragmentFilters}
-      queryOptions={{ meta: { domainId, learninglearningScenarioId, moduloId } }}
+      queryOptions={{ meta: { domainId, learningScenarioId, moduloId } }}
     >
       <Datagrid>
         <FragmentButton></FragmentButton>
@@ -55,10 +49,10 @@ const FragmentButton = () => {
   // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learninglearningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
   if (!record) return null;
   return (
     <>
@@ -66,7 +60,7 @@ const FragmentButton = () => {
         label={record.title}
         onClick={() => {
           redirect(
-            `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learninglearningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${record.id}`
+            `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${record.id}`
           );
         }}
       ></Button>
@@ -78,11 +72,11 @@ const EditFragmentButton = () => {
   // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learninglearningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const to = `/fragments/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learninglearningScenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${record.id}/edit`;
   if (!record) return null;
   return (
     <>
@@ -95,12 +89,11 @@ const ShowFragmentButton = () => {
   // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-  const to = `/fragments/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId
+    const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${record.id}`;
   if (!record) return null;
   return (
     <>
@@ -109,11 +102,11 @@ const ShowFragmentButton = () => {
   );
 };
 const CreateFragmentButton = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-  const moduleId = searchParams.get(MODULO_URL_PARAM);
-  const to = `/fragments/create?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/create`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
@@ -121,10 +114,12 @@ const CreateFragmentButton = () => {
   );
 };
 const Empty = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const translate = useTranslate();
-const to = `/fragments/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const moduleId = params.moduleId;
+    const translate = useTranslate();
+const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/create`;
   return (<Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
       {translate('resources.fragment.empty')}

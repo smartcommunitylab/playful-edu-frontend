@@ -1,34 +1,36 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext } from "react-admin"
-import { DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, useRedirect, useRecordContext, ResourceContextProvider } from "react-admin"
+import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
 
-const ListActions = () => (
+
+const ListActions = () => {
+    return (
+    <Box width="100%">
     <TopToolbar>
         <CreateEducatorButton/>
         <ExportButton/>
     </TopToolbar>
-);
+    </Box>
+    )}
 const EducatorFilters = [
     <TextInput label="Search" source="name" alwaysOn />
 ]
-
-
-
-export const EducatorList = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+export const EducatorList =() => {
+    const params = useParams();
     return (
-        <List empty={<Empty />}actions={<ListActions/>} filters={EducatorFilters} queryOptions={{ meta: { domainId } }}>
+    <ResourceContextProvider value="educators">
+        <List empty={<Empty />} actions={<ListActions/>} filter={{ domainId:params.domainId}}  queryOptions={{ meta: { domainId:params.domainId } }}>
         <Datagrid>
             <EducatorButton ></EducatorButton>
             <EditEducatorButton />
             <ShowEducatorButton />
         </Datagrid>
     </List>
+    </ResourceContextProvider>
     )
 }
+
 const EducatorButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
@@ -50,9 +52,8 @@ const EditEducatorButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/educators/${record.id}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+    const to=`/educators/d/${params.domainId}/${record.id}/edit`;
     if (!record)
         return null;
     return (
@@ -67,9 +68,8 @@ const ShowEducatorButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/educators/${record.id}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+    const to=`/educators/d/${params.domainId}/${record.id}`;
     if (!record)
         return null;
     return (
@@ -79,11 +79,8 @@ const ShowEducatorButton = () => {
     );
 };
 const CreateEducatorButton = () => {
-    const record = useRecordContext();
-    const [searchParams, setSearchParams] = useSearchParams();
-      const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to = `/educators/create?${DOMAIN_URL_PARAM}=${domainId}`;
-    
+    const params = useParams();
+    const to = `/educators/d/${params.domainId}/create`;
     return (
       <>
         <CreateButton to={to}></CreateButton>
@@ -92,10 +89,9 @@ const CreateEducatorButton = () => {
   };
 
   const Empty = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const params = useParams();
     const translate = useTranslate();
-  const to = `/educators/create?${DOMAIN_URL_PARAM}=${domainId}`;
+  const to = `/educators/d/${params.domainId}/create`;
     return (<Box textAlign="center" m={1}>
         <Typography variant="h4" paragraph>
         {translate('resources.educator.empty')}

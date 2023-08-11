@@ -33,7 +33,7 @@ const DomainButton = (props: {source:string}) => {
         <>
             <Button  label={record.title} onClick={() => {
                 // setDomainId(record.id);
-                redirect(`/domains/${record.id}/show?${DOMAIN_URL_PARAM}=${record.id}`);
+                redirect(`/domains/${record.id}/show`);
             }}></Button>
         </>
     );
@@ -43,7 +43,7 @@ const EditDomainButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const to= `/domains/${record.id}/edit?${DOMAIN_URL_PARAM}=${record.id}`;
+    const to= `/domains/${record.id}/edit`;
 
     if (!record)
         return null;
@@ -58,7 +58,7 @@ const ShowDomainButton = () => {
     // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
-    const to= `/domains/${record.id}/show?${DOMAIN_URL_PARAM}=${record.id}`;
+    const to= `/domains/${record.id}/show`;
     if (!record)
         return null;
     return (

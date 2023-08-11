@@ -1,14 +1,14 @@
 import { DateInput, Edit, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect } from "react-admin"
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { FragmentEdit } from "../fragments/FragmentEdit";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-    const to=`/modules/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const learningScenarioId = params.learningScenarioId;
+    const to=`/modules/d/${domainId}/s/${learningScenarioId}/${recordId}/show`;
     if (!recordId)
         return null;
     return (
@@ -20,12 +20,12 @@ const PostEditActions = () => {
         )
 };
 export const ModuleEdit = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
+    const params = useParams();
+    const domainId =params.domainId;
+    const learningScenarioId = params.learningScenarioId;
     const redirect = useRedirect();
     const onSuccess = () => {
-        redirect(`/modules?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}`);
+        redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
     };
     return (
         <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId, learningScenarioId})}>

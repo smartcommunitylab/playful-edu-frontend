@@ -1,14 +1,14 @@
 import { Create, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const LearnerCreate = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const params = useParams();
+    const domainId =params.domainId;
     const redirect = useRedirect();
     const onSuccess = () => {
-        redirect(`/learners?${DOMAIN_URL_PARAM}=${domainId}`);
+        redirect(`/learners/d/${domainId}`);
     };
     return (
         <Create mutationOptions={{ onSuccess }} transform={(data: any) => ({ ...data, domainId })}>

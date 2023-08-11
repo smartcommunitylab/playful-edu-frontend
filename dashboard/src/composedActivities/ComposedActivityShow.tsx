@@ -1,16 +1,16 @@
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM, FRAGMENT_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 
 
 const PostShowActions = () => {
     const recordId = useGetRecordId();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const learningScenarioId = searchParams.get(SCENARIO_URL_PARAM);
-    const moduleId = searchParams.get(MODULO_URL_PARAM);
-    const fragmentId = searchParams.get(FRAGMENT_URL_PARAM);
-    const to=`/composed-activities/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}&${SCENARIO_URL_PARAM}=${learningScenarioId}&${MODULO_URL_PARAM}=${moduleId}&${FRAGMENT_URL_PARAM}=${fragmentId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const learningScenarioId = params.learningScenarioId;
+    const moduleId = params.moduloId;
+    const fragmentId = params.fragmentId;
+    const to=`/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/${recordId}/edit`;
     if (!recordId)
         return null;
     return (

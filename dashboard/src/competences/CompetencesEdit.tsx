@@ -1,13 +1,13 @@
 import { Edit, ReferenceArrayInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect, useStore } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
-    const to=`/competences/${recordId}/show?${DOMAIN_URL_PARAM}=${domainId}`;
+    const params = useParams();
+    const domainId =params.domainId;
+    const to=`/competences/d/${domainId}/${recordId}`;
     if (!recordId)
         return null;
     return (
@@ -19,11 +19,11 @@ const PostEditActions = () => {
         )
 };
 export const CompetencesEdit = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const params = useParams();
     const redirect = useRedirect();
-    const domainId = searchParams.get(DOMAIN_URL_PARAM);
+    const domainId =params.domainId;
     const onSuccess = () => {
-        redirect(`/educators?${DOMAIN_URL_PARAM}=${domainId}`);
+        redirect(`/competences/d/${domainId}`);
     };
     return (
         <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>

@@ -8,15 +8,15 @@ import {
   useRecordContext,
   useRedirect,
 } from "react-admin";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const domainId = searchParams.get(DOMAIN_URL_PARAM);
-  const to = `/concepts/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+  const params = useParams();
+  const domainId =params.domainId;
+  const to = `/concepts/d/${domainId}/${recordId}/edit`;
   if (!recordId) return null;
   return (
     <>
