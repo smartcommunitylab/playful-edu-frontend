@@ -46,6 +46,9 @@ const messages = {
       description: "Descrizione",
       type:"Tipo",
       menu: "Competenze",
+      knowledgeSelection:{
+        knowledge:"Conoscenza"
+      },
       empty:"Nessuna competenza presente",
       addOne:"Vuoi aggiungerne una?"
     },

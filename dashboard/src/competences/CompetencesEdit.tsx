@@ -1,4 +1,4 @@
-import { DeleteButton, Edit, ReferenceArrayInput, SaveButton, SelectInput, ShowButton, SimpleForm, TextInput, Toolbar, TopToolbar, required, useGetRecordId, useRedirect, useStore } from "react-admin"
+import { DeleteButton, Edit, ReferenceArrayInput, SaveButton, SelectInput, ShowButton, SimpleForm, TextInput, Toolbar, TopToolbar, required, useGetRecordId, useRedirect, useStore, useTranslate } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
 
@@ -33,6 +33,7 @@ const EditToolbar = (props:any) => {
 export const CompetencesEdit = () => {
     const params = useParams();
     const redirect = useRedirect();
+    const translate = useTranslate();
     const domainId =params.domainId;
     const onSuccess = () => {
         redirect(`/competences/d/${domainId}`);
@@ -45,9 +46,10 @@ export const CompetencesEdit = () => {
         <SelectInput
           source="type"
           choices={[
-            { id: "knowledge", name: "Conoscenza" },
-            { id: "knowledge2", name: "Conoscenza2" },
-            { id: "knowledge3", name: "Conoscenza3" },
+            { id: "knowledge", name: translate(
+                "resources.competence.knowledgeSelection.knowledge"
+              )},
+            
           ]}
         />         
         <ReferenceArrayInput source="concepts" reference="concepts" queryOptions={{ meta: { domainId } }}/>

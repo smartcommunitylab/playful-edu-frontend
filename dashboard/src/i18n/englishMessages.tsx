@@ -49,6 +49,9 @@ const messages = {
       menu: "Competences",
       empty: "No Competences yet",
       addOne: "Do you want to add one?",
+      knowledgeSelection:{
+        knowledge:"Knowledge"
+      },
     },
     activity: {
       menu: "Activities",
