@@ -23,7 +23,7 @@ export const EducatorEdit = () => {
         redirect(`/educators/d/${params.domainId}`);
     };
     return (
-        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId:params.domainId })}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId:params.domainId })} mutationMode="pessimistic">
             <SimpleForm>
             <TextInput source="firstname" validate={[required()]} fullWidth label="resources.educator.firstname" />
             <TextInput source="lastname" multiline={true} label="resources.educator.lastname" />

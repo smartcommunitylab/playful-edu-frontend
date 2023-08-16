@@ -20,8 +20,8 @@ export const CompetencesCreate = () => {
           source="type"
           choices={[
             { id: "knowledge", name: "Conoscenza" },
-            { id: "knowledge", name: "Conoscenza" },
-            { id: "knowledge", name: "Conoscenza" },
+            { id: "knowledge2", name: "Conoscenza2" },
+            { id: "knowledge3", name: "Conoscenza3" },
           ]}
         />    
          <ReferenceArrayInput source="concepts" reference="concepts"  queryOptions={{ meta: { domainId } }}/>

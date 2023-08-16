@@ -22,7 +22,7 @@ const PostShowActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId =params.domainId;
-  const to=`/competences/${recordId}/edit?${DOMAIN_URL_PARAM}=${domainId}`;
+  const to=`/competences/d/${domainId}/${recordId}/edit`;
   if (!recordId)
       return null;
   return (

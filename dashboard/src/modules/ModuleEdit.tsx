@@ -28,7 +28,7 @@ export const ModuleEdit = () => {
         redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
     };
     return (
-        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId, learningScenarioId})}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId, learningScenarioId})} mutationMode="pessimistic">
         <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />

@@ -28,7 +28,7 @@ export const ExternalActivityEdit = () => {
         redirect(`/external-activities/d/${domainId}`);
     };
     return (
-        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })} mutationMode="pessimistic">
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />

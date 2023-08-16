@@ -34,7 +34,7 @@ export const ActivityEdit = () => {
         redirect(`/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}`);
     };
     return (
-        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} mutationMode="pessimistic">
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
             <TextInput source="desc" />

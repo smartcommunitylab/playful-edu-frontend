@@ -31,13 +31,14 @@ const EditToolbar = (props:any) => {
 };
 export const ConceptEdit = () => {
     const params = useParams();
-    const redirect = useRedirect();
     const domainId =params.domainId;
+    const redirect = useRedirect();
+
     const onSuccess = () => {
         redirect(`/concepts/d/${domainId}`);
     };
     return (
-        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
+        <Edit mutationOptions={{ onSuccess }}  actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })} mutationMode="pessimistic">
             <SimpleForm toolbar={<EditToolbar />}>
             <TextInput source="title" validate={[required()]} fullWidth />
         </SimpleForm>

@@ -38,7 +38,7 @@ export const CompetencesEdit = () => {
         redirect(`/competences/d/${domainId}`);
     };
     return (
-        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
+        <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })} mutationMode="pessimistic">
             <SimpleForm toolbar={<EditToolbar />}>
         <TextInput source="title" label="resources.competence.title"  validate={[required()]} fullWidth />
         <TextInput source="desc" label="resources.competence.description"  />
@@ -46,8 +46,8 @@ export const CompetencesEdit = () => {
           source="type"
           choices={[
             { id: "knowledge", name: "Conoscenza" },
-            { id: "knowledge", name: "Conoscenza" },
-            { id: "knowledge", name: "Conoscenza" },
+            { id: "knowledge2", name: "Conoscenza2" },
+            { id: "knowledge3", name: "Conoscenza3" },
           ]}
         />         
         <ReferenceArrayInput source="concepts" reference="concepts" queryOptions={{ meta: { domainId } }}/>
