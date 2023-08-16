@@ -1,4 +1,4 @@
-import { EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
+import { ChipField, EditButton, ReferenceArrayField, Show, SimpleShowLayout, SingleFieldList, TextField, TopToolbar, useGetRecordId, useRecordContext, useRedirect } from "react-admin"
 import { useParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
 import { BackButton } from "@smartcommunitylab/ra-back-button";
@@ -34,8 +34,16 @@ export const ExternalActivityShow = () => {
             <TextField source="tool" />
             <TextField source="difficulty" />
             <TextField source="groupCorrelator" />
-            <ReferenceArrayField source="preconditions" reference="concepts" />
-            <ReferenceArrayField source="effects" reference="concepts"/>
+            <ReferenceArrayField source="preconditions" reference="concepts" >
+            <SingleFieldList linkType={false}>
+              <ChipField source="title" />
+            </SingleFieldList>
+            </ReferenceArrayField>
+            <ReferenceArrayField source="effects" reference="concepts">
+            <SingleFieldList linkType={false}>
+              <ChipField source="title" />
+            </SingleFieldList>
+            </ReferenceArrayField>
         </SimpleShowLayout>
         </Show>
     )

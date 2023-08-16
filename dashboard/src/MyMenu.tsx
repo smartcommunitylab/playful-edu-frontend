@@ -48,6 +48,7 @@ return (
     {domainId && !learningScenarioId && (
       <Menu>
          <BackButtonMenu name={DOMAIN_URL_PARAM} label="resources.domain.back" redirect="domains"/>
+        <Menu.Item to={`/domains/${domainId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/educators/d/${domainId}`} primaryText="resources.educator.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/learners/d/${domainId}`} primaryText="resources.learner.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/concepts/d/${domainId}`}  primaryText="resources.concept.menu" leftIcon={<UsersIcon />}/>
@@ -59,31 +60,36 @@ return (
     {learningScenarioId && !moduloId && (
       <Menu>
          <BackButtonMenu name={SCENARIO_URL_PARAM} label="resources.scenario.back" redirect={`scenarios/d/${domainId}`}/>
+        <Menu.Item to={`/scenarios/d/${domainId}/s/${learningScenarioId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/modules/d/${domainId}/s/${learningScenarioId}`} primaryText="resources.modulo.menu" leftIcon={<UsersIcon />}/>
-
+        <Menu.Item to={`/modules/d/${domainId}/s/${learningScenarioId}`} primaryText="resources.learner.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {moduloId && !fragmentId && (
       <Menu>
          <BackButtonMenu name={MODULO_URL_PARAM} label="resources.modulo.back" redirect={`modules/d/${domainId}/s/${learningScenarioId}`}/>
+        <Menu.Item to={`/modules/d/${domainId}/s/${learningScenarioId}/m/${moduloId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduloId}`} primaryText="resources.fragment.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {fragmentId && !composedActivityId &&(
       <Menu>
          <BackButtonMenu name={FRAGMENT_URL_PARAM} label="resources.fragment.back" redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${moduloId}`}/>
+        <Menu.Item to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}`} primaryText="resources.composedActivity.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
     {composedActivityId && !activityId &&(
       <Menu>
          <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.composedActivity.back" redirect={`composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}`}/>
+        <Menu.Item to={`/composed-activities/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}/ca/${composedActivityId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
         <Menu.Item to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}/ca/${composedActivityId}`} primaryText="resources.activity.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
         {activityId  &&(
       <Menu>
          <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.activity.back" redirect={`activities/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}/ca/${composedActivityId}`}/>
+        <Menu.Item to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${moduloId}/f/${fragmentId}/ca/${composedActivityId}/a/${activityId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
   </>

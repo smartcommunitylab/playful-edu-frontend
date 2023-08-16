@@ -1,4 +1,4 @@
-import { Edit, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect, useStore } from "react-admin"
+import { DeleteButton, DeleteWithConfirmButton, Edit, SaveButton, ShowButton, SimpleForm, TextInput, Toolbar, TopToolbar, required, useGetRecordId, useRecordContext, useRedirect, useStore } from "react-admin"
 import { useParams } from 'react-router-dom';
 import { DOMAIN_URL_PARAM } from "../constants";
 
@@ -17,7 +17,18 @@ const PostEditActions = () => {
             </>
         )
 };
-
+const EditToolbar = (props:any) => {
+    const params = useParams();
+    const domainId =params.domainId;
+    const to=`/concepts/d/${domainId}`;
+    return (<Toolbar {...props}>
+        <SaveButton/>
+        <DeleteButton
+            redirect={to}
+        />
+    </Toolbar>
+    )
+};
 export const ConceptEdit = () => {
     const params = useParams();
     const redirect = useRedirect();
@@ -27,7 +38,7 @@ export const ConceptEdit = () => {
     };
     return (
         <Edit mutationOptions={{ onSuccess }} actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })}>
-            <SimpleForm>
+            <SimpleForm toolbar={<EditToolbar />}>
             <TextInput source="title" validate={[required()]} fullWidth />
         </SimpleForm>
         </Edit>

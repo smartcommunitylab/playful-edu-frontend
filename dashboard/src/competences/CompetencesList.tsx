@@ -46,11 +46,16 @@ export const CompetencesList = () => {
         <Datagrid>
           <TextField source="title" label="resources.competence.title" />
           <TextField source="desc" label="resources.competence.description" />
+          <TextField source="type" label="resources.competence.type" />
           <ReferenceArrayField
             label="Concepts"
             reference="concepts"
             source="concepts"
-          />
+          >
+            <SingleFieldList linkType={false}>
+              <ChipField source="title" />
+            </SingleFieldList>
+          </ReferenceArrayField>
           <EditCompetenceButton />
           <ShowCompetenceButton />
         </Datagrid>

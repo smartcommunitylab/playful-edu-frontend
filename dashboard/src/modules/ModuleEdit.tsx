@@ -8,7 +8,7 @@ const PostEditActions = () => {
     const params = useParams();
     const domainId =params.domainId;
     const learningScenarioId = params.learningScenarioId;
-    const to=`/modules/d/${domainId}/s/${learningScenarioId}/${recordId}/show`;
+    const to=`/modules/d/${domainId}/s/${learningScenarioId}/${recordId}`;
     if (!recordId)
         return null;
     return (

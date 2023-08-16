@@ -50,7 +50,7 @@ const EditConceptButton = () => {
   const record = useRecordContext();
   const params = useParams();
     const domainId = params.domainId;
-  const to = `/concepts/d/${domainId}/${record.id}`;
+  const to = `/concepts/d/${domainId}/${record.id}/edit`;
   if (!record) return null;
   return (
     <>

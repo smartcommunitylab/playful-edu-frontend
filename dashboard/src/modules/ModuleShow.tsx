@@ -1,5 +1,6 @@
 import { DateField, EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
 import { useParams } from 'react-router-dom';
+import { FragmentShow } from "../fragments/FragmentShow";
 
 
 const PostShowActions = () => {
@@ -28,6 +29,7 @@ export const ModuleShow = () => {
             <DateField source="dateFrom" />
             <DateField source="dateTo" />
         </SimpleShowLayout>
+        <FragmentShow />
         </Show>
     )
 }

@@ -8,6 +8,9 @@ const messages = {
     message: "Accedi con AAC",
   },
   resources: {
+    info:{
+      menu:"Informazioni"
+    },
     domain: {
       search: "Ricerca dominio",
       title: "Titolo",
@@ -39,6 +42,7 @@ const messages = {
     competence: {
       title: "Titolo",
       description: "Descrizione",
+      type:"Tipo",
       menu: "Competenze",
       empty:"Nessuna competenza presente",
       addOne:"Vuoi aggiungerne una?"

@@ -1,4 +1,4 @@
-import { Create, ReferenceArrayInput, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
+import { Create, ReferenceArrayInput, SelectInput, SimpleForm, TextInput, required, useRedirect, useStore } from "react-admin"
 import {  DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
 import { BackButton } from "@smartcommunitylab/ra-back-button";
@@ -16,6 +16,14 @@ export const CompetencesCreate = () => {
  <SimpleForm>
         <TextInput source="title" label="resources.competence.title" validate={[required()]} fullWidth />
         <TextInput source="desc" label="resources.competence.description" />
+        <SelectInput
+          source="type"
+          choices={[
+            { id: "knowledge", name: "Conoscenza" },
+            { id: "knowledge", name: "Conoscenza" },
+            { id: "knowledge", name: "Conoscenza" },
+          ]}
+        />    
          <ReferenceArrayInput source="concepts" reference="concepts"  queryOptions={{ meta: { domainId } }}/>
         </SimpleForm>
     </Create>

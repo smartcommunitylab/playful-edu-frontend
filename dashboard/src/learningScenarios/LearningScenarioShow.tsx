@@ -1,5 +1,6 @@
-import { BooleanField, EditButton, ReferenceArrayField, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
+import { BooleanField, ChipField, EditButton, ReferenceArrayField, Show, SimpleShowLayout, SingleFieldList, TextField, TopToolbar, useGetRecordId } from "react-admin"
 import { useParams } from 'react-router-dom';
+import { LearnerList } from "../learners/LearnerList";
 
 
 const PostShowActions = () => {
@@ -17,6 +18,9 @@ const PostShowActions = () => {
             </>
         )
 };
+export const LearnerScenarioList = () => {
+
+}
 export const LearningScenarioShow = () => {
     return (
         <Show actions={<PostShowActions />}>
@@ -25,8 +29,11 @@ export const LearningScenarioShow = () => {
             <TextField source="desc" />
             <TextField source="language" />
             <BooleanField source="publicScenario" />
-            <ReferenceArrayField label="Educators" reference="educators" source="educators" />
-            <ReferenceArrayField label="Learners" reference="learners" source="learners" />
+            <ReferenceArrayField label="Educators" reference="educators" source="educators" >
+            <SingleFieldList linkType={false}>
+              <ChipField source="email" />
+            </SingleFieldList>
+            </ReferenceArrayField>
         </SimpleShowLayout>
         </Show>
     )

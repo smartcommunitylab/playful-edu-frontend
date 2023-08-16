@@ -8,6 +8,9 @@ const messages = {
     message: "Access with AAC",
   },
   resources: {
+      info:{
+        menu:"Information"
+      },
     domain: {
       search: "Search domain",
       title: "Title",
@@ -38,6 +41,7 @@ const messages = {
     competence: {
       title: "Title",
       description: "Description",
+      type:"Type",
       menu: "Competences",
       empty:"No Competences yet",
       addOne:"Do you want to add one?"
