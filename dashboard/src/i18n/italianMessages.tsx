@@ -23,6 +23,7 @@ const messages = {
       menu: "Educatori",
       firstname: "Nome",
       lastname: "Cognome",
+      nickname: "Nickname",
       email: "Email",
       empty:"Nessun educatore presente",
       addOne:"Vuoi aggiungerne uno?"
@@ -31,6 +32,7 @@ const messages = {
       menu: "Studenti",
       firstname: "Nome",
       lastname: "Cognome",
+      nickname: "Nickname",
       email: "Email",
       empty:"Nessuno studente presente",
       addOne:"Vuoi aggiungerne uno?"

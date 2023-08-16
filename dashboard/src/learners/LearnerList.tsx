@@ -18,30 +18,18 @@ export const LearnerList =() => {
     <ResourceContextProvider value="learners">
         <List empty={<Empty />} actions={<ListActions/>} filter={{ domainId:params.domainId}}  queryOptions={{ meta: { domainId:params.domainId } }}>
         <Datagrid>
-            <LearnerButton ></LearnerButton>
-            <EditLearnerButton />
+            <TextField source="firstname" label="resources.learner.firstname" /><span> </span>
+            <TextField source="lastname" label="resources.learner.lastname" /><span> </span>
+            <TextField source="email" label="resources.learner.email" /> 
+            <TextField source="nickname"  label="resources.learner.nickname"/>
+
+                       <EditLearnerButton />
             <ShowLearnerButton />
         </Datagrid>
     </List>
     </ResourceContextProvider>
     )
 }
-
-const LearnerButton = () => {
-    const redirect = useRedirect();
-    const record = useRecordContext();
-    const [gameId, setGameId] = useStore('Learner.selected');
-    if (!record)
-        return null;
-    return (
-        <>
-            <TextField source="firstname" /><span> </span>
-            <TextField source="lastname" /><span> </span>
-            <TextField source="email" />
-        </>
-    );
-
-};
 
 const EditLearnerButton = () => {
     // const translate = useTranslate();

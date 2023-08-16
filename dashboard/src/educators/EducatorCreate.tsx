@@ -15,7 +15,9 @@ export const EducatorCreate = () => {
  <SimpleForm>
             <TextInput source="firstname" validate={[required()]} fullWidth label="resources.educator.firstname" />
             <TextInput source="lastname" multiline={true} label="resources.educator.lastname" />
-            <TextInput source="email" label="resources.educator.email"/>
+            <TextInput source="email"  type="email" label="resources.educator.email"/>
+            <TextInput source="nickname"  label="resources.educator.nickname"/>
+
         </SimpleForm>
     </Create>
     )

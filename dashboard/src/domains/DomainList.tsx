@@ -24,7 +24,6 @@ export const DomainList = () => {
     )
 }
 const DomainButton = (props: {source:string}) => {
-    // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
     if (!record)
@@ -32,7 +31,6 @@ const DomainButton = (props: {source:string}) => {
     return (
         <>
             <Button  label={record.title} onClick={() => {
-                // setDomainId(record.id);
                 redirect(`/domains/${record.id}`);
             }}></Button>
         </>
@@ -40,7 +38,6 @@ const DomainButton = (props: {source:string}) => {
 
 };
 const EditDomainButton = () => {
-    // const translate = useTranslate();
     const redirect = useRedirect();
     const record = useRecordContext();
     const to= `/domains/${record.id}/edit`;

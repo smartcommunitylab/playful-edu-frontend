@@ -8,83 +8,86 @@ const messages = {
     message: "Access with AAC",
   },
   resources: {
-      info:{
-        menu:"Information"
-      },
+    info: {
+      menu: "Information",
+    },
     domain: {
       search: "Search domain",
       title: "Title",
       back: "Domains",
     },
-    user:{
-      menu:"Users"
+    user: {
+      menu: "Users",
     },
-    educator:{
-      menu:"Educators",
-      firstname:"Name",
-      lastname:"Lastname",
-      email:"Email",
-      empty:"No Educators yet",
-      addOne:"Do you want to add one?"
-  },
-  learner:{
-      menu:"Learners",
-      firstname:"Name",
-      lastname:"Lastname",
-      email:"Email",
-      empty:"No Learner yet",
-      addOne:"Do you want to add one?"
-  },
+    educator: {
+      menu: "Educators",
+      firstname: "Name",
+      lastname: "Lastname",
+      nickname: "Nickname",
+
+      email: "Email",
+      empty: "No Educators yet",
+      addOne: "Do you want to add one?",
+    },
+    learner: {
+      menu: "Learners",
+      firstname: "Name",
+      lastname: "Lastname",
+      nickname: "Nickname",
+
+      email: "Email",
+      empty: "No Learner yet",
+      addOne: "Do you want to add one?",
+    },
     concept: {
-      menu:"Concepts"
+      menu: "Concepts",
     },
     competence: {
       title: "Title",
       description: "Description",
-      type:"Type",
+      type: "Type",
       menu: "Competences",
-      empty:"No Competences yet",
-      addOne:"Do you want to add one?"
+      empty: "No Competences yet",
+      addOne: "Do you want to add one?",
     },
     activity: {
       menu: "Activities",
       back: "Activities",
-      empty:"No Activities yet",
-      addOne:"Do you want to add one?"
-  },
-  externalActivity: {
-    menu: "External Activities",
-    back: "External Activities",
-    empty:"No External Activities yet",
-    addOne:"Do you want to add one?"
-},
+      empty: "No Activities yet",
+      addOne: "Do you want to add one?",
+    },
+    externalActivity: {
+      menu: "External Activities",
+      back: "External Activities",
+      empty: "No External Activities yet",
+      addOne: "Do you want to add one?",
+    },
     scenario: {
       back: "Scenarios",
-      menu:"Scenarios",
-      empty:"No Learning Scenario yet",
-      addOne:"Do you want to add one?"
+      menu: "Scenarios",
+      empty: "No Learning Scenario yet",
+      addOne: "Do you want to add one?",
     },
     modulo: {
-      menu:"Modules",
+      menu: "Modules",
       back: "Modules",
-      empty:"No Module yet",
-      addOne:"Do you want to add one?"
+      empty: "No Module yet",
+      addOne: "Do you want to add one?",
     },
     fragment: {
-      menu:"Fragment",
+      menu: "Fragment",
       back: "Fragment",
-      empty:"No Fragment yet",
-      addOne:"Do you want to add one?"
+      empty: "No Fragment yet",
+      addOne: "Do you want to add one?",
     },
     composedActivity: {
       menu: "Attivitá composta",
       back: "Attivitá composta",
-      title:"Titolo",
-      description:"Descrizione",
-      empty:"No Composed Activity yet",
-      addOne:"Do you want to add one?"
+      title: "Titolo",
+      description: "Descrizione",
+      empty: "No Composed Activity yet",
+      addOne: "Do you want to add one?",
     },
-
   },
 };
 

@@ -26,6 +26,8 @@ export const EducatorShow = () => {
             <TextField source="firstname"  />
             <TextField source="lastname" />
             <TextField source="email" />
+            <TextField source="nickname" />
+
         </SimpleShowLayout>
         </Show>
     )
