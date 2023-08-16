@@ -61,6 +61,15 @@ const messages = {
       back: "External Activities",
       empty: "No External Activities yet",
       addOne: "Do you want to add one?",
+      typeSelection:{
+        individual: "Individual"
+      },
+      toolSelection:{
+        computer: "Computer"
+      },
+      difficultySelection: {
+        low:"Low"
+      },
     },
     scenario: {
       back: "Scenarios",

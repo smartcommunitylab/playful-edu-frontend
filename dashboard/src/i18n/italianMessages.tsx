@@ -52,6 +52,15 @@ const messages = {
     externalActivity: {
       back: "Attivitá esterna",
       menu: "Attivitá esterna",
+      typeSelection:{
+        individual: "Individuale"
+      },
+      toolSelection:{
+        computer: "Computer"
+      },
+      difficultySelection: {
+        low:"Bassa"
+      },
       empty:"Nessuna attivitá esternapresente",
       addOne:"Vuoi aggiungerne una?"
     },
