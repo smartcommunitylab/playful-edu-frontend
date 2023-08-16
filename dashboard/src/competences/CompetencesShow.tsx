@@ -42,9 +42,9 @@ export const CompetencesShow = () => {
         <TextField source="desc" label="resources.competence.description" />
         <TextField source="type" label="resources.competence.type" />
         <ReferenceArrayField label="Concepts" reference="concepts" source="concepts" >
-                 <Datagrid>
+                 {/* <Datagrid>
                     <TextField source="title" />
-                </Datagrid>
+                </Datagrid> */}
           </ReferenceArrayField>
       </SimpleShowLayout>
     </Show>
