@@ -81,7 +81,7 @@ return (
     )} 
         {activityId  &&(
       <Menu>
-         <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.activity.back" redirect={`activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}}`}/>
+         <BackButtonMenu name={COMPOSED_ACTIVITY_URL_PARAM} label="resources.activity.back" redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}/>
         <Menu.Item to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${activityId}`} primaryText="resources.info.menu" leftIcon={<UsersIcon />}/>
       </Menu>
     )}
