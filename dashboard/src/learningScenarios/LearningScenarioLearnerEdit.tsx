@@ -3,32 +3,18 @@ import {
   Datagrid,
   TextField,
   TopToolbar,
-  CreateButton,
-  ExportButton,
-  EditButton,
   ShowButton,
-  TextInput,
-  useTranslate,
-  useStore,
-  Button,
   useRedirect,
   useRecordContext,
-  ResourceContextProvider,
-  ReferenceArrayField,
-  Show,
   useGetRecordId,
-  AutocompleteArrayInput,
   Edit,
   ReferenceArrayInput,
-  BooleanField,
   SimpleForm,
   Toolbar,
   DeleteButton,
   SaveButton,
 } from "react-admin";
-import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
@@ -81,17 +67,21 @@ const EditToolbar = (props:any) => {
 export const LearningScenarioLearnerEdit = () => {
   const params = useParams();
   const domainId = params.domainId;
-  const scenarioId = params.scenarioId;
+  const learningScenarioId = params.id;
   const redirect = useRedirect();
-  const record = useRecordContext();
 
   const onSuccess = () => {
-    redirect(`/scenarios/d/${domainId}/s/${record.id}/learners/view`);
+    redirect(`/scenarios/d/${domainId}/s/${learningScenarioId}/learners/view`);
 };
   return (
     <Edit mutationOptions={{ onSuccess }}  actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })} mutationMode="pessimistic">
     <SimpleForm toolbar={<EditToolbar />}>
-      <List 
+    <ReferenceArrayInput
+          source="learners"
+          reference="learners"
+          queryOptions={{ meta: { domainId } }}
+        />
+      {/* <List 
         hasCreate={false}
         resource="learners"
         queryOptions={{
@@ -102,7 +92,7 @@ export const LearningScenarioLearnerEdit = () => {
         <Datagrid >
           <InfoLearner  />
         </Datagrid>
-      </List>
+      </List> */}
       </SimpleForm>
     </Edit>
   );

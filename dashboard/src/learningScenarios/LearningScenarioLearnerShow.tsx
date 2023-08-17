@@ -1,7 +1,5 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, ResourceContextProvider, ReferenceArrayField, Show, useGetRecordId } from "react-admin"
-import { DOMAIN_URL_PARAM } from "../constants";
+import { Datagrid, TextField, TopToolbar, EditButton,ReferenceArrayField, Show, useGetRecordId, List } from "react-admin"
 import { useParams } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
 
 
 
@@ -26,7 +24,7 @@ export const LearningScenarioLearnerShow =() => {
     return (
         <Show actions={<PostShowActions />}>
         <ReferenceArrayField label="Learners" reference="learners" source="learners" >
-        <Datagrid>
+        <Datagrid bulkActionButtons={false}>
             <TextField source="firstname" label="resources.learner.firstname" /><span> </span>
             <TextField source="lastname" label="resources.learner.lastname" /><span> </span>
             <TextField source="email" label="resources.learner.email" /> 

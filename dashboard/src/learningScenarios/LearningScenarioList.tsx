@@ -17,7 +17,7 @@ export const LearningScenarioList = () => {
     const domainId =params.domainId;
     const translate = useTranslate();
     return (
-        <ResourceContextProvider value="scenarios">
+    <ResourceContextProvider value="scenarios">
         <List empty={<Empty />} actions={<ListActions/>} filters={LearningScenarioFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
             <LearningScenarioButton ></LearningScenarioButton>
