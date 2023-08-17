@@ -1,4 +1,4 @@
-import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, ResourceContextProvider } from "react-admin"
+import { List, Datagrid, TextField, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, useTranslate, useStore, Button, useRedirect, useRecordContext, ResourceContextProvider, BooleanField } from "react-admin"
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
@@ -20,8 +20,11 @@ export const LearningScenarioList = () => {
     <ResourceContextProvider value="scenarios">
         <List empty={<Empty />} actions={<ListActions/>} filters={LearningScenarioFilters} queryOptions={{ meta: { domainId } }}>
         <Datagrid>
-            <LearningScenarioButton ></LearningScenarioButton>
-            <EditScenarioButton/>
+        <TextField source="title" />
+        <TextField source="desc" />
+        <TextField source="language" />
+        <BooleanField source="publicScenario" />
+                        <EditScenarioButton/>
             <ShowScenarioButton />
         </Datagrid>
     </List>
@@ -46,25 +49,25 @@ const EditScenarioButton = () => {
 
 };
 
-const LearningScenarioButton = () => {
+// const LearningScenarioButton = () => {
 
-    const redirect = useRedirect();
-    const record = useRecordContext();
-    const params = useParams();
-    const domainId =params.domainId;
-    if (!record)
-        return null;
-    return (
-        <>
-            <Button  label={record.title} onClick={() => {
-                redirect(`/scenarios/d/${domainId}/s/${record.id}`);
-            }}></Button>
-            <TextField source="desc" />
-            <TextField source="language" />
-        </>
-    );
+//     const redirect = useRedirect();
+//     const record = useRecordContext();
+//     const params = useParams();
+//     const domainId =params.domainId;
+//     if (!record)
+//         return null;
+//     return (
+//         <>
+//             <Button  label={record.title} onClick={() => {
+//                 redirect(`/scenarios/d/${domainId}/s/${record.id}`);
+//             }}></Button>
+//             <TextField source="desc" />
+//             <TextField source="language" />
+//         </>
+//     );
 
-};
+// };
 
 const ShowScenarioButton = () => {
     // const translate = useTranslate();
