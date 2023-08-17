@@ -3,12 +3,14 @@ import {
   Create,
   FormDataConsumer,
   ReferenceArrayInput,
+  ReferenceInput,
   SelectInput,
   SimpleForm,
   TextInput,
   required,
   useRecordContext,
   useRedirect,
+  useTranslate,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -22,16 +24,17 @@ import { BackButton } from "@smartcommunitylab/ra-back-button";
 
 export const ActivityCreate = () => {
   const params = useParams();
-  const domainId =params.domainId;
-  const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
-  const fragmentId = params.fragmentId;
-  const composedActivityId = params.composedActivityId;
   const record = useRecordContext();
   const redirect = useRedirect();
+  const translate = useTranslate();
+  const domainId =params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.learningFragmentId;
+ 
   const onSuccess = () => {
     redirect(
-      `/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}`
+      `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`
     );
   };
   return (
@@ -41,9 +44,8 @@ export const ActivityCreate = () => {
         ...data,
         domainId,
         learningScenarioId,
-        moduleId,
-        fragmentId,
-        composedActivityId,
+        learningModuleId,
+        learningFragmentId,
       })}
     >
       <BackButton />
@@ -53,53 +55,52 @@ export const ActivityCreate = () => {
         <SelectInput
           source="type"
           choices={[
-            { id: "concrete", name: "Concreta" },
-            { id: "abstract", name: "Astratta" },
-            { id: "group", name: "Gruppo" },
+            {
+              id: "concrete",
+              name: translate("resources.activity.typeSelection.concrete"),
+            },
+            {
+              id: "abstract",
+              name: translate("resources.activity.typeSelection.abstract"),
+            },
+            {
+              id: "group",
+              name: translate("resources.activity.typeSelection.group"),
+            },
           ]}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {
-            if (formData.type && formData.type == "concrete")
+            if (formData.type && formData.type == "abstract")
               return (
                 <ReferenceArrayInput
                   source="concepts"
                   reference="concepts"
                   queryOptions={{
-                    meta: { domainId, learningScenarioId, moduleId },
+                    meta: { domainId, learningScenarioId, learningModuleId },
                   }}
                 />
               );
-            else if (formData.type == "abstract")
+            else if (formData.type == "concrete")
               return (
-                <ReferenceArrayInput
+                <ReferenceInput
                   source="external-activities"
                   reference="external-activities"
                   queryOptions={{
                     meta: {
                       domainId,
                       learningScenarioId,
-                      moduleId,
-                      fragmentId,
-                      composedActivityId,
+                      learningModuleId,
+                      learningFragmentId,
                     },
                   }}
                 />
               );
             else if (formData.type == "group")
               return (
-                <ReferenceArrayInput
-                  source="external-activities"
-                  reference="external-activities"
-                  queryOptions={{
-                    meta: {
-                      domainId,
-                      learningScenarioId,
-                      moduleId,
-                      fragmentId,
-                      composedActivityId,
-                    },
-                  }}
+                <TextInput
+                  source="groupCorrelator"
+                  
                 />
               );
           }}

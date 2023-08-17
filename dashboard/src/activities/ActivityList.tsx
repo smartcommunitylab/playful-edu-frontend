@@ -15,10 +15,22 @@ import {
   BooleanField,
   Button,
   ResourceContextProvider,
+  SelectField,
+  ReferenceArrayField,
+  ChipField,
+  SingleFieldList,
+  ReferenceField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { ACTIVITY_URL_PARAM, COMPOSED_ACTIVITY_URL_PARAM, DOMAIN_URL_PARAM, FRAGMENT_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
-import { Box, Typography } from '@mui/material';
+import {
+  ACTIVITY_URL_PARAM,
+  COMPOSED_ACTIVITY_URL_PARAM,
+  DOMAIN_URL_PARAM,
+  FRAGMENT_URL_PARAM,
+  MODULO_URL_PARAM,
+  SCENARIO_URL_PARAM,
+} from "../constants";
+import { Box, Typography } from "@mui/material";
 const ListActions = () => (
   <TopToolbar>
     <CreateActivityButton />
@@ -28,37 +40,73 @@ const ListActions = () => (
 const ActivityFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const ActivityList = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const record = useRecordContext();
   const translate = useTranslate();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.id;
   return (
     <ResourceContextProvider value="activities">
-    <List
-    empty={<Empty />}
-      actions={<ListActions />}
-      filters={ActivityFilters}
-      queryOptions={{ meta: { domainId } }}
-    >
-      <Datagrid>
-        <ActivityButton></ActivityButton>
-        <EditActivityButton />
-        <ShowActivityButton />
-      </Datagrid>
-    </List>
+      <List
+        empty={<Empty />}
+        actions={<ListActions />}
+        filters={ActivityFilters}
+        queryOptions={{
+          meta: {
+            domainId,
+            learningScenarioId,
+            learningModuleId,
+            learningFragmentId,
+          },
+        }}
+      >
+        <Datagrid>
+          <TextField source="title" />
+          <TextField source="desc" />
+          <SelectField
+            source="type"
+            choices={[
+              {
+                id: "concrete",
+                name: translate("resources.activity.typeSelection.concrete"),
+              },
+              {
+                id: "abstract",
+                name: translate("resources.activity.typeSelection.abstract"),
+              },
+              {
+                id: "group",
+                name: translate("resources.activity.typeSelection.group"),
+              },
+            ]}
+          />
+          {record.type === "abstract" && (
+            <ReferenceArrayField
+              label="Concepts"
+              reference="concepts"
+              source="concepts"
+            >
+              <SingleFieldList linkType={false}>
+                <ChipField source="title" />
+              </SingleFieldList>
+            </ReferenceArrayField>
+          )}
+          {record.type === "group" && <TextField source="groupCorreletator" />}
+          {record.type === "concrete" && (
+            <ReferenceField
+              source="externalActivityId"
+              reference="xternal-activities"
+            >
+              <TextField source="title" />
+              <TextField source="desc" />
+            </ReferenceField>
+          )}
+          <EditActivityButton />
+          <ShowActivityButton />
+        </Datagrid>
+      </List>
     </ResourceContextProvider>
-  );
-};
-const ActivityButton = () => {
-  // const translate = useTranslate();
-  const redirect = useRedirect();
-  const record = useRecordContext();
-  const [gameId, setGameId] = useStore("Activity.selected");
-  if (!record) return null;
-  return (
-    <>
-      <TextField source="title" />
-      <TextField source="desc" />
-      <BooleanField source="group" />
-    </>
   );
 };
 
@@ -67,12 +115,11 @@ const EditActivityButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
-  const fragmentId = params.fragmentId;
-  const composedActivityId = params.composedActivityId;
-  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}/a/${record.id}/edit`;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.id;
+  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${record.id}/edit`;
   if (!record) return null;
   return (
     <>
@@ -85,33 +132,27 @@ const ShowActivityButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
-  const fragmentId = params.fragmentId;
-  const composedActivityId = params.composedActivityId;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.id;
+  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${record.id}`;
   if (!record) return null;
   return (
     <>
-      <Button
-        label={record.title}
-        onClick={() => {
-          redirect(
-            `/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}/a/${record.id}`
-          );
-        }}
-      ></Button>
+      <ShowButton
+         to = {to}
+      ></ShowButton>
     </>
   );
 };
 const CreateActivityButton = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
-  const fragmentId = params.fragmentId;
-  const composedActivityId = params.composedActivityId;
-  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}/create`;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.id;
+  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
@@ -121,20 +162,21 @@ const CreateActivityButton = () => {
 
 const Empty = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
-  const fragmentId = params.fragmentId;
-  const composedActivityId = params.composedActivityId;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.id;
   const translate = useTranslate();
-const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${fragmentId}/ca/${composedActivityId}/create`;
-  return (<Box textAlign="center" m={1}>
+  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
+  return (
+    <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-      {translate('resources.educator.empty')}
+        {translate("resources.activity.empty")}
       </Typography>
       <Typography variant="body1">
-      {translate('resources.educator.addOne')}
+        {translate("resources.activity.addOne")}
       </Typography>
-      <CreateButton to={to}/>
-  </Box>)
+      <CreateButton to={to} />
+    </Box>
+  );
 };

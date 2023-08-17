@@ -37,37 +37,19 @@ console.log(domainId,learningScenarioId);
     <ResourceContextProvider value="modules">
     <List empty={<Empty />} actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
       <Datagrid>
-        <ModuleButton></ModuleButton>
-        <EditModuleButton />
+      <TextField source="title" />
+      <TextField source="desc" />
+      <TextField source="level" />
+      <DateField source="dateFrom" />
+      <DateField source="dateFrom" />
+              <EditModuleButton />
         <ShowModuleButton />
       </Datagrid>
     </List>
     </ResourceContextProvider>
   );
 };
-const ModuleButton = () => {
-  const redirect = useRedirect();
-  const record = useRecordContext();
-  const params = useParams();
-  const domainId =params.domainId;
-  const learningScenarioId = params.learningScenarioId;
-  if (!record) return null;
-  return (
-    <>
-      <Button
-        label={record.title}
-        onClick={() => {
-          redirect(`/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}`);
-        }}
-      ></Button>
-      <TextField source="desc" />
-      <TextField source="level" />
-      <TextField source="language" />
-      <DateField source="dateFrom" />
-      <DateField source="dateFrom" />
-    </>
-  );
-};
+
 
 const EditModuleButton = () => {
   const redirect = useRedirect();

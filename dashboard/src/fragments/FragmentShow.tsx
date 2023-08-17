@@ -1,7 +1,6 @@
 import { Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
 import { useParams } from 'react-router-dom';
-import { MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
-import { ComposedActivityList } from "../composedActivities/ComposedActivityList";
+import { ActivityList } from "../activities/ActivityList";
 
 
 const PostShowActions = () => {
@@ -9,8 +8,8 @@ const PostShowActions = () => {
     const params = useParams();
     const domainId =params.domainId;
     const learningScenarioId = params.learningScenarioId;
-    const moduleId = params.moduleId;
-    const to=`/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${recordId}/edit`;
+    const learningModuleId = params.learningModuleId;
+    const to=`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${recordId}/edit`;
 
     if (!recordId)
         return null;
@@ -26,7 +25,7 @@ export const FragmentShow = () => {
         <Show actions={<PostShowActions />}>
          <SimpleShowLayout>
             <TextField source="title"  />
-            <ComposedActivityList />
+            <ActivityList />
         </SimpleShowLayout>
         </Show>
     )

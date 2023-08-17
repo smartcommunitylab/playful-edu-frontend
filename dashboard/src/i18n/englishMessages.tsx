@@ -53,12 +53,7 @@ const messages = {
         knowledge:"Knowledge"
       },
     },
-    activity: {
-      menu: "Activities",
-      back: "Activities",
-      empty: "No Activities yet",
-      addOne: "Do you want to add one?",
-    },
+    
     externalActivity: {
       menu: "External Activities",
       back: "External Activities",
@@ -92,13 +87,16 @@ const messages = {
       empty: "No Fragment yet",
       addOne: "Do you want to add one?",
     },
-    composedActivity: {
-      menu: "Attivitá composta",
-      back: "Attivitá composta",
-      title: "Titolo",
-      description: "Descrizione",
-      empty: "No Composed Activity yet",
+    activity: {
+      menu: "Activities",
+      back: "Activities",
+      empty: "No Activities yet",
       addOne: "Do you want to add one?",
+      typeSelection: {
+        concrete:"Concrete",
+        abstract:"Abstract",
+        group:"Group"
+      }
     },
   },
 };

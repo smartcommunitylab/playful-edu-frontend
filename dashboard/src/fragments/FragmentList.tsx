@@ -29,13 +29,13 @@ export const FragmentList = () => {
   const params = useParams();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduloId = params.moduloId;
+  const learningModuleId = params.learningModuleId;
   return (
     <List
     empty={<Empty />}
       actions={<ListActions />}
       filters={FragmentFilters}
-      queryOptions={{ meta: { domainId, learningScenarioId, moduloId } }}
+      queryOptions={{ meta: { domainId, learningScenarioId, learningModuleId } }}
     >
       <Datagrid>
         <FragmentButton></FragmentButton>
@@ -52,7 +52,7 @@ const FragmentButton = () => {
   const params = useParams();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
+  const learningModuleId = params.learningModuleId;
   if (!record) return null;
   return (
     <>
@@ -60,7 +60,7 @@ const FragmentButton = () => {
         label={record.title}
         onClick={() => {
           redirect(
-            `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${record.id}`
+            `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}`
           );
         }}
       ></Button>
@@ -75,8 +75,8 @@ const EditFragmentButton = () => {
   const params = useParams();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId
-  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${record.id}/edit`;
+  const learningModuleId = params.learningModuleId
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}/edit`;
   if (!record) return null;
   return (
     <>
@@ -92,8 +92,8 @@ const ShowFragmentButton = () => {
   const params = useParams();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId
-    const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/f/${record.id}`;
+  const learningModuleId = params.learningModuleId
+    const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}`;
   if (!record) return null;
   return (
     <>
@@ -105,8 +105,8 @@ const CreateFragmentButton = () => {
   const params = useParams();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId
-  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/create`;
+  const learningModuleId = params.learningModuleId
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
   return (
     <>
       <CreateButton to={to}></CreateButton>
@@ -117,9 +117,9 @@ const Empty = () => {
   const params = useParams();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const moduleId = params.moduleId;
+  const learningModuleId = params.learningModuleId;
     const translate = useTranslate();
-const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${moduleId}/create`;
+const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
   return (<Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
       {translate('resources.fragment.empty')}

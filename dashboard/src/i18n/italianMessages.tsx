@@ -85,19 +85,17 @@ const messages = {
       empty:"Nessun frammento presente",
       addOne:"Vuoi aggiungerne uno?"
     },
-    composedActivity: {
-      menu: "Attivitá composta",
-      back: "Attivitá composta",
-      title:"Titolo",
-      description:"Descrizione",
-      empty:"Nessuna attivitá composta presente",
-      addOne:"Vuoi aggiungerne una?"
-    },
+    
     activity: {
       menu: "Attivitá",
       back: "Attivitá",
       empty:"Nessuna attivitá  presente",
-      addOne:"Vuoi aggiungerne una?"
+      addOne:"Vuoi aggiungerne una?",
+      typeSelection: {
+        concrete:"Concreta",
+        abstract:"Astratta",
+        group:"Gruppo"
+      }
     },
   },
 

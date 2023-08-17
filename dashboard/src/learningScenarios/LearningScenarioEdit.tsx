@@ -28,17 +28,19 @@ const PostEditActions = () => {
   );
 };
 export const LearningScenarioEdit = () => {
+  const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
   const redirect = useRedirect();
   const onSuccess = () => {
-    redirect(`/scenarios/d/${domainId}`);
+    redirect(`/scenarios/d/${domainId}/s/${recordId}`);
   };
   return (
     <Edit
       mutationOptions={{ onSuccess }}
       actions={<PostEditActions />}
       transform={(data: any) => ({ ...data, domainId })}
+      mutationMode="pessimistic"
     >
       <SimpleForm>
         <TextInput source="title" validate={[required()]} fullWidth />

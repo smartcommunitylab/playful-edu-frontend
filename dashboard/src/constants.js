@@ -7,7 +7,7 @@
 
 export const DOMAIN_URL_PARAM = "domainId"
 export const SCENARIO_URL_PARAM = "learningScenarioId"
-export const MODULO_URL_PARAM = "moduleId"
-export const FRAGMENT_URL_PARAM = "fragmentId"
+export const MODULO_URL_PARAM = "learningModuleId"
+export const FRAGMENT_URL_PARAM = "learningFragmentId"
 export const COMPOSED_ACTIVITY_URL_PARAM = "composedActivityId"
 export const ACTIVITY_URL_PARAM = "activityId"

@@ -6,7 +6,7 @@ const PostEditActions = () => {
     const recordId = useGetRecordId();
     const params = useParams();
     const domainId =params.domainId;
-    const to=`/concepts/d/${domainId}/${recordId}`;
+    const to=`/concepts/d/${domainId}`;
     if (!recordId)
         return null;
     return (
@@ -33,9 +33,10 @@ export const ConceptEdit = () => {
     const params = useParams();
     const domainId =params.domainId;
     const redirect = useRedirect();
+    const recordId = useGetRecordId();
 
     const onSuccess = () => {
-        redirect(`/concepts/d/${domainId}`);
+        redirect(`/concepts/d/${domainId}/${recordId}`);
     };
     return (
         <Edit mutationOptions={{ onSuccess }}  actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })} mutationMode="pessimistic">

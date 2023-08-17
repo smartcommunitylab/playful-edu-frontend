@@ -4,13 +4,8 @@ import {Route, BrowserRouter} from 'react-router-dom';
 import appDataProvider  from './dataProvider';
 import { MyMenu } from './MyMenu';
 import { MyAppBar } from './MyAppBar';
-import concepts from './concepts'
-import modules from './modules';
 import { i18nProvider } from './i18n/i18nProvider';
-import competences from './competences';
-import fragments from './fragments';
 import Card from '@mui/material/Card';
-import composedActivities from './composedActivities';
 import { EducatorList } from './educators/EducatorList';
 import { DomainList } from './domains/DomainList';
 import { DomainEdit } from './domains/DomainEdit';
@@ -32,17 +27,12 @@ import { LearningScenarioCreate } from './learningScenarios/LearningScenarioCrea
 import { LearningScenarioEdit } from './learningScenarios/LearningScenarioEdit';
 import { LearningScenarioShow } from './learningScenarios/LearningScenarioShow';
 import { LearnerList } from './learners/LearnerList';
-import { ActivityList } from './activities/ActivityList';
 import { ActivityCreate } from './activities/ActivityCreate';
 import { ActivityShow } from './activities/ActivityShow';
 import { CompetencesCreate } from './competences/CompetencesCreate';
 import { CompetencesList } from './competences/CompetencesList';
 import { ConceptList } from './concepts/ConceptList';
 import { ExternalActivityList } from './externalActivities/ExternalActivityList';
-import { ComposedActivityList } from './composedActivities/ComposedActivityList';
-import { ComposedActivityCreate } from './composedActivities/ComposedActivityCreate';
-import { ComposedActivityEdit } from './composedActivities/ComposedActivityEdit';
-import { ComposedActivityShow } from './composedActivities/ComposedActivityShow';
 import { LearningScenarioList } from './learningScenarios/LearningScenarioList';
 import { CompetencesEdit } from './competences/CompetencesEdit';
 import { CompetencesShow } from './competences/CompetencesShow';
@@ -54,6 +44,9 @@ import { FragmentList } from './fragments/FragmentList';
 import { FragmentCreate } from './fragments/FragmentCreate';
 import { FragmentEdit } from './fragments/FragmentEdit';
 import { FragmentShow } from './fragments/FragmentShow';
+import { LearningScenarioLearnerShow } from './learningScenarios/LearningScenarioLearnerShow';
+import { LearningScenarioLearnerEdit } from './learningScenarios/LearningScenarioLearnerEdit';
+import { ActivityEdit } from './activities/ActivityEdit';
 const MyLayout = (props:any) => <Layout {...props} menu={MyMenu}  appBar={MyAppBar} />;
 const API_URL: string = process.env.REACT_APP_API_URL as string;
 const httpClient = async (url: string, options: Options = {}) => {
@@ -136,6 +129,8 @@ export const App = () => (
             <Route path="/d/:domainId/create/*" element={<LearningScenarioCreate />} />
             <Route path="/d/:domainId/s/:id/edit/*" element={<LearningScenarioEdit />} />
             <Route path="/d/:domainId/s/:id/*" element={<LearningScenarioShow />} />
+            <Route path="/d/:domainId/s/:id/learners/view/*" element={<LearningScenarioLearnerShow />} />
+            <Route path="/d/:domainId/s/:id/learners/edit/*" element={<LearningScenarioLearnerEdit />} />
         </Resource>
         <Resource name="competences"  >
             <Route path="/d/:domainId/*" element={<CompetencesList />} />
@@ -156,23 +151,22 @@ export const App = () => (
             <Route path="/d/:domainId/s/:learningScenarioId/m/:id/*" element={<ModuleShow />} />
         </Resource>
         <Resource name="fragments" recordRepresentation="title">
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/*" element={<FragmentList />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/create/*" element={<FragmentCreate />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:id/edit/*" element={<FragmentEdit />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:id/*" element={<FragmentShow />} />
-        </Resource>
-        <Resource name="composed-activities" recordRepresentation="title">
-             <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/*" element={<ComposedActivityList />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/create/*" element={<ComposedActivityCreate />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/ca/:id/edit/*" element={<ComposedActivityEdit />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/ca/:id/*" element={<ComposedActivityShow />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/*" element={<FragmentList />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/create/*" element={<FragmentCreate />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:id/edit/*" element={<FragmentEdit />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:id/*" element={<FragmentShow />} />
         </Resource>
         <Resource name="activities" recordRepresentation="title">
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/ca/:composedActivityId/*" element={<ActivityList />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/ca/:composedActivityId/create/*" element={<ActivityCreate />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/ca/:composedActivityId/a/:id/edit/*" element={<ActivityCreate />} />
-            <Route path="/d/:domainId/s/:learningScenarioId/m/:moduleId/f/:fragmentId/ca/:composedActivityId/a/:id/*" element={<ActivityShow />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:learningFragmentId/a/create/*" element={<ActivityCreate />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:learningFragmentId/a/:id/edit/*" element={<ActivityEdit />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:learningFragmentId/a/:id/*" element={<ActivityShow />} />
         </Resource>
+        {/* <Resource name="course-students" recordRepresentation="name">
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/*" element={<FragmentList />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/create/*" element={<FragmentCreate />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:id/edit/*" element={<FragmentEdit />} />
+            <Route path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/f/:id/*" element={<FragmentShow />} />
+        </Resource> */}
     </Admin>
     </BrowserRouter>
 
