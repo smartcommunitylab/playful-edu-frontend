@@ -67,7 +67,7 @@ const CreateLearnerButton = () => {
     const record = useRecordContext();
     const params = useParams();
       const domainId =params.domainId;
-    const to = `/learners/d/${domainId}create`;
+    const to = `/learners/d/${domainId}/create`;
     return (
       <>
         <CreateButton to={to}></CreateButton>
