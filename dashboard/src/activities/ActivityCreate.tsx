@@ -43,8 +43,6 @@ export const ActivityCreate = () => {
       transform={(data: any) => ({
         ...data,
         domainId,
-        learningScenarioId,
-        learningModuleId,
         learningFragmentId,
       })}
     >
@@ -74,7 +72,7 @@ export const ActivityCreate = () => {
             if (formData.type && formData.type == "abstract")
               return (
                 <ReferenceArrayInput
-                  source="concepts"
+                  source="goals"
                   reference="concepts"
                   queryOptions={{
                     meta: { domainId, learningScenarioId, learningModuleId },
