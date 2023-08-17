@@ -72,7 +72,7 @@ export const ActivityList = () => {
                 name: translate("resources.activity.typeSelection.concrete"),
               },
               {
-                id: "abstract",
+                id: "abstr",
                 name: translate("resources.activity.typeSelection.abstract"),
               },
               {
@@ -81,7 +81,7 @@ export const ActivityList = () => {
               },
             ]}
           />
-          {record.type === "abstract" && (
+          {record.type === "abstr" && (
             <ReferenceArrayField
               label="Concepts"
               reference="concepts"

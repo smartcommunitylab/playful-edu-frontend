@@ -65,7 +65,7 @@ export const ActivityEdit = () => {
               name: translate("resources.activity.typeSelection.concrete"),
             },
             {
-              id: "abstract",
+              id: "abstr",
               name: translate("resources.activity.typeSelection.abstract"),
             },
             {
@@ -76,7 +76,7 @@ export const ActivityEdit = () => {
         />
        <FormDataConsumer>
           {({ formData, ...rest }) => {
-            if (formData.type && formData.type == "abstract")
+            if (formData.type && formData.type == "abstr")
               return (
                 <ReferenceArrayInput
                   source="goals"
@@ -91,7 +91,7 @@ export const ActivityEdit = () => {
             else if (formData.type == "concrete")
               return (
                 <ReferenceInput
-                  source="external-activities"
+                  source="externalActivityId"
                   reference="external-activities"
                   queryOptions={{
                     meta: {
