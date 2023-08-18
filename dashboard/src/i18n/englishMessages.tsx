@@ -86,6 +86,11 @@ const messages = {
       back: "Fragment",
       empty: "No Fragment yet",
       addOne: "Do you want to add one?",
+      typeSelection: {
+        singleton: "Singleton",
+        set: "Set",
+        list: "List"
+      }
     },
     activity: {
       menu: "Activities",

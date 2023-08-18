@@ -14,6 +14,7 @@ import {
   useRedirect,
   useRecordContext,
   useGetRecordId,
+  SelectField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Box, Typography } from '@mui/material';
@@ -27,6 +28,7 @@ const ListActions = () => (
 const FragmentFilters = [<TextInput label="Search" source="name" alwaysOn />];
 export const FragmentList = () => {
   const params = useParams();
+  const translate = useTranslate();
   const domainId =params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
@@ -38,33 +40,30 @@ export const FragmentList = () => {
       queryOptions={{ meta: { domainId, learningScenarioId, learningModuleId } }}
     >
       <Datagrid>
-        <FragmentButton></FragmentButton>
+        {/* <FragmentButton></FragmentButton> */}
+        <TextField source="title" />
+        <SelectField
+          source="type"
+          choices={[
+            {
+              id: "singleton",
+              name: translate("resources.fragment.typeSelection.singleton"),
+            },
+            {
+              id: "set",
+              name: translate("resources.fragment.typeSelection.set"),
+            },
+            {
+              id: "list",
+              name: translate("resources.fragment.typeSelection.list"),
+            },
+          ]}
+        />{" "}
+ 
         <EditFragmentButton />
         <ShowFragmentButton />
       </Datagrid>
     </List>
-  );
-};
-const FragmentButton = () => {
-  // const translate = useTranslate();
-  const redirect = useRedirect();
-  const record = useRecordContext();
-  const params = useParams();
-  const domainId =params.domainId;
-  const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  if (!record) return null;
-  return (
-    <>
-      <Button
-        label={record.title}
-        onClick={() => {
-          redirect(
-            `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}`
-          );
-        }}
-      ></Button>
-    </>
   );
 };
 
@@ -84,6 +83,7 @@ const EditFragmentButton = () => {
     </>
   );
 };
+
 
 const ShowFragmentButton = () => {
   // const translate = useTranslate();

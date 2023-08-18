@@ -1,4 +1,4 @@
-import { Edit, ReferenceArrayInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId } from "react-admin"
+import { Edit, ReferenceArrayInput, SelectInput, ShowButton, SimpleForm, TextInput, TopToolbar, required, useGetRecordId, useRedirect, useTranslate } from "react-admin"
 import { useParams } from 'react-router-dom';
 import { ActivityList } from "../activities/ActivityList";
 
@@ -20,16 +20,38 @@ const PostEditActions = () => {
         )
 };
 export const FragmentEdit = () => {
+    const translate = useTranslate();
+    const redirect = useRedirect();
     const params = useParams();
     const domainId =params.domainId;
     const learningScenarioId = params.learningScenarioId;
     const learningModuleId = params.learningModuleId;
+    const onSuccess = () => {
+      redirect(`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`);
+    };
     return (
-        <Edit actions={<PostEditActions />}>
+      <Edit
+        mutationOptions={{ onSuccess }} actions={<PostEditActions />}>
             <SimpleForm>
             <TextInput source="title" validate={[required()]} fullWidth />
-            {/* <ReferenceArrayInput label="composed-activity" reference="composed-activity" source="composed-activity" queryOptions={{ meta: { domainId, learningModuleId } }} /> */}
-            <ActivityList />
+            <SelectInput
+          source="type"
+          choices={[
+            {
+              id: "singleton",
+              name: translate("resources.fragment.typeSelection.singleton"),
+            },
+            {
+              id: "set",
+              name: translate("resources.fragment.typeSelection.set"),
+            },
+            {
+              id: "list",
+              name: translate("resources.fragment.typeSelection.list"),
+            },
+          ]}
+        /> 
+        <ActivityList edit={true}/>
         </SimpleForm>
         </Edit>
     )

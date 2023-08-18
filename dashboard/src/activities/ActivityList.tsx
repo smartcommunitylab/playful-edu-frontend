@@ -22,14 +22,6 @@ import {
   ReferenceField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import {
-  ACTIVITY_URL_PARAM,
-  COMPOSED_ACTIVITY_URL_PARAM,
-  DOMAIN_URL_PARAM,
-  FRAGMENT_URL_PARAM,
-  MODULO_URL_PARAM,
-  SCENARIO_URL_PARAM,
-} from "../constants";
 import { Box, Typography } from "@mui/material";
 const ListActions = () => (
   <TopToolbar>
@@ -37,8 +29,8 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
-const ActivityFilters = [<TextInput label="Search" source="name" alwaysOn />];
-export const ActivityList = () => {
+// const ActivityFilters = [<TextInput label="Search" source="title" alwaysOn />];
+export const ActivityList = (props:any) => {
   const params = useParams();
   const record = useRecordContext();
   const translate = useTranslate();
@@ -46,12 +38,13 @@ export const ActivityList = () => {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.id;
+  console.log(props.edit);
   return (
     <ResourceContextProvider value="activities">
-      <List
+      <List 
         empty={<Empty />}
-        actions={<ListActions />}
-        filters={ActivityFilters}
+        actions={props.edit?<ListActions/>:<></>}
+        // filters={ActivityFilters}
         queryOptions={{
           meta: {
             domainId,
@@ -61,7 +54,7 @@ export const ActivityList = () => {
           },
         }}
       >
-        <Datagrid>
+        <Datagrid bulkActionButtons={props.edit}>
           <TextField source="title" />
           <TextField source="desc" />
           <SelectField

@@ -83,7 +83,12 @@ const messages = {
       menu: "Fragment",
       back: "Fragment",
       empty:"Nessun frammento presente",
-      addOne:"Vuoi aggiungerne uno?"
+      addOne:"Vuoi aggiungerne uno?",
+      typeSelection: {
+        singleton: "Singola",
+        set: "Insieme",
+        list: "Lista"
+      }
     },
     
     activity: {
