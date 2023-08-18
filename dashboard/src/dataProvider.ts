@@ -16,7 +16,7 @@ const springDataProvider = (
     return {
         getList: (resource, params) => {
             //handle pagination request as pageable (page,size)
-            console.log("params",params);
+            console.log("params", params);
             const { page, perPage } = params.pagination;
             const { field, order } = params.sort;
             let meta = undefined;
@@ -34,14 +34,16 @@ const springDataProvider = (
             };
             if (meta?.domainId)
                 query["domainId"] = meta?.domainId;
-                if (meta?.learningScenarioId)
+            if (meta?.learningScenarioId)
                 query["learningScenarioId"] = meta?.learningScenarioId;
-                if (meta?.learningModuleId)
+            if (meta?.learningModuleId)
                 query["learningModuleId"] = meta?.learningModuleId;
-                if (meta?.learningFragmentId)
+            if (meta?.learningFragmentId)
                 query["learningFragmentId"] = meta?.learningFragmentId;
-            if (filter?.text)
+                if (filter?.text)
                 query["text"] = filter?.text;
+                if (meta?.text)
+                query["text"] = meta?.text;
             const url = `${apiUrl}/${resource}?${stringify(query)}`;
             return httpClient(url).then(({ status, json }) => {
                 if (status !== 200) {

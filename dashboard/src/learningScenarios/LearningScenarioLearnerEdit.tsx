@@ -13,8 +13,15 @@ import {
   Toolbar,
   DeleteButton,
   SaveButton,
+  SelectArrayInput,
+  AutocompleteArrayInput,
+  CheckboxGroupInput,
+  TextInput,
+  SelectInput,
 } from "react-admin";
 import { useParams } from "react-router-dom";
+import { useWatch } from 'react-hook-form';
+
 
 const PostEditActions = () => {
     const recordId = useGetRecordId();
@@ -41,13 +48,6 @@ export const InfoLearner = () => {
       <TextField source="lastname" fullWidth/>
       <TextField source="email" fullWidth/>
       <TextField source="nickname"fullWidth/>
-      {/* TODO */}
-      {record.id === scenarioId &&
-                        <div>ciao</div>
-                    }
-                          {record.id != scenarioId &&
-                        <div>ola</div>
-                    }
     </>
   );
 };
@@ -58,11 +58,35 @@ const EditToolbar = (props:any) => {
     const to=`/scenarios/d/${domainId}/s/${recordId}/learners/view`;
     return (<Toolbar {...props}>
         <SaveButton/>
-        <DeleteButton
+        {/* <DeleteButton
             redirect={to}
-        />
+        /> */}
     </Toolbar>
     )
+};
+const FullNameField = () => {
+  const record = useRecordContext();
+  return (<><div >Nome: <b>{record.firstname} </b> &nbsp;Cognome: <b>{record.lastname}</b> &nbsp; Email: <b>{record.email}</b> &nbsp;Nickname:<b> {record.nickname}</b></div></>)
+}
+const ReferenceLearnerInput  = (props:any) => {
+  const nameLearner = useWatch({ name: 'name' });
+  // const perPageLearner = useWatch({ name: 'perPage' });
+  // const pageLearner = useWatch({ name: 'page' });
+  const params = useParams();
+  const domainId = params.domainId;
+  return (
+    <ReferenceArrayInput
+    source="learners"
+    reference="learners"
+    perPage={100}
+    // perPage={perPageLearner} 
+    // page={pageLearner}
+    sort={{ field: 'name', order: 'ASC' }}
+    queryOptions={{ meta: { domainId , text: nameLearner} }}
+  >
+    <CheckboxGroupInput row={false} optionText={<FullNameField />}/>
+  </ReferenceArrayInput>
+  );
 };
 export const LearningScenarioLearnerEdit = () => {
   const params = useParams();
@@ -76,24 +100,19 @@ export const LearningScenarioLearnerEdit = () => {
   return (
     <Edit mutationOptions={{ onSuccess }}  actions={<PostEditActions />} transform={(data: any) => ({ ...data, domainId })} mutationMode="pessimistic">
     <SimpleForm toolbar={<EditToolbar />}>
-    <ReferenceArrayInput
-          source="learners"
-          reference="learners"
-          queryOptions={{ meta: { domainId } }}
-        />
-      {/* <List 
-        hasCreate={false}
-        resource="learners"
-        queryOptions={{
-          meta: { domainId },
-        }}
-        title=" "
-      >
-        <Datagrid >
-          <InfoLearner  />
-        </Datagrid>
-      </List> */}
-      </SimpleForm>
+    <TextInput source="name" label="Name" />
+    <ReferenceLearnerInput />
+    {/* <SelectInput source="page" choices={[
+    { id: 1, name: '1' },
+    { id: 2, name: '2' },
+    { id: 3, name: '3' },
+]} />
+    <SelectInput source="perPage" choices={[
+    { id: 5, name: '5' },
+    { id: 10, name: '10' },
+    { id: 25, name: '25' },
+]} /> */}
+    </SimpleForm>
     </Edit>
   );
 };
