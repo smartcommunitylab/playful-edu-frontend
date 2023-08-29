@@ -8,7 +8,6 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@dslab/ra-data-spring-rest": "^1.0.0",
     "@smartcommunitylab/ra-back-button": "1.0.0",
     "@smartcommunitylab/ra-language-italian": "1.0.0",
     "buffer": "^6.0.3",
