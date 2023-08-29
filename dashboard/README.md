@@ -3,15 +3,6 @@
 
 ## Installation
 
-Before installing the dependencies you have to modify the .npmrc file in order to add a private repository
-In MacOs the file should be  ~/.npmrc
-add ad the Beginning the following lines:
-@smartcommunitylab:registry=https://npm.pkg.github.com/
-//registry.npmjs.org/:_authToken= xxxxx
-
-You could reach the same result using the npm commands:
-npm config set @smartcommunitylab:registry https://npm.pkg.github.com/
-npm config set //https://npm.pkg.github.com/:_authToken xxxxxxxx
 Install the application dependencies by running:
 
 ```sh

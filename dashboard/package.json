@@ -8,8 +8,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@smartcommunitylab/ra-back-button": "1.0.0",
-    "@smartcommunitylab/ra-language-italian": "1.0.0",
+    "@dslab/ra-back-button" : "1.0.0",
+    "@dslab/ra-language-italian": "1.0.0",
     "buffer": "^6.0.3",
     "lodash": "^4.17.21",
     "querystring": "^0.2.1",
