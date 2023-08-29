@@ -1,5 +1,5 @@
 import { Create, SelectInput, SimpleForm, TextInput, required, useRedirect, useTranslate } from "react-admin"
-import { BackButton } from "@smartcommunitylab/ra-back-button";
+import { BackButton } from "@dslab/ra-back-button";
 import { useParams } from 'react-router-dom';
 import { ActivityList } from "../activities/ActivityList";
 

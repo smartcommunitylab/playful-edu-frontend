@@ -1,4 +1,4 @@
-import { List, Datagrid, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, Button, useRedirect, useRecordContext } from "react-admin"
+import { List, Datagrid, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, Button, useRedirect, useRecordContext, useTranslate } from "react-admin"
 import { DOMAIN_URL_PARAM } from "../constants";
 
 
@@ -13,8 +13,9 @@ const ListActions = () => (
 //     <TextInput label="resources.domain.search" source="q"  alwaysOn />]
 export const DomainList = () => {
     const redirect = useRedirect();
+    const translate = useTranslate();
     return (
-        <List actions={<ListActions/>} >
+        <List actions={<ListActions/>}  title={translate("titlePages.domains.list")}>
         <Datagrid>
             <DomainButton source="title"></DomainButton>
             <EditDomainButton />

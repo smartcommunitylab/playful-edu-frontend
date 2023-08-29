@@ -1,6 +1,6 @@
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar, useGetRecordId } from "react-admin"
 import { useParams } from 'react-router-dom';
-import { BackButton } from "@smartcommunitylab/ra-back-button";
+import { BackButton } from "@dslab/ra-back-button";
 
 
 const PostShowActions = () => {

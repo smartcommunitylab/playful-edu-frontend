@@ -20,7 +20,7 @@ import {
   MODULO_URL_PARAM,
   SCENARIO_URL_PARAM,
 } from "../constants";
-import { BackButton } from "@smartcommunitylab/ra-back-button";
+import { BackButton } from "@dslab/ra-back-button";
 
 export const ActivityCreate = () => {
   const params = useParams();

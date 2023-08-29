@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { DOMAIN_URL_PARAM } from "../constants";
-import { BackButton } from "@smartcommunitylab/ra-back-button";
+import { BackButton } from "@dslab/ra-back-button";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();

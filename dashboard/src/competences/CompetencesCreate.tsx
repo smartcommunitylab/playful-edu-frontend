@@ -1,7 +1,7 @@
 import { Create, ReferenceArrayInput, SelectInput, SimpleForm, TextInput, required, useRedirect, useStore, useTranslate } from "react-admin"
 import {  DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { BackButton } from "@smartcommunitylab/ra-back-button";
+import { BackButton } from "@dslab/ra-back-button";
 
 export const CompetencesCreate = () => {
     const params = useParams();

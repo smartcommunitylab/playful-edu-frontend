@@ -1,4 +1,4 @@
-import italianMessages from "@smartcommunitylab/ra-language-italian";
+import italianMessages from "@dslab/ra-language-italian";
 
 const messages = {
   ...italianMessages,
@@ -6,6 +6,70 @@ const messages = {
     basicMessage: "Autenticarsi per continuare",
     title: "Resource Manager",
     message: "Accedi con AAC",
+  },
+  titlePages:{
+    domains:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    // chjxaioaxhc
+    educators:{
+      list:"Educatori",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    learners:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    concepts:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    competences:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    externalActivities:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    learningScenarios:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    modules:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    learningFragments:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    },
+    activities:{
+      list:"Domini",
+      edit:"Modifica Dominio",
+      create:"Crea Dominio",
+      show:"Dettaglio Dominio"
+    }
+
   },
   resources: {
     info:{
