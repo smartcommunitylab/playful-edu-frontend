@@ -12,20 +12,25 @@ const messages = {
       list:"Domini",
       edit:"Modifica Dominio",
       create:"Crea Dominio",
-      show:"Dettaglio Dominio"
+      show:"Dettaglio Dominio",
+      empty:"Nessun dominio presente",
+
     },
-    // chjxaioaxhc
     educators:{
       list:"Educatori",
       edit:"Modifica Dominio",
       create:"Crea Dominio",
-      show:"Dettaglio Dominio"
+      show:"Dettaglio Dominio",
+      empty:"Nessun educatore presente",
+
     },
     learners:{
       list:"Domini",
       edit:"Modifica Dominio",
       create:"Crea Dominio",
-      show:"Dettaglio Dominio"
+      show:"Dettaglio Dominio",
+      empty:"Nessuno studente presente",
+
     },
     concepts:{
       list:"Domini",
