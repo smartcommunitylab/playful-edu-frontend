@@ -15,6 +15,8 @@ const messages = {
       search: "Search domain",
       title: "Title",
       back: "Domains",
+      empty:"No domains",
+
     },
     user: {
       menu: "Users",

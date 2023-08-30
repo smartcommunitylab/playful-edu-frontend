@@ -1,5 +1,6 @@
 import { List, Datagrid, TopToolbar, CreateButton, ExportButton, EditButton,ShowButton, TextInput, Button, useRedirect, useRecordContext, useTranslate } from "react-admin"
-import { DOMAIN_URL_PARAM } from "../constants";
+import { useParams } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 
 
 
@@ -15,7 +16,7 @@ export const DomainList = () => {
     const redirect = useRedirect();
     const translate = useTranslate();
     return (
-        <List actions={<ListActions/>}  title={translate("titlePages.domains.list")}>
+        <List empty={<Empty />} actions={<ListActions/>}  title={translate("titlePages.domains.list")}>
         <Datagrid>
             <DomainButton source="title"></DomainButton>
             <EditDomainButton />
@@ -74,3 +75,18 @@ const CreateDomainButton = () => {
       </>
     );
   };
+
+  const Empty = () => {
+    const params = useParams();
+    const translate = useTranslate();
+  const to = `/domains/create`;
+    return (<Box textAlign="center" m={1}>
+        <Typography variant="h4" paragraph>
+        {translate('resources.domain.empty')}
+        </Typography>
+        <Typography variant="body1">
+        {translate('resources.domain.addOne')}
+        </Typography>
+        <CreateButton to={to}/>
+    </Box>)
+};
