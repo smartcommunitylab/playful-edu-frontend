@@ -55,7 +55,7 @@ const BackButtonMenu = (props: {
         fontSize: "0.95rem",
         "& .MuiButton-startIcon": {
           marginRight: sidebarState ? "8px" : "0",
-          marginLeft: sidebarState ? "-2px" : "0",
+          marginLeft: sidebarState ? "-2px" : "5px",
         },
         "& .MuiSvgIcon-root": {
           width: "1.3em",
@@ -120,7 +120,7 @@ export const MyMenu = () => {
           <Menu.Item
             to={`/domains/${domainId}`}
             primaryText="resources.info"
-            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
+            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em", fontSize: "1.8rem" }} />}
           />
           <Menu.Item
             to={`/educators/d/${domainId}`}
@@ -172,7 +172,7 @@ export const MyMenu = () => {
           <Menu.Item
             to={`/scenarios/d/${domainId}/s/${learningScenarioId}/element`}
             primaryText="resources.info"
-            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
+            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em", fontSize: "1.8rem" }} />}
           />
           <Menu.Item
             to={`/modules/d/${domainId}/s/${learningScenarioId}`}
@@ -204,7 +204,7 @@ export const MyMenu = () => {
           <Menu.Item
             to={`/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
             primaryText="resources.info"
-            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
+            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em", fontSize: "1.8rem" }} />}
           />
           <Menu.Item
             to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
@@ -231,7 +231,7 @@ export const MyMenu = () => {
           <Menu.Item
             to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
             primaryText="resources.info"
-            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
+            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em", fontSize: "1.8rem" }} />}
           />
         </Menu>
       )}
@@ -253,7 +253,7 @@ export const MyMenu = () => {
           <Menu.Item
             to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${activityId}`}
             primaryText="resources.info"
-            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
+            leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em", fontSize: "1.8rem" }} />}
           />
         </Menu>
       )}

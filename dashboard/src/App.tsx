@@ -1,3 +1,4 @@
+import "./App.css";
 import {
   Admin,
   ButtonProps,
@@ -129,10 +130,7 @@ const httpClient = async (url: string, options: Options = {}) => {
 
   return fetchUtils.fetchJson(url, options);
 };
-const dataProvider = appDataProvider(
-  "http://localhost:8445/playfuledu/api",
-  httpClient
-);
+const dataProvider = appDataProvider(API_URL, httpClient);
 
 const Dashboard = () => {
   const translate = useTranslate();
@@ -225,7 +223,10 @@ export const App = () => (
           path="/d/:domainId/s/:id/element/edit/*"
           element={<LearningScenarioEdit />}
         />
-        <Route path="/d/:domainId/s/:id/element/*" element={<LearningScenarioShow />} />
+        <Route
+          path="/d/:domainId/s/:id/element/*"
+          element={<LearningScenarioShow />}
+        />
         <Route
           path="/d/:domainId/s/:id/learners/*"
           element={<LearningScenarioLearnerShow />}
