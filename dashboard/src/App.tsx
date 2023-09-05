@@ -137,12 +137,9 @@ const dataProvider = appDataProvider(
 const Dashboard = () => {
   const translate = useTranslate();
 
-  const isLarge = useMediaQuery<Theme>((theme) => theme.breakpoints.down("lg"));
-  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
-
   return (
     <>
-      <Title title={translate("titlePages.dashboard")} />
+      <Title title="titlePages.dashboard" />
 
       <Box>
         <Card style={{ padding: 20 }}>
@@ -225,12 +222,12 @@ export const App = () => (
           element={<LearningScenarioCreate />}
         />
         <Route
-          path="/d/:domainId/s/:id/edit/*"
+          path="/d/:domainId/s/:id/element/edit/*"
           element={<LearningScenarioEdit />}
         />
-        <Route path="/d/:domainId/s/:id/*" element={<LearningScenarioShow />} />
+        <Route path="/d/:domainId/s/:id/element/*" element={<LearningScenarioShow />} />
         <Route
-          path="/d/:domainId/s/:id/learners/view/*"
+          path="/d/:domainId/s/:id/learners/*"
           element={<LearningScenarioLearnerShow />}
         />
         <Route

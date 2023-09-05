@@ -1,4 +1,5 @@
 import {
+  AutocompleteArrayInput,
   Create,
   ReferenceArrayInput,
   SelectInput,
@@ -22,29 +23,48 @@ export const ExternalActivityCreate = () => {
   const onSuccess = () => {
     redirect(`/external-activities/d/${domainId}`);
   };
+
   return (
     <Create
       mutationOptions={{ onSuccess }}
       transform={(data: any) => ({ ...data, domainId })}
+      title="titlePages.externalActivities.create"
     >
       <BackButton />
       <SimpleForm>
-        <TextInput source="title" validate={[required()]} fullWidth />
-        <TextInput source="desc" fullWidth />
-        <TextInput source="language" />
+        <TextInput
+          source="title"
+          validate={[required()]}
+          fullWidth
+          label="resources.externalActivities.title"
+        />
+        <TextInput
+          source="desc"
+          fullWidth
+          label="resources.externalActivities.description"
+        />
+        <TextInput
+          source="language"
+          label="resources.externalActivities.language"
+        />
         <TextInput source="extId" />
         <TextInput source="extGroupId" />
-        <TextInput source="extUrl" type="url" />
+        <TextInput
+          source="extUrl"
+          type="url"
+          label="resources.externalActivities.url"
+        />
         <SelectInput
           source="type"
           choices={[
             {
               id: "individual",
               name: translate(
-                "resources.externalActivity.typeSelection.individual"
+                "resources.externalActivities.typeSelection.individual"
               ),
             },
           ]}
+          label="resources.externalActivities.type"
         />
         <SelectInput
           source="tool"
@@ -52,10 +72,11 @@ export const ExternalActivityCreate = () => {
             {
               id: "computer",
               name: translate(
-                "resources.externalActivity.toolSelection.computer"
+                "resources.externalActivities.toolSelection.computer"
               ),
             },
           ]}
+          label="resources.externalActivities.tool"
         />
         <SelectInput
           source="difficulty"
@@ -63,22 +84,30 @@ export const ExternalActivityCreate = () => {
             {
               id: "low",
               name: translate(
-                "resources.externalActivity.difficultySelection.low"
+                "resources.externalActivities.difficultySelection.low"
               ),
             },
           ]}
+          label="resources.externalActivities.difficulty"
         />
-        <TextInput source="groupCorrelator" />
+        <TextInput
+          source="groupCorrelator"
+          label="resources.externalActivities.groupCorrelator"
+        />
         <ReferenceArrayInput
           source="preconditions"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
-        />
+        >
+          <AutocompleteArrayInput label="resources.externalActivities.preconditions" />
+        </ReferenceArrayInput>
         <ReferenceArrayInput
           source="effects"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
-        />
+        >
+          <AutocompleteArrayInput label="resources.externalActivities.effects" />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Create>
   );

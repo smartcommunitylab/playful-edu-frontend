@@ -8,6 +8,8 @@ import {
   useGetRecordId,
   List,
   Pagination,
+  useTranslate,
+  useRecordContext,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 
@@ -28,8 +30,9 @@ const PostShowActions = () => {
 
 export const LearningScenarioLearnerShow = () => {
   const params = useParams();
+
   return (
-    <Show actions={<PostShowActions />}>
+    <Show actions={<PostShowActions />} title="titlePages.learningScenarios.learners.show">
       <ReferenceArrayField
         label="Learners"
         reference="learners"
@@ -37,12 +40,12 @@ export const LearningScenarioLearnerShow = () => {
         pagination={<Pagination />}
       >
         <Datagrid bulkActionButtons={false}>
-          <TextField source="firstname" label="resources.learner.firstname" />
+          <TextField source="firstname" label="resources.learners.firstname" />
           <span> </span>
-          <TextField source="lastname" label="resources.learner.lastname" />
+          <TextField source="lastname" label="resources.learners.lastname" />
           <span> </span>
-          <TextField source="email" label="resources.learner.email" />
-          <TextField source="nickname" label="resources.learner.nickname" />
+          <TextField source="email" label="resources.learners.email" />
+          <TextField source="nickname" label="resources.learners.nickname" />
         </Datagrid>
       </ReferenceArrayField>
     </Show>
