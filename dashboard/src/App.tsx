@@ -130,7 +130,7 @@ const httpClient = async (url: string, options: Options = {}) => {
   return fetchUtils.fetchJson(url, options);
 };
 const dataProvider = appDataProvider(
-  "http://localhost:8445/playfuledu/api",
+    API_URL,
   httpClient
 );
 
