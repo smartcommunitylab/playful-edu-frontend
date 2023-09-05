@@ -18,7 +18,7 @@ import {
 import { ImportButton } from "react-admin-import-csv";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@mui/material";
 const ListActions = () => (
   <TopToolbar>
     <CreateConceptButton />
@@ -26,30 +26,36 @@ const ListActions = () => (
     <ImportButton />
   </TopToolbar>
 );
-const conceptFilters = [<TextInput label="Search" source="title" alwaysOn />];
+const conceptFilters = [<TextInput label="ra.action.search" source="title" alwaysOn />];
 
-export const ConceptList =() => {
+export const ConceptList = () => {
   const params = useParams();
+  const translate = useTranslate();
+
   return (
-  <ResourceContextProvider value="concepts">
-      <List empty={<Empty />} actions={<ListActions/>} filter={{ domainId:params.domainId}}  queryOptions={{ meta: { domainId:params.domainId } }}>
-      <Datagrid>
-      <TextField source="title" />
-        <EditConceptButton />
-        <ShowConceptButton />
-      </Datagrid>
-  </List>
-  </ResourceContextProvider>
-  )
-}
-
-
+    <ResourceContextProvider value="concepts">
+      <List
+        empty={<Empty />}
+        actions={<ListActions />}
+        filter={{ domainId: params.domainId }}
+        queryOptions={{ meta: { domainId: params.domainId } }}
+        title="titlePages.concepts.list"
+      >
+        <Datagrid>
+          <TextField source="title" label="resources.concepts.title" />
+          <EditConceptButton />
+          <ShowConceptButton />
+        </Datagrid>
+      </List>
+    </ResourceContextProvider>
+  );
+};
 
 const EditConceptButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-    const domainId = params.domainId;
+  const domainId = params.domainId;
   const to = `/concepts/d/${domainId}/${record.id}/edit`;
   if (!record) return null;
   return (
@@ -63,7 +69,7 @@ const ShowConceptButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-    const domainId = params.domainId;
+  const domainId = params.domainId;
   const to = `/concepts/d/${domainId}/${record.id}`;
   if (!record) return null;
   return (
@@ -75,7 +81,7 @@ const ShowConceptButton = () => {
 
 const CreateConceptButton = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const to = `/concepts/d/${domainId}/create`;
   return (
     <>
@@ -85,16 +91,18 @@ const CreateConceptButton = () => {
 };
 const Empty = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const translate = useTranslate();
-const to = `/concepts/d/${domainId}/create`;
-  return (<Box textAlign="center" m={1}>
+  const to = `/concepts/d/${domainId}/create`;
+  return (
+    <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-      {translate('resources.educator.empty')}
+        {translate("resources.concepts.empty")}
       </Typography>
       <Typography variant="body1">
-      {translate('resources.educator.addOne')}
+        {translate("resources.concepts.addOne")}
       </Typography>
-      <CreateButton to={to}/>
-  </Box>)
+      <CreateButton to={to} />
+    </Box>
+  );
 };

@@ -16,9 +16,13 @@ import {
   DateField,
   ResourceContextProvider,
 } from "react-admin";
-import { DOMAIN_URL_PARAM, MODULO_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
-import { useParams } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
+import {
+  DOMAIN_URL_PARAM,
+  MODULO_URL_PARAM,
+  SCENARIO_URL_PARAM,
+} from "../constants";
+import { useParams } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 const ListActions = () => (
   <TopToolbar>
@@ -26,66 +30,69 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
-const ModuleFilters = [<TextInput label="Search" source="name" alwaysOn />];
+const ModuleFilters = [<TextInput label="ra.action.search" source="name" alwaysOn />];
 export const ModuleList = () => {
   const params = useParams();
-const domainId =params.domainId;
-const learningScenarioId = params.learningScenarioId;
-console.log(domainId,learningScenarioId);
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
   const translate = useTranslate();
+
   return (
     <ResourceContextProvider value="modules">
-    <List empty={<Empty />} actions={<ListActions />} filters={ModuleFilters} queryOptions={{ meta: { domainId, learningScenarioId} }}>
-      <Datagrid>
-      <TextField source="title" />
-      <TextField source="desc" />
-      <TextField source="level" />
-      <DateField source="dateFrom" />
-      <DateField source="dateFrom" />
-              <EditModuleButton />
-        <ShowModuleButton />
-      </Datagrid>
-    </List>
+      <List
+        empty={<Empty />}
+        actions={<ListActions />}
+        filters={ModuleFilters}
+        queryOptions={{ meta: { domainId, learningScenarioId } }}
+        title="titlePages.modules.list"
+      >
+        <Datagrid>
+          <TextField source="title" label="resources.modules.title" />
+          <TextField source="desc" label="resources.modules.description" />
+          <TextField source="level" label="resources.modules.level" />
+          <DateField source="dateFrom" label="resources.modules.dateFrom" />
+          <DateField source="dateTo" label="resources.modules.dateTo" />
+          <EditModuleButton />
+          <ShowModuleButton />
+        </Datagrid>
+      </List>
     </ResourceContextProvider>
   );
 };
-
 
 const EditModuleButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}/edit`;
-  if (!record)
-      return null;
+  if (!record) return null;
   return (
-      <>
-          <EditButton  to={to}></EditButton>
-      </>
+    <>
+      <EditButton to={to}></EditButton>
+    </>
   );
-
 };
 
 const ShowModuleButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}`;
-   if (!record)
-      return null;
+  if (!record) return null;
   return (
-      <>
-            <ShowButton to={to}></ShowButton>
-      </>
+    <>
+      <ShowButton to={to}></ShowButton>
+    </>
   );
 };
+
 const CreateModuleButton = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
   return (
@@ -97,17 +104,19 @@ const CreateModuleButton = () => {
 
 const Empty = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const translate = useTranslate();
   const learningScenarioId = params.learningScenarioId;
-const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
-  return (<Box textAlign="center" m={1}>
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
+  return (
+    <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-      {translate('resources.modulo.empty')}
+        {translate("resources.modules.empty")}
       </Typography>
       <Typography variant="body1">
-      {translate('resources.modulo.addOne')}
+        {translate("resources.modules.addOne")}
       </Typography>
-      <CreateButton to={to}/>
-  </Box>)
+      <CreateButton to={to} />
+    </Box>
+  );
 };

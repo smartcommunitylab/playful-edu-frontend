@@ -114,42 +114,42 @@ export const MyMenu = () => {
           
           <BackButtonMenu
             name={DOMAIN_URL_PARAM}
-            label="resources.domain.back"
+            label="resources.domains.back"
             redirect="domains"
           />
           <Menu.Item
             to={`/domains/${domainId}`}
-            primaryText="resources.info.menu"
+            primaryText="resources.info"
             leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
           />
           <Menu.Item
             to={`/educators/d/${domainId}`}
-            primaryText="resources.educator.menu"
+            primaryText="resources.educators.menu"
             leftIcon={<EducatorIcon />}
           />
           <Menu.Item
             to={`/learners/d/${domainId}`}
-            primaryText="resources.learner.menu"
+            primaryText="resources.learners.menu"
             leftIcon={<StudentIcon />}
           />
           <Menu.Item
             to={`/concepts/d/${domainId}`}
-            primaryText="resources.concept.menu"
+            primaryText="resources.concepts.menu"
             leftIcon={<ConceptIcon />}
           />
           <Menu.Item
             to={`/competences/d/${domainId}`}
-            primaryText="resources.competence.menu"
+            primaryText="resources.competences.menu"
             leftIcon={<CompetenceIcon />}
           />
           <Menu.Item
             to={`/external-activities/d/${domainId}`}
-            primaryText="resources.externalActivity.menu"
+            primaryText="resources.externalActivities.menu"
             leftIcon={<ActivityIcon />}
           />
           <Menu.Item
             to={`/scenarios/d/${domainId}`}
-            primaryText="resources.scenario.menu"
+            primaryText="resources.learningScenarios.menu"
             leftIcon={<ScenarioIcon />}
           />
         </Menu>
@@ -166,22 +166,22 @@ export const MyMenu = () => {
           
           <BackButtonMenu
             name={SCENARIO_URL_PARAM}
-            label="resources.scenario.back"
+            label="resources.learningScenarios.back"
             redirect={`scenarios/d/${domainId}`}
           />
           <Menu.Item
-            to={`/scenarios/d/${domainId}/s/${learningScenarioId}`}
-            primaryText="resources.info.menu"
+            to={`/scenarios/d/${domainId}/s/${learningScenarioId}/element`}
+            primaryText="resources.info"
             leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
           />
           <Menu.Item
             to={`/modules/d/${domainId}/s/${learningScenarioId}`}
-            primaryText="resources.modulo.menu"
+            primaryText="resources.modules.menu"
             leftIcon={<ModuleIcon />}
           />
           <Menu.Item
-            to={`/scenarios/d/${domainId}/s/${learningScenarioId}/learners/view`}
-            primaryText="resources.learner.menu"
+            to={`/scenarios/d/${domainId}/s/${learningScenarioId}/learners`}
+            primaryText="resources.learners.menu"
             leftIcon={<StudentIcon />}
           />
         </Menu>
@@ -198,17 +198,17 @@ export const MyMenu = () => {
           
           <BackButtonMenu
             name={MODULO_URL_PARAM}
-            label="resources.modulo.back"
+            label="resources.modules.back"
             redirect={`modules/d/${domainId}/s/${learningScenarioId}`}
           />
           <Menu.Item
             to={`/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
-            primaryText="resources.info.menu"
+            primaryText="resources.info"
             leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
           />
           <Menu.Item
             to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
-            primaryText="resources.fragment.menu"
+            primaryText="resources.learningFragments.menu"
             leftIcon={<FragmentIcon />}
           />
         </Menu>
@@ -225,12 +225,12 @@ export const MyMenu = () => {
           
           <BackButtonMenu
             name={FRAGMENT_URL_PARAM}
-            label="resources.fragment.back"
+            label="resources.learningFragments.back"
             redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
           />
           <Menu.Item
             to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
-            primaryText="resources.info.menu"
+            primaryText="resources.info"
             leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
           />
         </Menu>
@@ -247,12 +247,12 @@ export const MyMenu = () => {
           
           <BackButtonMenu
             name={COMPOSED_ACTIVITY_URL_PARAM}
-            label="resources.activity.back"
+            label="resources.activities.back"
             redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
           />
           <Menu.Item
             to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${activityId}`}
-            primaryText="resources.info.menu"
+            primaryText="resources.info"
             leftIcon={<InfoIcon sx={{ width: "1.4em", height: "1.4em" }} />}
           />
         </Menu>

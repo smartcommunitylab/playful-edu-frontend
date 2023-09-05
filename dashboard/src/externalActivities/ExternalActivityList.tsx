@@ -25,11 +25,13 @@ const ListActions = () => (
   </TopToolbar>
 );
 const ExternalActivityFilters = [
-  <TextInput label="Search" source="name" alwaysOn />,
+  <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
 export const ExternalActivityList = () => {
   const params = useParams();
   const domainId = params.domainId;
+  const translate = useTranslate();
+
   return (
     <ResourceContextProvider value="external-activities">
       <List
@@ -37,14 +39,27 @@ export const ExternalActivityList = () => {
         actions={<ListActions />}
         filters={ExternalActivityFilters}
         queryOptions={{ meta: { domainId } }}
+        title="titlePages.externalActivities.list"
       >
         <Datagrid>
-          <TextField source="title" />
-          <TextField source="desc" />
-          <TextField source="type" />
-          <TextField source="language" />
-          <TextField source="tool" />
-          <TextField source="difficulty" />
+          <TextField
+            source="title"
+            label="resources.externalActivities.title"
+          />
+          <TextField
+            source="desc"
+            label="resources.externalActivities.description"
+          />
+          <TextField source="type" label="resources.externalActivities.type" />
+          <TextField
+            source="language"
+            label="resources.externalActivities.language"
+          />
+          <TextField source="tool" label="resources.externalActivities.tool" />
+          <TextField
+            source="difficulty"
+            label="resources.externalActivities.difficulty"
+          />
           <EditExternalActivityButton />
           <ShowExternalActivityButton />
         </Datagrid>
@@ -102,10 +117,10 @@ const Empty = () => {
   return (
     <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-        {translate("resources.externalActivity.empty")}
+        {translate("resources.externalActivities.empty")}
       </Typography>
       <Typography variant="body1">
-        {translate("resources.externalActivity.addOne")}
+        {translate("resources.externalActivities.addOne")}
       </Typography>
       <CreateButton to={to} />
     </Box>

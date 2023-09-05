@@ -1,4 +1,6 @@
 import {
+  AutocompleteArrayInput,
+  AutocompleteInput,
   BooleanInput,
   Create,
   FormDataConsumer,
@@ -27,16 +29,17 @@ export const ActivityCreate = () => {
   const record = useRecordContext();
   const redirect = useRedirect();
   const translate = useTranslate();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.learningFragmentId;
- 
+
   const onSuccess = () => {
     redirect(
       `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`
     );
   };
+
   return (
     <Create
       mutationOptions={{ onSuccess }}
@@ -45,27 +48,34 @@ export const ActivityCreate = () => {
         domainId,
         learningFragmentId,
       })}
+      title="titlePages.activities.create"
     >
       <BackButton />
       <SimpleForm>
-        <TextInput source="title" validate={[required()]} fullWidth />
-        <TextInput source="desc" />
+        <TextInput
+          source="title"
+          validate={[required()]}
+          fullWidth
+          label="resources.activities.title"
+        />
+        <TextInput source="desc" label="resources.activities.description" />
         <SelectInput
           source="type"
           choices={[
             {
               id: "concrete",
-              name: translate("resources.activity.typeSelection.concrete"),
+              name: translate("resources.activities.typeSelection.concrete"),
             },
             {
               id: "abstr",
-              name: translate("resources.activity.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstract"),
             },
             {
               id: "group",
-              name: translate("resources.activity.typeSelection.group"),
+              name: translate("resources.activities.typeSelection.group"),
             },
           ]}
+          label="resources.activities.type"
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {
@@ -77,7 +87,9 @@ export const ActivityCreate = () => {
                   queryOptions={{
                     meta: { domainId, learningScenarioId, learningModuleId },
                   }}
-                />
+                >
+                  <AutocompleteArrayInput label="resources.activities.goals" />
+                </ReferenceArrayInput>
               );
             else if (formData.type == "concrete")
               return (
@@ -92,13 +104,15 @@ export const ActivityCreate = () => {
                       learningFragmentId,
                     },
                   }}
-                />
+                >
+                  <AutocompleteInput label="resources.activities.externalActivity" />
+                </ReferenceInput>
               );
             else if (formData.type == "group")
               return (
                 <TextInput
                   source="groupCorrelator"
-                  
+                  label="resources.activities.groupCorrelator"
                 />
               );
           }}

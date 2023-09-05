@@ -1,4 +1,5 @@
 import {
+  AutocompleteArrayInput,
   BooleanInput,
   Edit,
   ReferenceArrayInput,
@@ -12,12 +13,13 @@ import {
   useStore,
 } from "react-admin";
 import { useParams } from "react-router-dom";
+import { Title } from "../Title";
 
 const PostEditActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
-  const to = `/scenarios/d/${domainId}/s/${recordId}`;
+  const to = `/scenarios/d/${domainId}/s/${recordId}/element`;
   if (!recordId) return null;
   return (
     <>
@@ -33,7 +35,7 @@ export const LearningScenarioEdit = () => {
   const domainId = params.domainId;
   const redirect = useRedirect();
   const onSuccess = () => {
-    redirect(`/scenarios/d/${domainId}/s/${recordId}`);
+    redirect(`/scenarios/d/${domainId}/s/${recordId}/element`);
   };
   return (
     <Edit
@@ -41,17 +43,34 @@ export const LearningScenarioEdit = () => {
       actions={<PostEditActions />}
       transform={(data: any) => ({ ...data, domainId })}
       mutationMode="pessimistic"
+      title={<Title translationKey="titlePages.learningScenarios.edit" />}
     >
       <SimpleForm>
-        <TextInput source="title" validate={[required()]} fullWidth />
-        <TextInput source="description" />
-        <TextInput source="language" />
-        <BooleanInput source="publicScenario" />
+        <TextInput
+          source="title"
+          validate={[required()]}
+          fullWidth
+          label="resources.learningScenarios.title"
+        />
+        <TextInput
+          source="desc"
+          label="resources.learningScenarios.description"
+        />
+        <TextInput
+          source="language"
+          label="resources.learningScenarios.language"
+        />
+        <BooleanInput
+          source="publicScenario"
+          label="resources.learningScenarios.publicScenario"
+        />
         <ReferenceArrayInput
           source="educators"
           reference="educators"
           queryOptions={{ meta: { domainId } }}
-        />
+        >
+          <AutocompleteArrayInput label="resources.learningScenarios.educators" />
+        </ReferenceArrayInput>
       </SimpleForm>
     </Edit>
   );

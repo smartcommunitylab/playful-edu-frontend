@@ -17,7 +17,7 @@ import {
   SelectField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from "@mui/material";
 
 const ListActions = () => (
   <TopToolbar>
@@ -25,41 +25,49 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
-const FragmentFilters = [<TextInput label="Search" source="name" alwaysOn />];
+const FragmentFilters = [
+  <TextInput label="ra.action.search" source="name" alwaysOn />,
+];
 export const FragmentList = () => {
   const params = useParams();
   const translate = useTranslate();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
+
   return (
     <List
-    empty={<Empty />}
+      empty={<Empty />}
       actions={<ListActions />}
       filters={FragmentFilters}
-      queryOptions={{ meta: { domainId, learningScenarioId, learningModuleId } }}
+      queryOptions={{
+        meta: { domainId, learningScenarioId, learningModuleId },
+      }}
+      title="titlePages.learningFragments.list"
     >
       <Datagrid>
         {/* <FragmentButton></FragmentButton> */}
-        <TextField source="title" />
+        <TextField source="title" label="resources.learningFragments.title" />
         <SelectField
           source="type"
           choices={[
             {
               id: "singleton",
-              name: translate("resources.fragment.typeSelection.singleton"),
+              name: translate(
+                "resources.learningFragments.typeSelection.singleton"
+              ),
             },
             {
               id: "set",
-              name: translate("resources.fragment.typeSelection.set"),
+              name: translate("resources.learningFragments.typeSelection.set"),
             },
             {
               id: "list",
-              name: translate("resources.fragment.typeSelection.list"),
+              name: translate("resources.learningFragments.typeSelection.list"),
             },
           ]}
+          label="resources.learningFragments.type"
         />{" "}
- 
         <EditFragmentButton />
         <ShowFragmentButton />
       </Datagrid>
@@ -72,9 +80,9 @@ const EditFragmentButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId
+  const learningModuleId = params.learningModuleId;
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}/edit`;
   if (!record) return null;
   return (
@@ -84,16 +92,15 @@ const EditFragmentButton = () => {
   );
 };
 
-
 const ShowFragmentButton = () => {
   // const translate = useTranslate();
   const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId
-    const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}`;
+  const learningModuleId = params.learningModuleId;
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}`;
   if (!record) return null;
   return (
     <>
@@ -103,9 +110,9 @@ const ShowFragmentButton = () => {
 };
 const CreateFragmentButton = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId
+  const learningModuleId = params.learningModuleId;
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
   return (
     <>
@@ -115,18 +122,20 @@ const CreateFragmentButton = () => {
 };
 const Empty = () => {
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
-    const translate = useTranslate();
-const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
-  return (<Box textAlign="center" m={1}>
+  const translate = useTranslate();
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
+  return (
+    <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-      {translate('resources.fragment.empty')}
+        {translate("resources.learningFragments.empty")}
       </Typography>
       <Typography variant="body1">
-      {translate('resources.fragment.addOne')}
+        {translate("resources.learningFragments.addOne")}
       </Typography>
-      <CreateButton to={to}/>
-  </Box>)
+      <CreateButton to={to} />
+    </Box>
+  );
 };

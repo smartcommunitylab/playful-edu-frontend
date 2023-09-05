@@ -9,7 +9,9 @@ import {
   TopToolbar,
   required,
   useGetRecordId,
+  useRecordContext,
   useRedirect,
+  useTranslate,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -27,6 +29,7 @@ const PostEditActions = () => {
     </>
   );
 };
+
 const EditToolbar = (props: any) => {
   const params = useParams();
   const domainId = params.domainId;
@@ -38,6 +41,21 @@ const EditToolbar = (props: any) => {
     </Toolbar>
   );
 };
+
+const Title = () => {
+  const translate = useTranslate();
+  const record = useRecordContext();
+  const fullName = record
+    ? '"' +
+      record.firstname +
+      (record.lastname ? " " + record.lastname : "") +
+      '"'
+    : "";
+  const title = translate("titlePages.educators.edit") + " " + fullName;
+
+  return title;
+};
+
 export const EducatorEdit = () => {
   const params = useParams();
   const redirect = useRedirect();
@@ -50,25 +68,26 @@ export const EducatorEdit = () => {
       actions={<PostEditActions />}
       transform={(data: any) => ({ ...data, domainId: params.domainId })}
       mutationMode="pessimistic"
+      title={<Title />}
     >
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
           source="firstname"
           validate={[required()]}
           fullWidth
-          label="resources.educator.firstname"
+          label="resources.educators.firstname"
         />
         <TextInput
           source="lastname"
           multiline={true}
-          label="resources.educator.lastname"
+          label="resources.educators.lastname"
         />
         <TextInput
           source="email"
           type="email"
-          label="resources.educator.email"
+          label="resources.educators.email"
         />
-        <TextInput source="nickname" label="resources.educator.nickname" />
+        <TextInput source="nickname" label="resources.educators.nickname" />
       </SimpleForm>
     </Edit>
   );
