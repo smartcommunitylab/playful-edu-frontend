@@ -35,7 +35,7 @@ export const ModuleEdit = () => {
             <TextInput source="level" />
             <DateInput source="dateFrom" />
             <DateInput source="dateTo" />
-            <FragmentEdit />
+            {/* <FragmentEdit /> */}
         </SimpleForm>
         </Edit>
     )

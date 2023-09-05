@@ -1,18 +1,7 @@
-import * as React from 'react';
-import { AppBar, Button, useRedirect, useStore } from 'react-admin';
-import Typography from '@mui/material/Typography';
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import { AppBar } from "react-admin";
 
-export const MyAppBar =  (props:any) => {
-
-  
-    return (
-        <AppBar
-           
-        >
-           
-        </AppBar>
-    );
-}
+export const MyAppBar = (props: any) => {
+  return <AppBar sx={{ backgroundColor: "#2196f3" }}></AppBar>;
+};
 
 // export default MyAppBar;

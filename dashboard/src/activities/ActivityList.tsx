@@ -30,7 +30,7 @@ const ListActions = () => (
   </TopToolbar>
 );
 // const ActivityFilters = [<TextInput label="Search" source="title" alwaysOn />];
-export const ActivityList = (props:any) => {
+export const ActivityList = (props: any) => {
   const params = useParams();
   const record = useRecordContext();
   const translate = useTranslate();
@@ -41,9 +41,9 @@ export const ActivityList = (props:any) => {
   console.log(props.edit);
   return (
     <ResourceContextProvider value="activities">
-      <List 
+      <List
         empty={<Empty />}
-        actions={props.edit?<ListActions/>:<></>}
+        actions={props.edit ? <ListActions /> : <></>}
         // filters={ActivityFilters}
         queryOptions={{
           meta: {
@@ -133,9 +133,7 @@ const ShowActivityButton = () => {
   if (!record) return null;
   return (
     <>
-      <ShowButton
-         to = {to}
-      ></ShowButton>
+      <ShowButton to={to}></ShowButton>
     </>
   );
 };

@@ -7,7 +7,14 @@ const messages = {
     title: "Resource Manager",
     message: "Access with AAC",
   },
+  titlePages: {
+    dashboard: "Playful Education"
+  },
   resources: {
+    dashboard: {
+      welcome: "Welcome to Playful Education",
+      button: "Domains' list",
+    },
     info: {
       menu: "Information",
     },

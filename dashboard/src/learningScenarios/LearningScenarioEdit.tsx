@@ -52,11 +52,6 @@ export const LearningScenarioEdit = () => {
           reference="educators"
           queryOptions={{ meta: { domainId } }}
         />
-        <ReferenceArrayInput
-          source="learners"
-          reference="learners"
-          queryOptions={{ meta: { domainId } }}
-        />
       </SimpleForm>
     </Edit>
   );
