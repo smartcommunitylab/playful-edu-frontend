@@ -11,85 +11,85 @@ const messages = {
     dashboard: "Playful Education",
     domains: {
       list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
-      empty: "Nessun dominio presente",
+      edit: "Modifica dominio",
+      create: "Crea dominio",
+      show: "Dominio",
     },
     educators: {
       list: "Educatori",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
-      empty: "Nessun educatore presente",
+      edit: "Modifica educatore",
+      create: "Crea educatore",
+      show: "Educatore",
     },
     learners: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
-      empty: "Nessuno studente presente",
+      list: "Studenti",
+      edit: "Modifica studente",
+      create: "Crea studente",
+      show: "Studente",
     },
     concepts: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      list: "Concetti",
+      edit: "Modifica concetto",
+      create: "Crea concetto",
+      show: "Concetto",
     },
     competences: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      list: "Competenze",
+      edit: "Modifica competenza",
+      create: "Crea competenza",
+      show: "Competenza",
     },
     externalActivities: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      list: "Attività esterne",
+      edit: "Modifica attività esterna",
+      create: "Crea attività esterna",
+      show: "Attività esterna",
     },
     learningScenarios: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      list: "Scenari",
+      edit: "Modifica scenario",
+      create: "Crea scenario",
+      show: "Scenario",
+      learners: {
+        show: "Studenti dello scenario",
+        edit: "Modifica gli studenti dello scenario",
+      },
     },
     modules: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      list: "Moduli",
+      edit: "Modifica modulo",
+      create: "Crea modulo",
+      show: "Modulo",
     },
     learningFragments: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      list: "Frammenti",
+      edit: "Modifica frammento",
+      create: "Crea frammento",
+      show: "Frammento",
     },
     activities: {
-      list: "Domini",
-      edit: "Modifica Dominio",
-      create: "Crea Dominio",
-      show: "Dettaglio Dominio",
+      edit: "Modifica attività",
+      create: "Crea attività",
+      show: "Attività",
     },
   },
   resources: {
+    info: "Informazioni",
     dashboard: {
       welcome: "Benvenuto in Playful Education",
-      button: "Lista dei domini"
+      button: "Lista dei domini",
     },
-    info: {
-      menu: "Informazioni",
-    },
-    domain: {
-      search: "Ricerca dominio",
+    domains: {
       title: "Titolo",
+      empty: "Nessun dominio presente",
+      menu: "Informazioni",
       back: "Domini",
+      addOne: "Vuoi aggiungerne uno?",
     },
-    user: {
+    users: {
       menu: "Utenti",
     },
-    educator: {
+    educators: {
       menu: "Educatori",
       firstname: "Nome",
       lastname: "Cognome",
@@ -98,7 +98,7 @@ const messages = {
       empty: "Nessun educatore presente",
       addOne: "Vuoi aggiungerne uno?",
     },
-    learner: {
+    learners: {
       menu: "Studenti",
       firstname: "Nome",
       lastname: "Cognome",
@@ -107,13 +107,17 @@ const messages = {
       empty: "Nessuno studente presente",
       addOne: "Vuoi aggiungerne uno?",
     },
-    concept: {
+    concepts: {
       menu: "Concetti",
+      title: "Titolo",
+      empty: "Nessun concetto presente",
+      addOne: "Vuoi aggiungerne uno?",
     },
-    competence: {
+    competences: {
       title: "Titolo",
       description: "Descrizione",
       type: "Tipo",
+      concepts: "Concetti",
       menu: "Competenze",
       knowledgeSelection: {
         knowledge: "Conoscenza",
@@ -121,9 +125,18 @@ const messages = {
       empty: "Nessuna competenza presente",
       addOne: "Vuoi aggiungerne una?",
     },
-    externalActivity: {
-      back: "Attività esterna",
-      menu: "Attività esterna",
+    externalActivities: {
+      menu: "Attività esterne",
+      title: "Titolo",
+      description: "Descrizione",
+      url: "URL",
+      type: "Tipo",
+      language: "Lingua",
+      tool: "Strumento",
+      difficulty: "Difficoltà",
+      groupCorrelator: "Correlatore di gruppo",
+      preconditions: "Prerequisiti",
+      effects: "Effetti",
       typeSelection: {
         individual: "Individuale",
       },
@@ -133,24 +146,39 @@ const messages = {
       difficultySelection: {
         low: "Bassa",
       },
-      empty: "Nessuna attività esternapresente",
+      empty: "Nessuna attività esterna presente",
       addOne: "Vuoi aggiungerne una?",
     },
-    scenario: {
+    learningScenarios: {
       back: "Scenari",
       menu: "Scenari",
+      title: "Titolo",
+      description: "Descrizione",
+      language: "Lingua",
+      publicScenario: "Scenario pubblico",
+      educators: "Educatori",
+      learners: {
+        title: "Studenti",
+      },
       empty: "Nessuno scenario presente",
       addOne: "Vuoi aggiungerne uno?",
     },
-    modulo: {
+    modules: {
       back: "Moduli",
       menu: "Moduli",
+      title: "Titolo",
+      description: "Descrizione",
+      level: "Livello",
+      dateFrom: "Data di inizio",
+      dateTo: "Data di fine",
       empty: "Nessun modulo presente",
       addOne: "Vuoi aggiungerne uno?",
     },
-    fragment: {
+    learningFragments: {
       menu: "Frammenti",
       back: "Frammenti",
+      title: "Titolo",
+      type: "Tipo",
       empty: "Nessun frammento presente",
       addOne: "Vuoi aggiungerne uno?",
       typeSelection: {
@@ -159,11 +187,16 @@ const messages = {
         list: "Lista",
       },
     },
-
-    activity: {
+    activities: {
       menu: "Attività",
       back: "Attività",
-      empty: "Nessuna attività  presente",
+      title: "Titolo",
+      description: "Descrizione",
+      type: "Tipo",
+      externalActivity: "Attività esterna",
+      goals: "Obiettivi",
+      groupCorrelator: "Correlatore di gruppo",
+      empty: "Nessuna attività presente",
       addOne: "Vuoi aggiungerne una?",
       typeSelection: {
         concrete: "Concreta",

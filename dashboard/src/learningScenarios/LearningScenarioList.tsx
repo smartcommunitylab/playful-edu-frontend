@@ -27,12 +27,12 @@ const ListActions = () => (
   </TopToolbar>
 );
 const LearningScenarioFilters = [
-  <TextInput label="Search" source="name" alwaysOn />,
+  <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
 export const LearningScenarioList = () => {
   const params = useParams();
   const domainId = params.domainId;
-  const translate = useTranslate();
+
   return (
     <ResourceContextProvider value="scenarios">
       <List
@@ -40,12 +40,22 @@ export const LearningScenarioList = () => {
         actions={<ListActions />}
         filters={LearningScenarioFilters}
         queryOptions={{ meta: { domainId } }}
+        title="titlePages.learningScenarios.list"
       >
         <Datagrid>
-          <TextField source="title" />
-          <TextField source="desc" />
-          <TextField source="language" />
-          <BooleanField source="publicScenario" />
+          <TextField source="title" label="resources.learningScenarios.title" />
+          <TextField
+            source="desc"
+            label="resources.learningScenarios.description"
+          />
+          <TextField
+            source="language"
+            label="resources.learningScenarios.language"
+          />
+          <BooleanField
+            source="publicScenario"
+            label="resources.learningScenarios.publicScenario"
+          />
           <EditScenarioButton />
           <ShowScenarioButton />
         </Datagrid>
@@ -60,7 +70,7 @@ const EditScenarioButton = () => {
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
-  const to = `/scenarios/d/${domainId}/s/${record.id}/edit`;
+  const to = `/scenarios/d/${domainId}/s/${record.id}/element/edit`;
   if (!record) return null;
   return (
     <>
@@ -95,7 +105,7 @@ const ShowScenarioButton = () => {
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
-  const to = `/scenarios/d/${domainId}/s/${record.id}`;
+  const to = `/scenarios/d/${domainId}/s/${record.id}/element`;
   if (!record) return null;
   return (
     <>
@@ -122,10 +132,10 @@ const Empty = () => {
   return (
     <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-        {translate("resources.scenario.empty")}
+        {translate("resources.learningScenarios.empty")}
       </Typography>
       <Typography variant="body1">
-        {translate("resources.scenario.addOne")}
+        {translate("resources.learningScenarios.addOne")}
       </Typography>
       <CreateButton to={to} />
     </Box>

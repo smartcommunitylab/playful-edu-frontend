@@ -1,6 +1,7 @@
 import {
-    AutocompleteArrayInput,
-    CheckboxGroupInput,
+  AutocompleteArrayInput,
+  AutocompleteInput,
+  CheckboxGroupInput,
   Edit,
   FormDataConsumer,
   ReferenceArrayInput,
@@ -16,6 +17,7 @@ import {
   useTranslate,
 } from "react-admin";
 import { useParams } from "react-router-dom";
+import { Title } from "../Title";
 
 const PostEditActions = () => {
   const recordId = useGetRecordId();
@@ -25,7 +27,7 @@ const PostEditActions = () => {
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.learningFragmentId;
 
-  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${recordId}`;
+  const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${recordId}`;
   if (!recordId) return null;
   return (
     <>
@@ -35,6 +37,7 @@ const PostEditActions = () => {
     </>
   );
 };
+
 export const ActivityEdit = () => {
   const redirect = useRedirect();
   const params = useParams();
@@ -43,38 +46,47 @@ export const ActivityEdit = () => {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.learningFragmentId;
+
   const onSuccess = () => {
     redirect(
       `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`
     );
   };
+
   return (
     <Edit
       mutationOptions={{ onSuccess }}
       actions={<PostEditActions />}
       mutationMode="pessimistic"
+      title={<Title translationKey="titlePages.activities.edit" />}
     >
       <SimpleForm>
-        <TextInput source="title" validate={[required()]} fullWidth />
-        <TextInput source="desc" />
+        <TextInput
+          source="title"
+          validate={[required()]}
+          fullWidth
+          label="resources.activities.title"
+        />
+        <TextInput source="desc" label="resources.activities.description" />
         <SelectInput
           source="type"
           choices={[
             {
               id: "concrete",
-              name: translate("resources.activity.typeSelection.concrete"),
+              name: translate("resources.activities.typeSelection.concrete"),
             },
             {
               id: "abstr",
-              name: translate("resources.activity.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstract"),
             },
             {
               id: "group",
-              name: translate("resources.activity.typeSelection.group"),
+              name: translate("resources.activities.typeSelection.group"),
             },
           ]}
+          label="resources.activities.type"
         />
-       <FormDataConsumer>
+        <FormDataConsumer>
           {({ formData, ...rest }) => {
             if (formData.type && formData.type == "abstr")
               return (
@@ -82,11 +94,11 @@ export const ActivityEdit = () => {
                   source="goals"
                   reference="concepts"
                   queryOptions={{
-                    meta: { domainId, learningScenarioId, learningModuleId }
+                    meta: { domainId, learningScenarioId, learningModuleId },
                   }}
                 >
-                    <AutocompleteArrayInput />
-                    </ReferenceArrayInput>
+                  <AutocompleteArrayInput label="resources.activities.goals" />
+                </ReferenceArrayInput>
               );
             else if (formData.type == "concrete")
               return (
@@ -101,13 +113,15 @@ export const ActivityEdit = () => {
                       learningFragmentId,
                     },
                   }}
-                />
+                >
+                  <AutocompleteInput label="resources.activities.externalActivity" />
+                </ReferenceInput>
               );
             else if (formData.type == "group")
               return (
                 <TextInput
                   source="groupCorrelator"
-                  
+                  label="resources.activities.groupCorrelator"
                 />
               );
           }}

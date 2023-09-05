@@ -1,9 +1,10 @@
 import {
-    ChipField,
+  ChipField,
   EditButton,
   FormDataConsumer,
   ReferenceArrayField,
   ReferenceArrayInput,
+  ReferenceField,
   ReferenceInput,
   SelectField,
   Show,
@@ -25,6 +26,7 @@ import {
   SCENARIO_URL_PARAM,
 } from "../constants";
 import { useParams } from "react-router-dom";
+import { Title } from "../Title";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
@@ -43,79 +45,79 @@ const PostShowActions = () => {
     </>
   );
 };
-export const ActivityLayout = () => {
-    const params = useParams();
-  const record = useRecordContext();
-    if (!record) return null;
-  const translate = useTranslate();
-  const domainId = params.domainId;
-  const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  const learningFragmentId = params.learningFragmentId;
-    return (
-        <>
-              <SimpleShowLayout>
 
-        <TextField source="title" />
-        <TextField source="desc" />
+export const ActivityLayout = () => {
+  const record = useRecordContext();
+  const translate = useTranslate();
+
+  let field = null;
+  if (record && record.type === "abstr") {
+    field = (
+      <ReferenceArrayField
+        label="resources.activities.goals"
+        reference="concepts"
+        source="goals"
+      >
+        <SingleFieldList linkType={false}>
+          <ChipField source="title" />
+        </SingleFieldList>
+      </ReferenceArrayField>
+    );
+  } else if (record && record.type === "concrete") {
+    field = (
+      <ReferenceField
+        label="resources.activities.externalActivity"
+        reference="external-activities"
+        source="externalActivityId"
+      >
+        <ChipField source="title" />
+      </ReferenceField>
+    );
+  } else if (record && record.type === "group") {
+    field = (
+      <TextField
+        source="groupCorrelator"
+        label="resources.activities.groupCorrelator"
+      />
+    );
+  }
+
+  return (
+    <>
+      <SimpleShowLayout>
+        <TextField source="title" label="resources.activities.title" />
+        <TextField source="desc" label="resources.activities.description" />
         <SelectField
           source="type"
           choices={[
             {
               id: "concrete",
-              name: translate("resources.activity.typeSelection.concrete"),
+              name: translate("resources.activities.typeSelection.concrete"),
             },
             {
               id: "abstr",
-              name: translate("resources.activity.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstract"),
             },
             {
               id: "group",
-              name: translate("resources.activity.typeSelection.group"),
+              name: translate("resources.activities.typeSelection.group"),
             },
           ]}
+          label="resources.activities.type"
         />
-       
-            {record.type == "abstr" &&
-               (
-                <ReferenceArrayField
-                label="Goals"
-                reference="concepts"
-                source="goals"
-              >
-                <SingleFieldList linkType={false}>
-                  <ChipField source="title" />
-                </SingleFieldList>
-              </ReferenceArrayField>
-              )
-                }
-               {record.type == "concrete" && 
-               (
-                <ReferenceArrayField
-                label="Goals"
-                reference="external-activities"
-                source="externalActivityId"
-              >
-                <SingleFieldList linkType={false}>
-                  <ChipField source="title" />
-                </SingleFieldList>
-              </ReferenceArrayField>
-              ) } 
-              {record.type == "group" &&
-               (
-                <TextField
-                  source="groupCorrelator"
-                />
-              )}
-              </SimpleShowLayout>
-              </>)
-}
-export const ActivityShow = () => {
-  
-  return (
-    <Show actions={<PostShowActions />}>
-      <ActivityLayout />
+        {field}
+      </SimpleShowLayout>
+    </>
+  );
+};
 
+export const ActivityShow = () => {
+  return (
+    <Show
+      actions={<PostShowActions />}
+      title={<Title translationKey="titlePages.activities.show" />}
+    >
+      <ActivityLayout />
     </Show>
   );
 };

@@ -29,11 +29,12 @@ const ListActions = () => (
   </TopToolbar>
 );
 const CompetencesFilters = [
-  <TextInput label="Search" source="title" alwaysOn />,
+  <TextInput label="ra.action.search" source="title" alwaysOn />,
 ];
 export const CompetencesList = () => {
   const params = useParams();
   const domainId = params.domainId;
+  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="competences">
@@ -42,15 +43,16 @@ export const CompetencesList = () => {
         actions={<ListActions />}
         filters={CompetencesFilters}
         queryOptions={{ meta: { domainId } }}
+        title="titlePages.competences.list"
       >
         <Datagrid>
-          <TextField source="title" label="resources.competence.title" />
-          <TextField source="desc" label="resources.competence.description" />
-          <TextField source="type" label="resources.competence.type" />
+          <TextField source="title" label="resources.competences.title" />
+          <TextField source="desc" label="resources.competences.description" />
+          <TextField source="type" label="resources.competences.type" />
           <ReferenceArrayField
-            label="Concepts"
             reference="concepts"
             source="concepts"
+            label="resources.competences.concepts"
           >
             <SingleFieldList linkType={false}>
               <ChipField source="title" />
@@ -112,10 +114,10 @@ const Empty = () => {
   return (
     <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-        {translate("resources.educator.empty")}
+        {translate("resources.competences.empty")}
       </Typography>
       <Typography variant="body1">
-        {translate("resources.educator.addOne")}
+        {translate("resources.competences.addOne")}
       </Typography>
       <CreateButton to={to} />
     </Box>

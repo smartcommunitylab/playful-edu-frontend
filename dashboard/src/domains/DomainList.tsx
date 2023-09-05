@@ -22,7 +22,7 @@ const ListActions = () => (
   </TopToolbar>
 );
 // const domainFilters = [
-//     <TextInput label="resources.domain.search" source="q"  alwaysOn />]
+//     <TextInput label="resources.domains.search" source="q"  alwaysOn />]
 export const DomainList = () => {
   const redirect = useRedirect();
   const translate = useTranslate();
@@ -31,17 +31,18 @@ export const DomainList = () => {
     <List
       empty={<Empty />}
       actions={<ListActions />}
-      title={translate("titlePages.domains.list")}
+      title="titlePages.domains.list"
     >
       <Datagrid>
-        <DomainButton source="title"></DomainButton>
+        <DomainButton source="title" label="resources.domains.title"></DomainButton>
         <EditDomainButton />
         <ShowDomainButton />
       </Datagrid>
     </List>
   );
 };
-const DomainButton = (props: { source: string }) => {
+
+const DomainButton = (props: { source: string, label: string }) => {
   const redirect = useRedirect();
   const record = useRecordContext();
   if (!record) return null;
@@ -56,6 +57,7 @@ const DomainButton = (props: { source: string }) => {
     </>
   );
 };
+
 const EditDomainButton = () => {
   const redirect = useRedirect();
   const record = useRecordContext();
@@ -68,6 +70,7 @@ const EditDomainButton = () => {
     </>
   );
 };
+
 const ShowDomainButton = () => {
   // const translate = useTranslate();
   const redirect = useRedirect();
@@ -80,6 +83,7 @@ const ShowDomainButton = () => {
     </>
   );
 };
+
 const CreateDomainButton = () => {
   const record = useRecordContext();
   const to = `/domains/create`;
@@ -97,10 +101,10 @@ const Empty = () => {
   return (
     <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-        {translate("resources.domain.empty")}
+        {translate("resources.domains.empty")}
       </Typography>
       <Typography variant="body1">
-        {translate("resources.domain.addOne")}
+        {translate("resources.domains.addOne")}
       </Typography>
       <CreateButton to={to} />
     </Box>

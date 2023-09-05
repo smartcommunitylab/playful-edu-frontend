@@ -11,11 +11,12 @@ import {
 import { useParams } from "react-router-dom";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { BackButton } from "@dslab/ra-back-button";
+import { Title } from "../Title";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
-  const domainId =params.domainId;
+  const domainId = params.domainId;
   const to = `/concepts/d/${domainId}/${recordId}/edit`;
   if (!recordId) return null;
   return (
@@ -26,12 +27,16 @@ const PostShowActions = () => {
     </>
   );
 };
+
 export const ConceptShow = () => {
   return (
-    <Show actions={<PostShowActions />}>
+    <Show
+      actions={<PostShowActions />}
+      title={<Title translationKey="titlePages.concepts.show" />}
+    >
       <BackButton />
       <SimpleShowLayout>
-        <TextField source="title" />
+        <TextField source="title" label="resources.concepts.title" />
       </SimpleShowLayout>
     </Show>
   );

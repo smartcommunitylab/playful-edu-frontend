@@ -1,5 +1,5 @@
 import {
-    EditButton,
+  EditButton,
   SelectField,
   Show,
   SimpleShowLayout,
@@ -10,6 +10,7 @@ import {
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { ActivityList } from "../activities/ActivityList";
+import { Title } from "../Title";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
@@ -28,28 +29,35 @@ const PostShowActions = () => {
     </>
   );
 };
+
 export const FragmentShow = () => {
   const translate = useTranslate();
   return (
-    <Show actions={<PostShowActions />}>
+    <Show
+      actions={<PostShowActions />}
+      title={<Title translationKey="titlePages.learningFragments.show" />}
+    >
       <SimpleShowLayout>
-        <TextField source="title" />
+        <TextField source="title" label="resources.learningFragments.title" />
         <SelectField
           source="type"
           choices={[
             {
               id: "singleton",
-              name: translate("resources.fragment.typeSelection.singleton"),
+              name: translate(
+                "resources.learningFragments.typeSelection.singleton"
+              ),
             },
             {
               id: "set",
-              name: translate("resources.fragment.typeSelection.set"),
+              name: translate("resources.learningFragments.typeSelection.set"),
             },
             {
               id: "list",
-              name: translate("resources.fragment.typeSelection.list"),
+              name: translate("resources.learningFragments.typeSelection.list"),
             },
           ]}
+          label="resources.learningFragments.type"
         />{" "}
         <ActivityList edit={false} />
       </SimpleShowLayout>

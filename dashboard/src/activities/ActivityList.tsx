@@ -29,7 +29,7 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
-// const ActivityFilters = [<TextInput label="Search" source="title" alwaysOn />];
+// const ActivityFilters = [<TextInput label="ra.action.search" source="title" alwaysOn />];
 export const ActivityList = (props: any) => {
   const params = useParams();
   const record = useRecordContext();
@@ -38,7 +38,8 @@ export const ActivityList = (props: any) => {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.id;
-  console.log(props.edit);
+  const title = " ";
+
   return (
     <ResourceContextProvider value="activities">
       <List
@@ -53,26 +54,28 @@ export const ActivityList = (props: any) => {
             learningFragmentId,
           },
         }}
+        title={title}
       >
         <Datagrid bulkActionButtons={props.edit}>
-          <TextField source="title" />
-          <TextField source="desc" />
+          <TextField source="title" label="resources.activities.title" />
+          <TextField source="desc" label="resources.activities.description" />
           <SelectField
             source="type"
             choices={[
               {
                 id: "concrete",
-                name: translate("resources.activity.typeSelection.concrete"),
+                name: translate("resources.activities.typeSelection.concrete"),
               },
               {
                 id: "abstr",
-                name: translate("resources.activity.typeSelection.abstract"),
+                name: translate("resources.activities.typeSelection.abstract"),
               },
               {
                 id: "group",
-                name: translate("resources.activity.typeSelection.group"),
+                name: translate("resources.activities.typeSelection.group"),
               },
             ]}
+            label="resources.activities.type"
           />
           {record.type === "abstr" && (
             <ReferenceArrayField
@@ -162,10 +165,10 @@ const Empty = () => {
   return (
     <Box textAlign="center" m={1}>
       <Typography variant="h4" paragraph>
-        {translate("resources.activity.empty")}
+        {translate("resources.activities.empty")}
       </Typography>
       <Typography variant="body1">
-        {translate("resources.activity.addOne")}
+        {translate("resources.activities.addOne")}
       </Typography>
       <CreateButton to={to} />
     </Box>

@@ -8,109 +8,201 @@ const messages = {
     message: "Access with AAC",
   },
   titlePages: {
-    dashboard: "Playful Education"
+    dashboard: "Playful Education",
+    domains: {
+      list: "Domains",
+      edit: "Edit domain",
+      create: "Create domain",
+      show: "Domain",
+    },
+    educators: {
+      list: "Educators",
+      edit: "Edit educator",
+      create: "Create educator",
+      show: "Educator",
+    },
+    learners: {
+      list: "Learners",
+      edit: "Edit learner",
+      create: "Create learner",
+      show: "Learner",
+    },
+    concepts: {
+      list: "Concepts",
+      edit: "Edit concept",
+      create: "Create concept",
+      show: "Concept",
+    },
+    competences: {
+      list: "Competences",
+      edit: "Edit competence",
+      create: "Create competence",
+      show: "Competence",
+    },
+    externalActivities: {
+      list: "External activities",
+      edit: "Edit external activity",
+      create: "Create external activity",
+      show: "External activity",
+    },
+    learningScenarios: {
+      list: "Scenarios",
+      edit: "Edit scenario",
+      create: "Create scenario",
+      show: "Scenario",
+      learners: {
+        show: "Learners of the scenario",
+        edit: "Edit the learners of the scenario",
+      },
+    },
+    modules: {
+      list: "Modules",
+      edit: "Edit module",
+      create: "Create module",
+      show: "Module",
+    },
+    learningFragments: {
+      list: "Fragments",
+      edit: "Edit fragment",
+      create: "Create fragment",
+      show: "Fragment",
+    },
+    activities: {
+      edit: "Edit activity",
+      create: "Create activity",
+      show: "Activity",
+    },
   },
   resources: {
+    info: "Information",
     dashboard: {
       welcome: "Welcome to Playful Education",
       button: "Domains' list",
     },
-    info: {
-      menu: "Information",
-    },
-    domain: {
-      search: "Search domain",
+    domains: {
       title: "Title",
+      empty: "No domains found",
+      search: "Search domain",
       back: "Domains",
-      empty:"No domains",
-
+      addOne: "Do you want to add one?",
     },
-    user: {
+    users: {
       menu: "Users",
     },
-    educator: {
+    educators: {
       menu: "Educators",
       firstname: "Name",
-      lastname: "Lastname",
+      lastname: "Last name",
       nickname: "Nickname",
-
       email: "Email",
-      empty: "No Educators yet",
+      empty: "No educators found",
       addOne: "Do you want to add one?",
     },
-    learner: {
+    learners: {
       menu: "Learners",
       firstname: "Name",
-      lastname: "Lastname",
+      lastname: "Last name",
       nickname: "Nickname",
-
       email: "Email",
-      empty: "No Learner yet",
+      empty: "No learners found",
       addOne: "Do you want to add one?",
     },
-    concept: {
+    concepts: {
       menu: "Concepts",
+      title: "Title",
+      empty: "No concepts found",
+      addOne: "Do you want to add one?",
     },
-    competence: {
+    competences: {
       title: "Title",
       description: "Description",
       type: "Type",
+      concepts: "Concepts",
       menu: "Competences",
-      empty: "No Competences yet",
+      empty: "No competences found",
       addOne: "Do you want to add one?",
-      knowledgeSelection:{
-        knowledge:"Knowledge"
+      knowledgeSelection: {
+        knowledge: "Knowledge",
       },
     },
-    
-    externalActivity: {
-      menu: "External Activities",
-      back: "External Activities",
-      empty: "No External Activities yet",
-      addOne: "Do you want to add one?",
-      typeSelection:{
-        individual: "Individual"
+    externalActivities: {
+      menu: "External activities",
+      title: "Title",
+      description: "Description",
+      url: "URL",
+      type: "Type",
+      language: "Language",
+      tool: "Tool",
+      difficulty: "Difficulty",
+      groupCorrelator: "Group correlator",
+      preconditions: "Preconditions",
+      effects: "Effects",
+      typeSelection: {
+        individual: "Individual",
       },
-      toolSelection:{
-        computer: "Computer"
+      toolSelection: {
+        computer: "Computer",
       },
       difficultySelection: {
-        low:"Low"
+        low: "Low",
       },
+      empty: "No external activities found",
+      addOne: "Do you want to add one?",
     },
-    scenario: {
+    learningScenarios: {
       back: "Scenarios",
       menu: "Scenarios",
-      empty: "No Learning Scenario yet",
+      title: "Title",
+      description: "Description",
+      language: "Language",
+      publicScenario: "Public scenario",
+      educators: "Educators",
+      learners: {
+        title: "Learners",
+      },
+      empty: "No learning scenarios found",
       addOne: "Do you want to add one?",
     },
-    modulo: {
+    modules: {
       menu: "Modules",
       back: "Modules",
-      empty: "No Module yet",
+      title: "Title",
+      description: "Description",
+      level: "Level",
+      dateFrom: "Start date",
+      dateTo: "End date",
+      empty: "No modules found",
       addOne: "Do you want to add one?",
     },
-    fragment: {
-      menu: "Fragment",
-      back: "Fragment",
-      empty: "No Fragment yet",
+    learningFragments: {
+      menu: "Fragments",
+      back: "Fragments",
+      title: "Title",
+      type: "Type",
+      empty: "No fragments found",
       addOne: "Do you want to add one?",
       typeSelection: {
         singleton: "Singleton",
         set: "Set",
-        list: "List"
-      }
+        list: "List",
+      },
     },
-    activity: {
+    activities: {
       menu: "Activities",
       back: "Activities",
-      empty: "No Activities yet",
+      title: "Title",
+      description: "Description",
+      type: "Type",
+      externalActivity: "External activity",
+      goals: "Goals",
+      groupCorrelator: "Group correlator",
+      empty: "No activities found",
       addOne: "Do you want to add one?",
       typeSelection: {
-        concrete:"Concrete",
-        abstract:"Abstract",
-        group:"Group"
-      }
+        concrete: "Concrete",
+        abstract: "Abstract",
+        group: "Group",
+      },
     },
   },
 };
