@@ -14,11 +14,19 @@ import {
   useRedirect,
   useRecordContext,
   ResourceContextProvider,
+  Link,
 } from "react-admin";
 import { ImportButton } from "react-admin-import-csv";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
+
 const ListActions = () => (
   <TopToolbar>
     <CreateConceptButton />
@@ -26,7 +34,9 @@ const ListActions = () => (
     <ImportButton />
   </TopToolbar>
 );
-const conceptFilters = [<TextInput label="ra.action.search" source="title" alwaysOn />];
+const conceptFilters = [
+  <TextInput label="ra.action.search" source="title" alwaysOn />,
+];
 
 export const ConceptList = () => {
   const params = useParams();
@@ -40,6 +50,7 @@ export const ConceptList = () => {
         filter={{ domainId: params.domainId }}
         queryOptions={{ meta: { domainId: params.domainId } }}
         title="titlePages.concepts.list"
+        sx={{ justifyContent: "center" }}
       >
         <Datagrid>
           <TextField source="title" label="resources.concepts.title" />
@@ -94,15 +105,27 @@ const Empty = () => {
   const domainId = params.domainId;
   const translate = useTranslate();
   const to = `/concepts/d/${domainId}/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.concepts.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.concepts.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box display="flex" alignItems="start" textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.concepts.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.concepts.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };

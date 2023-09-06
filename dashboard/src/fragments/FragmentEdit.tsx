@@ -78,7 +78,7 @@ export const FragmentEdit = () => {
           ]}
           label="resources.learningFragments.type"
         />
-        <ActivityList edit={true} />
+        <ActivityList edit={true}/>
       </SimpleForm>
     </Edit>
   );

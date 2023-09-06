@@ -13,10 +13,17 @@ import {
   useRecordContext,
   useTranslate,
   ResourceContextProvider,
+  Link,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 
 const ListActions = () => (
   <TopToolbar>
@@ -40,6 +47,7 @@ export const ExternalActivityList = () => {
         filters={ExternalActivityFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.externalActivities.list"
+        sx={{ justifyContent: "center" }}
       >
         <Datagrid>
           <TextField
@@ -114,15 +122,27 @@ const Empty = () => {
   const domainId = params.domainId;
   const translate = useTranslate();
   const to = `/external-activities/d/${domainId}/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.externalActivities.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.externalActivities.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box display="flex" alignItems="start" textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.externalActivities.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.externalActivities.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
