@@ -3,7 +3,6 @@ import {
   EditButton,
   FormDataConsumer,
   ReferenceArrayField,
-  ReferenceArrayInput,
   ReferenceField,
   ReferenceInput,
   SelectField,

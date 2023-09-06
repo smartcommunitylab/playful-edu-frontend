@@ -1,6 +1,5 @@
 import {
   Edit,
-  ReferenceArrayInput,
   SelectInput,
   ShowButton,
   SimpleForm,

@@ -49,11 +49,7 @@ export const CompetencesShow = () => {
           label="resources.competences.concepts"
           reference="concepts"
           source="concepts"
-        >
-          {/* <Datagrid>
-                    <TextField source="title" />
-                </Datagrid> */}
-        </ReferenceArrayField>
+        ></ReferenceArrayField>
       </SimpleShowLayout>
     </Show>
   );

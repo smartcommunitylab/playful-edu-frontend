@@ -34,7 +34,6 @@ const CompetencesFilters = [
 export const CompetencesList = () => {
   const params = useParams();
   const domainId = params.domainId;
-  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="competences">

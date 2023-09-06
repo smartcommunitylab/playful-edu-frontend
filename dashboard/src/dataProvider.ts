@@ -16,7 +16,6 @@ const springDataProvider = (
     return {
         getList: (resource, params) => {
             //handle pagination request as pageable (page,size)
-            console.log("params", params);
             const { page, perPage } = params.pagination;
             const { field, order } = params.sort;
             let meta = undefined;
@@ -73,7 +72,7 @@ const springDataProvider = (
         },
         getMany: (resource, params) => {
             const query = {
-                id: params.ids ? params.ids.join(',') : '',
+                ids: params.ids ? params.ids.join(',') : '',
             };
 
             const url = `${apiUrl}/${resource}?${stringify(query)}`;
