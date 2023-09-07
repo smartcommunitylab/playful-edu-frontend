@@ -21,6 +21,7 @@ import {
   SingleFieldList,
   ReferenceField,
   Link,
+  FunctionField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -74,23 +75,11 @@ export const ActivityList = (props: any) => {
         <Datagrid bulkActionButtons={props.edit}>
           <TextField source="title" label="resources.activities.title" />
           <TextField source="desc" label="resources.activities.description" />
-          <SelectField
-            source="type"
-            choices={[
-              {
-                id: "concrete",
-                name: translate("resources.activities.typeSelection.concrete"),
-              },
-              {
-                id: "abstr",
-                name: translate("resources.activities.typeSelection.abstract"),
-              },
-              {
-                id: "group",
-                name: translate("resources.activities.typeSelection.group"),
-              },
-            ]}
+          <FunctionField
             label="resources.activities.type"
+            render={(record: any) =>
+              translate("resources.activities.typeSelection." + record.type)
+            }
           />
           {record.type === "abstr" && (
             <ReferenceArrayField

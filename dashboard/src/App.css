@@ -60,3 +60,15 @@
   width: 1.4em;
   height: 1.4em;
 }
+
+.MuiModal-root .MuiDialogContent-root {
+  padding-top: 10px !important;
+}
+
+.MuiModal-root .MuiDialogContent-root>* {
+  width: 100% !important;
+}
+
+.MuiModal-root .MuiPaper-root {
+  max-width: 100%;
+}

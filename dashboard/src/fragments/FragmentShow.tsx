@@ -1,5 +1,6 @@
 import {
   EditButton,
+  FunctionField,
   SelectField,
   Show,
   SimpleShowLayout,
@@ -39,26 +40,14 @@ export const FragmentShow = () => {
     >
       <SimpleShowLayout>
         <TextField source="title" label="resources.learningFragments.title" />
-        <SelectField
-          source="type"
-          choices={[
-            {
-              id: "singleton",
-              name: translate(
-                "resources.learningFragments.typeSelection.singleton"
-              ),
-            },
-            {
-              id: "set",
-              name: translate("resources.learningFragments.typeSelection.set"),
-            },
-            {
-              id: "list",
-              name: translate("resources.learningFragments.typeSelection.list"),
-            },
-          ]}
+        <FunctionField
           label="resources.learningFragments.type"
-        />{" "}
+          render={(record: any) =>
+            translate(
+              "resources.learningFragments.typeSelection." + record.type
+            )
+          }
+        />
         <ActivityList edit={false} />
       </SimpleShowLayout>
     </Show>

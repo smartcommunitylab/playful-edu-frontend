@@ -16,6 +16,7 @@ import {
   useGetRecordId,
   SelectField,
   Link,
+  FunctionField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -56,26 +57,14 @@ export const FragmentList = () => {
       <Datagrid>
         {/* <FragmentButton></FragmentButton> */}
         <TextField source="title" label="resources.learningFragments.title" />
-        <SelectField
-          source="type"
-          choices={[
-            {
-              id: "singleton",
-              name: translate(
-                "resources.learningFragments.typeSelection.singleton"
-              ),
-            },
-            {
-              id: "set",
-              name: translate("resources.learningFragments.typeSelection.set"),
-            },
-            {
-              id: "list",
-              name: translate("resources.learningFragments.typeSelection.list"),
-            },
-          ]}
+        <FunctionField
           label="resources.learningFragments.type"
-        />{" "}
+          render={(record: any) =>
+            translate(
+              "resources.learningFragments.typeSelection." + record.type
+            )
+          }
+        />
         <EditFragmentButton />
         <ShowFragmentButton />
       </Datagrid>

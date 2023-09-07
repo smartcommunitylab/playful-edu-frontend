@@ -14,6 +14,7 @@ import {
   useTranslate,
   ResourceContextProvider,
   Link,
+  FunctionField,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -31,9 +32,11 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const ExternalActivityFilters = [
-  <TextInput label="ra.action.search" source="name" alwaysOn />,
+  <TextInput label="ra.action.search" source="title" alwaysOn />,
 ];
+
 export const ExternalActivityList = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -58,15 +61,34 @@ export const ExternalActivityList = () => {
             source="desc"
             label="resources.externalActivities.description"
           />
-          <TextField source="type" label="resources.externalActivities.type" />
+          <FunctionField
+            label="resources.externalActivities.type"
+            render={(record: any) =>
+              translate(
+                "resources.externalActivities.typeSelection." + record.type
+              )
+            }
+          />
           <TextField
             source="language"
             label="resources.externalActivities.language"
           />
-          <TextField source="tool" label="resources.externalActivities.tool" />
-          <TextField
-            source="difficulty"
+          <FunctionField
+            label="resources.externalActivities.tool"
+            render={(record: any) =>
+              translate(
+                "resources.externalActivities.toolSelection." + record.tool
+              )
+            }
+          />
+          <FunctionField
             label="resources.externalActivities.difficulty"
+            render={(record: any) =>
+              translate(
+                "resources.externalActivities.difficultySelection." +
+                  record.difficulty
+              )
+            }
           />
           <EditExternalActivityButton />
           <ShowExternalActivityButton />

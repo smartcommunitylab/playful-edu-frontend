@@ -19,6 +19,7 @@ import {
   ReferenceArrayField,
   ResourceContextProvider,
   Link,
+  FunctionField,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -42,6 +43,7 @@ const CompetencesFilters = [
 export const CompetencesList = () => {
   const params = useParams();
   const domainId = params.domainId;
+  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="competences">
@@ -56,7 +58,14 @@ export const CompetencesList = () => {
         <Datagrid>
           <TextField source="title" label="resources.competences.title" />
           <TextField source="desc" label="resources.competences.description" />
-          <TextField source="type" label="resources.competences.type" />
+          <FunctionField
+            label="resources.competences.type"
+            render={(record: any) =>
+              translate(
+                "resources.competences.knowledgeSelection." + record.type
+              )
+            }
+          />
           <ReferenceArrayField
             reference="concepts"
             source="concepts"

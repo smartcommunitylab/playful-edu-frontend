@@ -91,7 +91,7 @@ export const ActivityEdit = () => {
             },
             {
               id: "abstr",
-              name: translate("resources.activities.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstr"),
             },
             {
               id: "group",

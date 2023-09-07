@@ -1,6 +1,7 @@
 import {
   ChipField,
   EditButton,
+  FunctionField,
   ReferenceArrayField,
   Show,
   SimpleShowLayout,
@@ -10,6 +11,7 @@ import {
   useGetRecordId,
   useRecordContext,
   useRedirect,
+  useTranslate,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { DOMAIN_URL_PARAM } from "../constants";
@@ -32,6 +34,7 @@ const PostShowActions = () => {
 };
 
 export const ExternalActivityShow = () => {
+  const translate = useTranslate();
   return (
     <Show
       actions={<PostShowActions />}
@@ -51,11 +54,30 @@ export const ExternalActivityShow = () => {
         <TextField source="extId" />
         <TextField source="extGroupId" />
         <TextField source="extUrl" label="resources.externalActivities.url" />
-        <TextField source="type" label="resources.externalActivities.type" />
-        <TextField source="tool" label="resources.externalActivities.tool" />
-        <TextField
-          source="difficulty"
+        <FunctionField
+          label="resources.externalActivities.type"
+          render={(record: any) =>
+            translate(
+              "resources.externalActivities.typeSelection." + record.type
+            )
+          }
+        />
+        <FunctionField
+          label="resources.externalActivities.tool"
+          render={(record: any) =>
+            translate(
+              "resources.externalActivities.toolSelection." + record.tool
+            )
+          }
+        />
+        <FunctionField
           label="resources.externalActivities.difficulty"
+          render={(record: any) =>
+            translate(
+              "resources.externalActivities.difficultySelection." +
+                record.difficulty
+            )
+          }
         />
         <TextField
           source="groupCorrelator"

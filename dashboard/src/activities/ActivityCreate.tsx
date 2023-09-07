@@ -82,7 +82,7 @@ export const ActivityCreate = () => {
             },
             {
               id: "abstr",
-              name: translate("resources.activities.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstr"),
             },
             {
               id: "group",

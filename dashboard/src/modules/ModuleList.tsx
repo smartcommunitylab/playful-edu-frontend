@@ -37,9 +37,11 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const ModuleFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
+
 export const ModuleList = () => {
   const params = useParams();
   const domainId = params.domainId;

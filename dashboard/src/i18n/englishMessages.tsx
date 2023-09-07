@@ -1,7 +1,9 @@
 import englishMessages from "ra-language-english";
+import * as domainMessages from "react-admin-import-csv/lib/i18n";
 
 const messages = {
   ...englishMessages,
+  ...domainMessages.en,
   login: {
     basicMessage: "Authenticate to continue",
     title: "Resource Manager",
@@ -200,7 +202,7 @@ const messages = {
       addOne: "Do you want to add one?",
       typeSelection: {
         concrete: "Concrete",
-        abstract: "Abstract",
+        abstr: "Abstract",
         group: "Group",
       },
     },
