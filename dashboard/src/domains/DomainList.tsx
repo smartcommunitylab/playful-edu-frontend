@@ -11,9 +11,16 @@ import {
   useRedirect,
   useRecordContext,
   useTranslate,
+  Link,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 
 const ListActions = () => (
   <TopToolbar>
@@ -32,9 +39,13 @@ export const DomainList = () => {
       empty={<Empty />}
       actions={<ListActions />}
       title="titlePages.domains.list"
+      sx={{ justifyContent: "center" }}
     >
       <Datagrid>
-        <DomainButton source="title" label="resources.domains.title"></DomainButton>
+        <DomainButton
+          source="title"
+          label="resources.domains.title"
+        ></DomainButton>
         <EditDomainButton />
         <ShowDomainButton />
       </Datagrid>
@@ -42,7 +53,7 @@ export const DomainList = () => {
   );
 };
 
-const DomainButton = (props: { source: string, label: string }) => {
+const DomainButton = (props: { source: string; label: string }) => {
   const redirect = useRedirect();
   const record = useRecordContext();
   if (!record) return null;
@@ -98,15 +109,27 @@ const Empty = () => {
   const params = useParams();
   const translate = useTranslate();
   const to = `/domains/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.domains.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.domains.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.domains.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.domains.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };

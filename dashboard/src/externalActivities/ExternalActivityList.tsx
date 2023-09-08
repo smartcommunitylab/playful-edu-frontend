@@ -13,10 +13,18 @@ import {
   useRecordContext,
   useTranslate,
   ResourceContextProvider,
+  Link,
+  FunctionField,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 
 const ListActions = () => (
   <TopToolbar>
@@ -24,9 +32,11 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const ExternalActivityFilters = [
-  <TextInput label="ra.action.search" source="name" alwaysOn />,
+  <TextInput label="ra.action.search" source="title" alwaysOn />,
 ];
+
 export const ExternalActivityList = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -40,6 +50,7 @@ export const ExternalActivityList = () => {
         filters={ExternalActivityFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.externalActivities.list"
+        sx={{ justifyContent: "center" }}
       >
         <Datagrid>
           <TextField
@@ -50,15 +61,40 @@ export const ExternalActivityList = () => {
             source="desc"
             label="resources.externalActivities.description"
           />
-          <TextField source="type" label="resources.externalActivities.type" />
+          <FunctionField
+            label="resources.externalActivities.type"
+            render={(record: any) =>
+              record && record.type
+                ? translate(
+                    "resources.externalActivities.typeSelection." + record.type
+                  )
+                : ""
+            }
+          />
           <TextField
             source="language"
             label="resources.externalActivities.language"
           />
-          <TextField source="tool" label="resources.externalActivities.tool" />
-          <TextField
-            source="difficulty"
+          <FunctionField
+            label="resources.externalActivities.tool"
+            render={(record: any) =>
+              record && record.tool
+                ? translate(
+                    "resources.externalActivities.toolSelection." + record.tool
+                  )
+                : ""
+            }
+          />
+          <FunctionField
             label="resources.externalActivities.difficulty"
+            render={(record: any) =>
+              record && record.difficulty
+                ? translate(
+                    "resources.externalActivities.difficultySelection." +
+                      record.difficulty
+                  )
+                : ""
+            }
           />
           <EditExternalActivityButton />
           <ShowExternalActivityButton />
@@ -114,15 +150,27 @@ const Empty = () => {
   const domainId = params.domainId;
   const translate = useTranslate();
   const to = `/external-activities/d/${domainId}/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.externalActivities.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.externalActivities.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box display="flex" alignItems="start" textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.externalActivities.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.externalActivities.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };

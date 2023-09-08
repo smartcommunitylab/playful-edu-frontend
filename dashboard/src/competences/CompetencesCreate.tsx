@@ -6,6 +6,7 @@ import {
   SimpleForm,
   TextInput,
   required,
+  useGetList,
   useRedirect,
   useStore,
   useTranslate,
@@ -22,6 +23,10 @@ export const CompetencesCreate = () => {
   const onSuccess = () => {
     redirect(`/competences/d/${domainId}`);
   };
+
+  const { total } = useGetList("concepts", {
+    meta: { domainId },
+  });
 
   return (
     <Create
@@ -54,6 +59,7 @@ export const CompetencesCreate = () => {
           source="concepts"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.competences.concepts" />
         </ReferenceArrayInput>

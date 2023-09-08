@@ -6,6 +6,7 @@ import {
   SimpleForm,
   TextInput,
   required,
+  useGetList,
   useRedirect,
   useStore,
   useTranslate,
@@ -21,7 +22,10 @@ export const LearningScenarioCreate = () => {
   const onSuccess = () => {
     redirect(`/scenarios/d/${domainId}`);
   };
-  const translate = useTranslate();
+
+  const { total } = useGetList("educators", {
+    meta: { domainId },
+  });
 
   return (
     <Create
@@ -53,6 +57,7 @@ export const LearningScenarioCreate = () => {
           source="educators"
           reference="educators"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.learningScenarios.educators" />
         </ReferenceArrayInput>

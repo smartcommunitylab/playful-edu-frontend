@@ -20,11 +20,20 @@ import {
   ChipField,
   SingleFieldList,
   ReferenceField,
+  Link,
+  FunctionField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
+
 const ListActions = () => (
-  <TopToolbar>
+  <TopToolbar sx={{ minHeight: "40px !important" }}>
     <CreateActivityButton />
     <ExportButton />
   </TopToolbar>
@@ -55,27 +64,24 @@ export const ActivityList = (props: any) => {
           },
         }}
         title={title}
+        sx={{
+          justifyContent: "center",
+          width: "100%",
+          "& .RaList-actions": {
+            minHeight: "40px",
+          },
+        }}
       >
         <Datagrid bulkActionButtons={props.edit}>
           <TextField source="title" label="resources.activities.title" />
           <TextField source="desc" label="resources.activities.description" />
-          <SelectField
-            source="type"
-            choices={[
-              {
-                id: "concrete",
-                name: translate("resources.activities.typeSelection.concrete"),
-              },
-              {
-                id: "abstr",
-                name: translate("resources.activities.typeSelection.abstract"),
-              },
-              {
-                id: "group",
-                name: translate("resources.activities.typeSelection.group"),
-              },
-            ]}
+          <FunctionField
             label="resources.activities.type"
+            render={(record: any) =>
+              record && record.type
+                ? translate("resources.activities.typeSelection." + record.type)
+                : ""
+            }
           />
           {record.type === "abstr" && (
             <ReferenceArrayField
@@ -162,15 +168,27 @@ const Empty = () => {
   const learningFragmentId = params.id;
   const translate = useTranslate();
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.activities.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.activities.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box display="flex" alignItems="start" textAlign="center">
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.activities.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.activities.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };

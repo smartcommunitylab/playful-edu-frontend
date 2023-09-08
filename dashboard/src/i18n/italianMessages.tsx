@@ -1,7 +1,9 @@
 import italianMessages from "@dslab/ra-language-italian";
+import { importLibraryItalianMessages } from "./importLibraryItalianMessages";
 
 const messages = {
   ...italianMessages,
+  ...importLibraryItalianMessages,
   login: {
     basicMessage: "Autenticarsi per continuare",
     title: "Resource Manager",
@@ -200,7 +202,7 @@ const messages = {
       addOne: "Vuoi aggiungerne una?",
       typeSelection: {
         concrete: "Concreta",
-        abstract: "Astratta",
+        abstr: "Astratta",
         group: "Gruppo",
       },
     },

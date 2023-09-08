@@ -19,6 +19,7 @@ import {
   TextInput,
   SelectInput,
   useTranslate,
+  useGetList,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { useWatch } from "react-hook-form";
@@ -91,14 +92,18 @@ const ReferenceLearnerInput = (props: any) => {
   const params = useParams();
   const domainId = params.domainId;
 
+  const { total } = useGetList("learners", {
+    meta: { domainId },
+  });
+
   return (
     <ReferenceArrayInput
       source="learners"
       reference="learners"
-      perPage={100}
+      perPage={total}
       // perPage={perPageLearner}
       // page={pageLearner}
-      sort={{ field: "name", order: "ASC" }}
+      sort={{ field: "id", order: "ASC" }}
       queryOptions={{ meta: { domainId, text: nameLearner } }}
     >
       <CheckboxGroupInput

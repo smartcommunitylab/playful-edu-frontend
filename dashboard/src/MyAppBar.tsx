@@ -1,7 +1,7 @@
 import { AppBar } from "react-admin";
 
 export const MyAppBar = (props: any) => {
-  return <AppBar sx={{ backgroundColor: "#2196f3" }}></AppBar>;
+  return <AppBar color="primary"></AppBar>;
 };
 
 // export default MyAppBar;

@@ -10,6 +10,7 @@ import {
   SimpleForm,
   TextInput,
   required,
+  useGetList,
   useRecordContext,
   useRedirect,
   useTranslate,
@@ -40,6 +41,19 @@ export const ActivityCreate = () => {
     );
   };
 
+  const { total: conceptsTotal } = useGetList("concepts", {
+    meta: { domainId, learningScenarioId, learningModuleId },
+  });
+
+  const { total: externalActivitiesTotal } = useGetList("external-activities", {
+    meta: {
+      domainId,
+      learningScenarioId,
+      learningModuleId,
+      learningFragmentId,
+    },
+  });
+
   return (
     <Create
       mutationOptions={{ onSuccess }}
@@ -68,7 +82,7 @@ export const ActivityCreate = () => {
             },
             {
               id: "abstr",
-              name: translate("resources.activities.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstr"),
             },
             {
               id: "group",
@@ -87,6 +101,7 @@ export const ActivityCreate = () => {
                   queryOptions={{
                     meta: { domainId, learningScenarioId, learningModuleId },
                   }}
+                  perPage={conceptsTotal}
                 >
                   <AutocompleteArrayInput label="resources.activities.goals" />
                 </ReferenceArrayInput>
@@ -104,6 +119,7 @@ export const ActivityCreate = () => {
                       learningFragmentId,
                     },
                   }}
+                  perPage={externalActivitiesTotal}
                 >
                   <AutocompleteInput label="resources.activities.externalActivity" />
                 </ReferenceInput>

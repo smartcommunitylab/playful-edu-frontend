@@ -11,6 +11,7 @@ import {
   Toolbar,
   TopToolbar,
   required,
+  useGetList,
   useGetRecordId,
   useRedirect,
   useTranslate,
@@ -54,6 +55,11 @@ export const ExternalActivityEdit = () => {
   const onSuccess = () => {
     redirect(`/external-activities/d/${domainId}`);
   };
+
+  const { total } = useGetList("concepts", {
+    meta: { domainId },
+  });
+
   return (
     <Edit
       mutationOptions={{ onSuccess }}
@@ -129,6 +135,7 @@ export const ExternalActivityEdit = () => {
           source="preconditions"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.externalActivities.preconditions" />
         </ReferenceArrayInput>
@@ -136,6 +143,7 @@ export const ExternalActivityEdit = () => {
           source="effects"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.externalActivities.effects" />
         </ReferenceArrayInput>
