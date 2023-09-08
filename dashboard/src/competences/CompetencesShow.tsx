@@ -3,6 +3,7 @@ import {
   ChipField,
   Datagrid,
   EditButton,
+  FunctionField,
   ReferenceArrayField,
   ReferenceManyField,
   Show,
@@ -13,6 +14,7 @@ import {
   useGetRecordId,
   useRecordContext,
   useRedirect,
+  useTranslate,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -35,6 +37,8 @@ const PostShowActions = () => {
 };
 
 export const CompetencesShow = () => {
+  const translate = useTranslate();
+
   return (
     <Show
       actions={<PostShowActions />}
@@ -44,15 +48,24 @@ export const CompetencesShow = () => {
       <SimpleShowLayout>
         <TextField source="title" label="resources.competences.title" />
         <TextField source="desc" label="resources.competences.description" />
-        <TextField source="type" label="resources.competences.type" />
+        <FunctionField
+          label="resources.competences.type"
+          render={(record: any) =>
+            record && record.type
+              ? translate(
+                  "resources.competences.knowledgeSelection." + record.type
+                )
+              : ""
+          }
+        />
         <ReferenceArrayField
           label="resources.competences.concepts"
           reference="concepts"
           source="concepts"
         >
-          {/* <Datagrid>
-                    <TextField source="title" />
-                </Datagrid> */}
+          <SingleFieldList linkType={false}>
+            <ChipField source="title" />
+          </SingleFieldList>
         </ReferenceArrayField>
       </SimpleShowLayout>
     </Show>

@@ -15,9 +15,17 @@ import {
   useRecordContext,
   useGetRecordId,
   SelectField,
+  Link,
+  FunctionField,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 
 const ListActions = () => (
   <TopToolbar>
@@ -44,30 +52,21 @@ export const FragmentList = () => {
         meta: { domainId, learningScenarioId, learningModuleId },
       }}
       title="titlePages.learningFragments.list"
+      sx={{ justifyContent: "center" }}
     >
       <Datagrid>
         {/* <FragmentButton></FragmentButton> */}
         <TextField source="title" label="resources.learningFragments.title" />
-        <SelectField
-          source="type"
-          choices={[
-            {
-              id: "singleton",
-              name: translate(
-                "resources.learningFragments.typeSelection.singleton"
-              ),
-            },
-            {
-              id: "set",
-              name: translate("resources.learningFragments.typeSelection.set"),
-            },
-            {
-              id: "list",
-              name: translate("resources.learningFragments.typeSelection.list"),
-            },
-          ]}
+        <FunctionField
           label="resources.learningFragments.type"
-        />{" "}
+          render={(record: any) =>
+            record && record.type
+              ? translate(
+                  "resources.learningFragments.typeSelection." + record.type
+                )
+              : ""
+          }
+        />
         <EditFragmentButton />
         <ShowFragmentButton />
       </Datagrid>
@@ -127,15 +126,27 @@ const Empty = () => {
   const learningModuleId = params.learningModuleId;
   const translate = useTranslate();
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.learningFragments.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.learningFragments.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box display="flex" alignItems="start" textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.learningFragments.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.learningFragments.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };

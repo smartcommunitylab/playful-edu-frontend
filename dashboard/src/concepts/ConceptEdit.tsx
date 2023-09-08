@@ -53,7 +53,7 @@ export const ConceptEdit = () => {
   const recordId = useGetRecordId();
 
   const onSuccess = () => {
-    redirect(`/concepts/d/${domainId}/${recordId}`);
+    redirect(`/concepts/d/${domainId}`);
   };
   return (
     <Edit

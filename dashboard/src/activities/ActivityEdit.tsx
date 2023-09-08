@@ -12,6 +12,7 @@ import {
   TextInput,
   TopToolbar,
   required,
+  useGetList,
   useGetRecordId,
   useRedirect,
   useTranslate,
@@ -53,6 +54,19 @@ export const ActivityEdit = () => {
     );
   };
 
+  const { total: conceptsTotal } = useGetList("concepts", {
+    meta: { domainId, learningScenarioId, learningModuleId },
+  });
+
+  const { total: externalActivitiesTotal } = useGetList("external-activities", {
+    meta: {
+      domainId,
+      learningScenarioId,
+      learningModuleId,
+      learningFragmentId,
+    },
+  });
+
   return (
     <Edit
       mutationOptions={{ onSuccess }}
@@ -77,7 +91,7 @@ export const ActivityEdit = () => {
             },
             {
               id: "abstr",
-              name: translate("resources.activities.typeSelection.abstract"),
+              name: translate("resources.activities.typeSelection.abstr"),
             },
             {
               id: "group",
@@ -96,6 +110,7 @@ export const ActivityEdit = () => {
                   queryOptions={{
                     meta: { domainId, learningScenarioId, learningModuleId },
                   }}
+                  perPage={conceptsTotal}
                 >
                   <AutocompleteArrayInput label="resources.activities.goals" />
                 </ReferenceArrayInput>
@@ -113,6 +128,7 @@ export const ActivityEdit = () => {
                       learningFragmentId,
                     },
                   }}
+                  perPage={externalActivitiesTotal}
                 >
                   <AutocompleteInput label="resources.activities.externalActivity" />
                 </ReferenceInput>

@@ -11,6 +11,7 @@ import {
   Toolbar,
   TopToolbar,
   required,
+  useGetList,
   useGetRecordId,
   useRedirect,
   useStore,
@@ -55,6 +56,10 @@ export const CompetencesEdit = () => {
   const onSuccess = () => {
     redirect(`/competences/d/${domainId}`);
   };
+  
+  const { total } = useGetList("concepts", {
+    meta: { domainId },
+  });
 
   return (
     <Edit
@@ -88,6 +93,7 @@ export const CompetencesEdit = () => {
           source="concepts"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.competences.concepts" />
         </ReferenceArrayInput>

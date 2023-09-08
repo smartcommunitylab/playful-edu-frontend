@@ -2,8 +2,8 @@ import {
   ChipField,
   EditButton,
   FormDataConsumer,
+  FunctionField,
   ReferenceArrayField,
-  ReferenceArrayInput,
   ReferenceField,
   ReferenceInput,
   SelectField,
@@ -87,23 +87,13 @@ export const ActivityLayout = () => {
       <SimpleShowLayout>
         <TextField source="title" label="resources.activities.title" />
         <TextField source="desc" label="resources.activities.description" />
-        <SelectField
-          source="type"
-          choices={[
-            {
-              id: "concrete",
-              name: translate("resources.activities.typeSelection.concrete"),
-            },
-            {
-              id: "abstr",
-              name: translate("resources.activities.typeSelection.abstract"),
-            },
-            {
-              id: "group",
-              name: translate("resources.activities.typeSelection.group"),
-            },
-          ]}
+        <FunctionField
           label="resources.activities.type"
+          render={(record: any) =>
+            record && record.type
+              ? translate("resources.activities.typeSelection." + record.type)
+              : ""
+          }
         />
         {field}
       </SimpleShowLayout>

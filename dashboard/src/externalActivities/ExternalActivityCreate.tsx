@@ -6,6 +6,7 @@ import {
   SimpleForm,
   TextInput,
   required,
+  useGetList,
   useRedirect,
   useStore,
   useTranslate,
@@ -23,6 +24,10 @@ export const ExternalActivityCreate = () => {
   const onSuccess = () => {
     redirect(`/external-activities/d/${domainId}`);
   };
+
+  const { total } = useGetList("concepts", {
+    meta: { domainId },
+  });
 
   return (
     <Create
@@ -98,6 +103,7 @@ export const ExternalActivityCreate = () => {
           source="preconditions"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.externalActivities.preconditions" />
         </ReferenceArrayInput>
@@ -105,6 +111,7 @@ export const ExternalActivityCreate = () => {
           source="effects"
           reference="concepts"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.externalActivities.effects" />
         </ReferenceArrayInput>

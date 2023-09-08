@@ -1,6 +1,5 @@
 import {
   Edit,
-  ReferenceArrayInput,
   SelectInput,
   ShowButton,
   SimpleForm,
@@ -79,7 +78,7 @@ export const FragmentEdit = () => {
           ]}
           label="resources.learningFragments.type"
         />
-        <ActivityList edit={true} />
+        <ActivityList edit={true}/>
       </SimpleForm>
     </Edit>
   );

@@ -18,10 +18,19 @@ import {
   SingleFieldList,
   ReferenceArrayField,
   ResourceContextProvider,
+  Link,
+  FunctionField,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
+
 const ListActions = () => (
   <TopToolbar>
     <CreateDomainButton />
@@ -44,11 +53,21 @@ export const CompetencesList = () => {
         filters={CompetencesFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.competences.list"
+        sx={{ justifyContent: "center" }}
       >
         <Datagrid>
           <TextField source="title" label="resources.competences.title" />
           <TextField source="desc" label="resources.competences.description" />
-          <TextField source="type" label="resources.competences.type" />
+          <FunctionField
+            label="resources.competences.type"
+            render={(record: any) =>
+              record && record.type
+                ? translate(
+                    "resources.competences.knowledgeSelection." + record.type
+                  )
+                : ""
+            }
+          />
           <ReferenceArrayField
             reference="concepts"
             source="concepts"
@@ -111,15 +130,27 @@ const Empty = () => {
   const domainId = params.domainId;
   const translate = useTranslate();
   const to = `/competences/d/${domainId}/create`;
+
   return (
-    <Box textAlign="center" m={1}>
-      <Typography variant="h4" paragraph>
-        {translate("resources.competences.empty")}
-      </Typography>
-      <Typography variant="body1">
-        {translate("resources.competences.addOne")}
-      </Typography>
-      <CreateButton to={to} />
+    <Box display="flex" alignItems="start" textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.competences.empty")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.competences.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };

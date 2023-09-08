@@ -8,6 +8,7 @@ import {
   TextInput,
   TopToolbar,
   required,
+  useGetList,
   useGetRecordId,
   useRedirect,
   useStore,
@@ -37,6 +38,11 @@ export const LearningScenarioEdit = () => {
   const onSuccess = () => {
     redirect(`/scenarios/d/${domainId}/s/${recordId}/element`);
   };
+
+  const { total } = useGetList("educators", {
+    meta: { domainId },
+  });
+
   return (
     <Edit
       mutationOptions={{ onSuccess }}
@@ -68,6 +74,7 @@ export const LearningScenarioEdit = () => {
           source="educators"
           reference="educators"
           queryOptions={{ meta: { domainId } }}
+          perPage={total}
         >
           <AutocompleteArrayInput label="resources.learningScenarios.educators" />
         </ReferenceArrayInput>
