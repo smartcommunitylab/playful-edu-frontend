@@ -78,7 +78,9 @@ export const ActivityList = (props: any) => {
           <FunctionField
             label="resources.activities.type"
             render={(record: any) =>
-              translate("resources.activities.typeSelection." + record.type)
+              record && record.type
+                ? translate("resources.activities.typeSelection." + record.type)
+                : ""
             }
           />
           {record.type === "abstr" && (

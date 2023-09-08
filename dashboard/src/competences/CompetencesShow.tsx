@@ -51,7 +51,11 @@ export const CompetencesShow = () => {
         <FunctionField
           label="resources.competences.type"
           render={(record: any) =>
-            translate("resources.competences.knowledgeSelection." + record.type)
+            record && record.type
+              ? translate(
+                  "resources.competences.knowledgeSelection." + record.type
+                )
+              : ""
           }
         />
         <ReferenceArrayField

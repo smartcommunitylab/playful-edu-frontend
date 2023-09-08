@@ -57,26 +57,32 @@ export const ExternalActivityShow = () => {
         <FunctionField
           label="resources.externalActivities.type"
           render={(record: any) =>
-            translate(
-              "resources.externalActivities.typeSelection." + record.type
-            )
+            record && record.type
+              ? translate(
+                  "resources.externalActivities.typeSelection." + record.type
+                )
+              : ""
           }
         />
         <FunctionField
           label="resources.externalActivities.tool"
           render={(record: any) =>
-            translate(
-              "resources.externalActivities.toolSelection." + record.tool
-            )
+            record && record.tool
+              ? translate(
+                  "resources.externalActivities.toolSelection." + record.tool
+                )
+              : ""
           }
         />
         <FunctionField
           label="resources.externalActivities.difficulty"
           render={(record: any) =>
-            translate(
-              "resources.externalActivities.difficultySelection." +
-                record.difficulty
-            )
+            record && record.difficulty
+              ? translate(
+                  "resources.externalActivities.difficultySelection." +
+                    record.difficulty
+                )
+              : ""
           }
         />
         <TextField

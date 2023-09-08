@@ -43,9 +43,11 @@ export const FragmentShow = () => {
         <FunctionField
           label="resources.learningFragments.type"
           render={(record: any) =>
-            translate(
-              "resources.learningFragments.typeSelection." + record.type
-            )
+            record && record.type
+              ? translate(
+                  "resources.learningFragments.typeSelection." + record.type
+                )
+              : ""
           }
         />
         <ActivityList edit={false} />

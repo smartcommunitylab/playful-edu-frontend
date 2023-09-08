@@ -6,10 +6,12 @@ import {
   ReferenceArrayField,
   Show,
   useGetRecordId,
-  List,
   Pagination,
-  useTranslate,
-  useRecordContext,
+  useGetOne,
+  useGetMany,
+  useList,
+  ListContextProvider,
+  Title,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 
@@ -30,24 +32,55 @@ const PostShowActions = () => {
 
 export const LearningScenarioLearnerShow = () => {
   const params = useParams();
+  const learningScenarioId = params.id;
+
+  const { data: scenario } = useGetOne("scenarios", {
+    id: learningScenarioId,
+  });
+
+  const { data, isLoading } = useGetMany("learners", {
+    ids: scenario?.learners,
+  });
+
+  const listContext = useList({ data, isLoading });
 
   return (
-    <Show actions={<PostShowActions />} title="titlePages.learningScenarios.learners.show">
-      <ReferenceArrayField
-        label="Learners"
-        reference="learners"
-        source="learners"
-        pagination={<Pagination />}
+    <ListContextProvider value={listContext}>
+      <Show
+        actions={<PostShowActions />}
+        title="titlePages.learningScenarios.learners.show"
       >
         <Datagrid bulkActionButtons={false}>
           <TextField source="firstname" label="resources.learners.firstname" />
-          <span> </span>
           <TextField source="lastname" label="resources.learners.lastname" />
-          <span> </span>
           <TextField source="email" label="resources.learners.email" />
           <TextField source="nickname" label="resources.learners.nickname" />
         </Datagrid>
-      </ReferenceArrayField>
-    </Show>
+      </Show>
+      <Pagination />
+    </ListContextProvider>
   );
+
+  // return (
+  //   <Show
+  //     actions={<PostShowActions />}
+  //     title="titlePages.learningScenarios.learners.show"
+  //   >
+  //     <ReferenceArrayField
+  //       label="Learners"
+  //       reference="learners"
+  //       source="learners"
+  //       pagination={<Pagination /> }
+  //     >
+  //       <Datagrid bulkActionButtons={false}>
+  //         <TextField source="firstname" label="resources.learners.firstname" />
+  //         <span> </span>
+  //         <TextField source="lastname" label="resources.learners.lastname" />
+  //         <span> </span>
+  //         <TextField source="email" label="resources.learners.email" />
+  //         <TextField source="nickname" label="resources.learners.nickname" />
+  //       </Datagrid>
+  //     </ReferenceArrayField>
+  //   </Show>
+  // );
 };
