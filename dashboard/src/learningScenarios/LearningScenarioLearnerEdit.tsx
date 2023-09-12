@@ -8,48 +8,64 @@ import {
   useRecordContext,
   useGetRecordId,
   Edit,
-  ReferenceArrayInput,
   SimpleForm,
   Toolbar,
-  DeleteButton,
   SaveButton,
-  SelectArrayInput,
-  AutocompleteArrayInput,
-  CheckboxGroupInput,
   TextInput,
-  SelectInput,
   useTranslate,
   useGetList,
   useStore,
-  useGetMany,
   useList,
   ListContextProvider,
   Pagination,
   useGetOne,
-  ReferenceInput,
-  BulkUpdateButton,
   SaveContextProvider,
   useUpdate,
-  useRecordSelection,
-  FilterForm,
-  useListFilterContext,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { useWatch } from "react-hook-form";
 import { useEffect, useLayoutEffect, useState } from "react";
 
-export const InfoLearner = () => {
+const PostEditActions = (props: {
+  onTextFilterChange: any;
+  defaultValue: string;
+}) => {
+  const recordId = useGetRecordId();
   const params = useParams();
-
+  const domainId = params.domainId;
+  const to = `/scenarios/d/${domainId}/s/${recordId}/learners`;
+  if (!recordId) return null;
   return (
     <>
-      <TextField source="firstname" fullWidth />
-      <TextField source="lastname" fullWidth />
-      <TextField source="email" fullWidth />
-      <TextField source="nickname" fullWidth />
+      <TopToolbar
+        sx={{
+          justifyContent: "space-between",
+        }}
+      >
+        <SimpleForm
+          toolbar={false}
+          sx={{
+            padding: "0 !important",
+          }}
+        >
+          <TextInput
+            label="ra.action.search"
+            source="text"
+            onChange={(e) => props.onTextFilterChange(e.target.value)}
+            defaultValue={props.defaultValue}
+            sx={{
+              "& .MuiFormHelperText-root": {
+                display: "none",
+              },
+            }}
+          />
+        </SimpleForm>
+        <ShowButton to={to}></ShowButton>
+      </TopToolbar>
     </>
   );
 };
+
+const PostBulkActionButtons = () => <></>;
 
 const EditToolbar = (props: any) => {
   const recordId = useGetRecordId();
@@ -64,54 +80,6 @@ const EditToolbar = (props: any) => {
   );
 };
 
-// const FullNameField = () => {
-//   const record = useRecordContext();
-//   const translate = useTranslate();
-
-//   return (
-//     <>
-//       <div>
-//         {translate("resources.learners.firstname")}: <b>{record.firstname} </b>{" "}
-//         &nbsp;
-//         {translate("resources.learners.lastname")}: <b>{record.lastname}</b>{" "}
-//         &nbsp;
-//         {translate("resources.learners.email")}: <b>{record.email}</b> &nbsp;
-//         {translate("resources.learners.nickname")}: <b>{record.nickname}</b>
-//       </div>
-//     </>
-//   );
-// };
-
-// const ReferenceLearnerInput = (props: any) => {
-//   const nameLearner = useWatch({ name: "name" });
-//   // const perPageLearner = useWatch({ name: 'perPage' });
-//   // const pageLearner = useWatch({ name: 'page' });
-//   const params = useParams();
-//   const domainId = params.domainId;
-
-//   const { total } = useGetList("learners", {
-//     meta: { domainId },
-//   });
-
-//   return (
-//     <ReferenceArrayInput
-//       source="learners"
-//       reference="learners"
-//       perPage={total}
-//       // perPage={perPageLearner}
-//       // page={pageLearner}
-//       sort={{ field: "id", order: "ASC" }}
-//       queryOptions={{ meta: { domainId, text: nameLearner } }}
-//     >
-//       <CheckboxGroupInput
-//         row={false}
-//         optionText={<FullNameField />}
-//         label="resources.learningScenarios.learners.title"
-//       />
-//     </ReferenceArrayInput>
-//   );
-// };
-
 const Title = () => {
   const translate = useTranslate();
   const record = useRecordContext();
@@ -123,68 +91,12 @@ const Title = () => {
   return title;
 };
 
-// export const LearningScenarioLearnerEdit = () => {
-//   const params = useParams();
-//   const domainId = params.domainId;
-//   const learningScenarioId = params.id;
-//   const redirect = useRedirect();
-
-//   const onSuccess = () => {
-//     redirect(`/scenarios/d/${domainId}/s/${learningScenarioId}/learners`);
-//   };
-
-//   return (
-//     <Edit
-//       mutationOptions={{ onSuccess }}
-//       actions={<PostEditActions />}
-//       transform={(data: any) => ({ ...data, domainId })}
-//       mutationMode="pessimistic"
-//       title={<Title />}
-//     >
-//       <SimpleForm toolbar={<EditToolbar />}>
-//         <TextInput source="name" label="ra.action.search" />
-//         <ReferenceLearnerInput />
-//       </SimpleForm>
-//     </Edit>
-//   );
-// };
-
-const PostBulkActionButtons = () => <></>;
-
-const PostEditActions = (props: { onFilterChange: any }) => {
-  const recordId = useGetRecordId();
-  const params = useParams();
-  const domainId = params.domainId;
-  const to = `/scenarios/d/${domainId}/s/${recordId}/learners`;
-  if (!recordId) return null;
-  return (
-    <>
-      <TopToolbar
-        sx={{
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <SimpleForm toolbar={false}>
-          <TextInput
-            label="ra.action.search"
-            source="text"
-            onChange={(e) => props.onFilterChange(e.target.value)}
-          />
-        </SimpleForm>
-        <ShowButton to={to}></ShowButton>
-      </TopToolbar>
-    </>
-  );
-};
-
 export const LearningScenarioLearnerEdit = () => {
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.id;
   const redirect = useRedirect();
   const [update] = useUpdate();
-  const [filter, setFilter] = useState("");
 
   const obj = {
     page: 1,
@@ -197,6 +109,8 @@ export const LearningScenarioLearnerEdit = () => {
     "scenarios.learners.edit.listParams",
     obj
   );
+
+  const [textFilter, setTextFilter] = useState(listParams.filter.text);
 
   // get the total number of learners
   const { total } = useGetList("learners", {
@@ -221,11 +135,34 @@ export const LearningScenarioLearnerEdit = () => {
     page: listParams.page,
     perPage: listParams.perPage,
     sort: { field: listParams.sort, order: listParams.order },
-    filterCallback: (filterValues: any) => {
-      console.log("filter", filter);
-      const c = filter;
-      console.log("call filterCallback");
-      return filterValues;
+    filterCallback: (record: any) => {
+      const ids =
+        listContext.selectedIds.length > 0
+          ? listContext.selectedIds
+          : scenario?.learners;
+
+      if (ids.includes(record.id)) return true;
+      else if (textFilter === "") return true;
+      else if (
+        record.firstname.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
+      )
+        return true;
+      else if (
+        record.lastname &&
+        record.lastname.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
+      )
+        return true;
+      else if (
+        record.email &&
+        record.email?.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
+      )
+        return true;
+      else if (
+        record.nickname &&
+        record.nickname?.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
+      )
+        return true;
+      else return false;
     },
   });
 
@@ -235,17 +172,11 @@ export const LearningScenarioLearnerEdit = () => {
       perPage: listContext.perPage,
       sort: listContext.sort.field,
       order: listContext.sort.order,
-      filter: { text: "" },
+      filter: { text: textFilter },
     };
 
     setListParams(obj);
-    console.log("listContext", listContext);
-  }, [
-    listContext.perPage,
-    listContext.page,
-    listContext.sort,
-    listContext.filterValues,
-  ]);
+  }, [listContext.perPage, listContext.page, listContext.sort, textFilter]);
 
   useEffect(() => {
     const ids = scenario?.learners.filter((scenarioLearnerId: any) => {
@@ -294,15 +225,24 @@ export const LearningScenarioLearnerEdit = () => {
     );
   };
 
-  function handleFilterChange(filterValues: any) {
-    console.log("handleFilterChange", filterValues);
-    setFilter(filterValues);
+  function handleTextFilterChange(value: any) {
+    setTextFilter(value);
+
+    // call setFilters to trigger filterCallback
+    const filters = {};
+    const displayedFilters = {};
+    listContext.setFilters(filters, displayedFilters);
   }
 
   return (
     <ListContextProvider value={listContext}>
       <Edit
-        actions={<PostEditActions onFilterChange={handleFilterChange} />}
+        actions={
+          <PostEditActions
+            onTextFilterChange={handleTextFilterChange}
+            defaultValue={listParams.filter.text}
+          />
+        }
         title={<Title />}
       >
         <SaveContextProvider
