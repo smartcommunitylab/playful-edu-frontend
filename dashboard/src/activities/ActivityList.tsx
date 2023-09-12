@@ -71,6 +71,7 @@ export const ActivityList = (props: any) => {
             minHeight: "40px",
           },
         }}
+        pagination={false}
       >
         <Datagrid bulkActionButtons={props.edit}>
           <TextField source="title" label="resources.activities.title" />

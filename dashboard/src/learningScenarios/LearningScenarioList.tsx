@@ -36,6 +36,7 @@ const ListActions = () => (
 const LearningScenarioFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
+
 export const LearningScenarioList = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -121,6 +122,7 @@ const ShowScenarioButton = () => {
     </>
   );
 };
+
 const CreateScenarioButton = () => {
   const record = useRecordContext();
   const params = useParams();
@@ -132,6 +134,7 @@ const CreateScenarioButton = () => {
     </>
   );
 };
+
 const Empty = () => {
   const params = useParams();
   const domainId = params.domainId;

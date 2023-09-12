@@ -36,7 +36,7 @@ export const LearningScenarioEdit = () => {
   const domainId = params.domainId;
   const redirect = useRedirect();
   const onSuccess = () => {
-    redirect(`/scenarios/d/${domainId}/s/${recordId}/element`);
+    redirect(`/scenarios/d/${domainId}`);
   };
 
   const { total } = useGetList("educators", {
