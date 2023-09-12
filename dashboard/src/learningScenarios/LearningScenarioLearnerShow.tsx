@@ -1,9 +1,9 @@
+import { useEffect } from "react";
 import {
   Datagrid,
   TextField,
   TopToolbar,
   EditButton,
-  ReferenceArrayField,
   Show,
   useGetRecordId,
   Pagination,
@@ -11,7 +11,7 @@ import {
   useGetMany,
   useList,
   ListContextProvider,
-  Title,
+  useStore,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 
@@ -34,15 +34,53 @@ export const LearningScenarioLearnerShow = () => {
   const params = useParams();
   const learningScenarioId = params.id;
 
+  const obj = {
+    page: 1,
+    perPage: 10,
+    sort: "id",
+    order: "ASC",
+  };
+  const [listParams, setListParams] = useStore(
+    "scenarios.learners.show.listParams",
+    obj
+  );
+
+  // get the learning scenario
   const { data: scenario } = useGetOne("scenarios", {
     id: learningScenarioId,
   });
-
+  // get the learners of the learning scenario
   const { data, isLoading } = useGetMany("learners", {
     ids: scenario?.learners,
   });
 
-  const listContext = useList({ data, isLoading });
+  const listContext = useList({
+    data,
+    isLoading,
+    page: listParams.page,
+    perPage: listParams.perPage,
+    sort: { field: listParams.sort, order: listParams.order },
+  });
+
+  useEffect(() => {
+    const obj = {
+      page: listContext.page,
+      perPage: listContext.perPage,
+      sort: listContext.sort.field,
+      order: listContext.sort.order,
+    };
+    setListParams(obj);
+  }, [listContext.perPage, listContext.page, listContext.sort]);
+
+  useEffect(() => {
+    const page = listContext.total
+      ? listContext.page > Math.ceil(listContext.total / listContext.perPage)
+        ? 1
+        : listContext.page
+      : 1;
+      
+    listContext.setPage(page);
+  }, []);
 
   return (
     <ListContextProvider value={listContext}>
@@ -60,27 +98,4 @@ export const LearningScenarioLearnerShow = () => {
       <Pagination />
     </ListContextProvider>
   );
-
-  // return (
-  //   <Show
-  //     actions={<PostShowActions />}
-  //     title="titlePages.learningScenarios.learners.show"
-  //   >
-  //     <ReferenceArrayField
-  //       label="Learners"
-  //       reference="learners"
-  //       source="learners"
-  //       pagination={<Pagination /> }
-  //     >
-  //       <Datagrid bulkActionButtons={false}>
-  //         <TextField source="firstname" label="resources.learners.firstname" />
-  //         <span> </span>
-  //         <TextField source="lastname" label="resources.learners.lastname" />
-  //         <span> </span>
-  //         <TextField source="email" label="resources.learners.email" />
-  //         <TextField source="nickname" label="resources.learners.nickname" />
-  //       </Datagrid>
-  //     </ReferenceArrayField>
-  //   </Show>
-  // );
 };
