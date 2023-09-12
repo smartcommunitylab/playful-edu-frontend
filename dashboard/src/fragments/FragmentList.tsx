@@ -53,6 +53,7 @@ export const FragmentList = () => {
       }}
       title="titlePages.learningFragments.list"
       sx={{ justifyContent: "center" }}
+      pagination={false}
     >
       <Datagrid>
         {/* <FragmentButton></FragmentButton> */}
