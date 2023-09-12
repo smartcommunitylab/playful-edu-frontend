@@ -57,6 +57,7 @@ export const ModuleList = () => {
         queryOptions={{ meta: { domainId, learningScenarioId } }}
         title="titlePages.modules.list"
         sx={{ justifyContent: "center" }}
+        pagination={false}
       >
         <Datagrid>
           <TextField source="title" label="resources.modules.title" />
