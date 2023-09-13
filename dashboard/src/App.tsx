@@ -130,7 +130,10 @@ const httpClient = async (url: string, options: Options = {}) => {
 
   return fetchUtils.fetchJson(url, options);
 };
-const dataProvider = appDataProvider(API_URL, httpClient);
+const dataProvider = appDataProvider(
+  "http://localhost:8445/playfuledu/api",
+  httpClient
+);
 
 const Dashboard = () => {
   const translate = useTranslate();
@@ -231,8 +234,10 @@ export const App = () => (
           path="/d/:domainId/s/:id/learners/*"
           element={<LearningScenarioLearnerShow />}
         />
+      </Resource>
+      <Resource name="scenario-learners">
         <Route
-          path="/d/:domainId/s/:id/learners/edit/*"
+          path="/d/:domainId/s/:id/edit/*"
           element={<LearningScenarioLearnerEdit />}
         />
       </Resource>

@@ -15,6 +15,7 @@ const springDataProvider = (
 ): DataProvider => {
   return {
     getList: (resource, params) => {
+      if (resource === "scenario-learners") resource = "learners";
       //handle pagination request as pageable (page,size)
       const { page, perPage } = params.pagination;
       const { field, order } = params.sort;
@@ -55,6 +56,7 @@ const springDataProvider = (
       });
     },
     getOne: (resource, params) => {
+      if (resource === "scenario-learners") resource = "learners";
       const url = `${apiUrl}/${resource}/${params.id}`;
       return httpClient(url).then(({ status, json }) => {
         if (status !== 200) {
@@ -89,6 +91,7 @@ const springDataProvider = (
       throw new Error("Unsupported");
     },
     update: (resource, params) => {
+      if (resource === "scenario-learners") resource = "scenarios";
       const url = `${apiUrl}/${resource}/${params.id}`;
       return httpClient(url, {
         method: "PUT",

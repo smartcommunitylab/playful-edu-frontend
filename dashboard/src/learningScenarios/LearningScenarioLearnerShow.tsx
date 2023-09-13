@@ -19,7 +19,7 @@ const PostShowActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
-  const to = `/scenarios/d/${domainId}/s/${recordId}/learners/edit`;
+  const to = `/scenario-learners/d/${domainId}/s/${recordId}/edit`;
   if (!recordId) return null;
   return (
     <>
