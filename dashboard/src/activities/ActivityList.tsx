@@ -106,7 +106,14 @@ export const ActivityList = (props: any) => {
         }}
         pagination={false}
       >
-        <Datagrid bulkActionButtons={bulkActionButtons}>
+        <Datagrid
+          bulkActionButtons={bulkActionButtons}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField
             source="title"
             label="resources.activities.title"

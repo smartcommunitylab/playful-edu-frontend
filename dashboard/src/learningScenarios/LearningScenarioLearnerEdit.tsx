@@ -164,6 +164,8 @@ export const LearningScenarioLearnerEdit = () => {
                 "& .RaList-actions": {
                   marginBottom: "3rem",
                   alignItems: "center",
+                  flexWrap: "nowrap",
+                  flexDirection: "row",
                 },
               }}
               title={<Title />}
@@ -173,6 +175,9 @@ export const LearningScenarioLearnerEdit = () => {
                 sx={{
                   "& .RaBulkActionsToolbar-icon": {
                     display: "none",
+                  },
+                  "& .RaBulkActionsToolbar-topToolbar": {
+                    backgroundColor: "initial",
                   },
                 }}
               >

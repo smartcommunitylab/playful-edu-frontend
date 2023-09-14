@@ -84,7 +84,14 @@ export const EducatorList = () => {
         title="titlePages.educators.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="firstname" label="resources.educators.firstname" />
           <span> </span>
           <TextField source="lastname" label="resources.educators.lastname" />

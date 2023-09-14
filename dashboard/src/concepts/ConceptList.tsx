@@ -83,7 +83,14 @@ export const ConceptList = () => {
         title="titlePages.concepts.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="title" label="resources.concepts.title" />
           <EditConceptButton />
           <ShowConceptButton />

@@ -84,7 +84,14 @@ export const LearningScenarioList = () => {
         title="titlePages.learningScenarios.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="title" label="resources.learningScenarios.title" />
           <TextField
             source="desc"

@@ -87,7 +87,14 @@ export const CompetencesList = () => {
         title="titlePages.competences.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="title" label="resources.competences.title" />
           <TextField source="desc" label="resources.competences.description" />
           <FunctionField

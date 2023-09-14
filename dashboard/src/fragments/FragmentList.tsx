@@ -89,7 +89,14 @@ export const FragmentList = () => {
       sx={{ justifyContent: "center" }}
       pagination={false}
     >
-      <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+      <Datagrid
+        bulkActionButtons={<PostBulkActionButtons />}
+        sx={{
+          "& .RaBulkActionsToolbar-topToolbar": {
+            backgroundColor: "initial",
+          },
+        }}
+      >
         {/* <FragmentButton></FragmentButton> */}
         <TextField
           source="title"

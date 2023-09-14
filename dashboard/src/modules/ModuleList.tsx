@@ -89,7 +89,14 @@ export const ModuleList = () => {
         sx={{ justifyContent: "center" }}
         pagination={false}
       >
-        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField
             source="title"
             label="resources.modules.title"

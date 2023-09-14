@@ -73,7 +73,14 @@ export const DomainList = () => {
       title="titlePages.domains.list"
       sx={{ justifyContent: "center" }}
     >
-      <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+      <Datagrid
+        bulkActionButtons={<PostBulkActionButtons />}
+        sx={{
+          "& .RaBulkActionsToolbar-topToolbar": {
+            backgroundColor: "initial",
+          },
+        }}
+      >
         <DomainButton
           source="title"
           label="resources.domains.title"
@@ -91,12 +98,29 @@ const DomainButton = (props: { source: string; label: string }) => {
   if (!record) return null;
   return (
     <>
-      <Button
-        label={record.title}
+      <MuiButton
         onClick={() => {
           redirect(`/domains/${record.id}`);
         }}
-      ></Button>
+        sx={{
+          fontFeatureSettings: "normal",
+          fontKerning: "auto",
+          fontOpticalSizing: "auto",
+          fontSize: "13px",
+          fontStretch: "100%",
+          fontStyle: "normal",
+          fontVariantAlternates: "normal",
+          fontVariantCaps: "normal",
+          fontVariantEastAsian: "normal",
+          fontVariantLigatures: "normal",
+          fontVariantNumeric: "normal",
+          fontVariationSettings: "normal",
+          fontWeight: "500",
+          lineHeight: "19.5px"
+        }}
+      >
+        {record.title}
+      </MuiButton>
     </>
   );
 };
