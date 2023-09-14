@@ -16,6 +16,8 @@ import {
   DateField,
   ResourceContextProvider,
   Link,
+  useListContext,
+  BulkDeleteButton,
 } from "react-admin";
 import {
   DOMAIN_URL_PARAM,
@@ -42,6 +44,34 @@ const ModuleFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
 
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.modules.${selectedIdsCount === 1 ? "singular" : "plural"}`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const ModuleList = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -53,18 +83,38 @@ export const ModuleList = () => {
       <List
         empty={<Empty />}
         actions={<ListActions />}
-        filters={ModuleFilters}
+        //filters={ModuleFilters}
         queryOptions={{ meta: { domainId, learningScenarioId } }}
         title="titlePages.modules.list"
         sx={{ justifyContent: "center" }}
         pagination={false}
       >
-        <Datagrid>
-          <TextField source="title" label="resources.modules.title" />
-          <TextField source="desc" label="resources.modules.description" />
-          <TextField source="level" label="resources.modules.level" />
-          <DateField source="dateFrom" label="resources.modules.dateFrom" />
-          <DateField source="dateTo" label="resources.modules.dateTo" />
+        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
+          <TextField
+            source="title"
+            label="resources.modules.title"
+            sortable={false}
+          />
+          <TextField
+            source="desc"
+            label="resources.modules.description"
+            sortable={false}
+          />
+          <TextField
+            source="level"
+            label="resources.modules.level"
+            sortable={false}
+          />
+          <DateField
+            source="dateFrom"
+            label="resources.modules.dateFrom"
+            sortable={false}
+          />
+          <DateField
+            source="dateTo"
+            label="resources.modules.dateTo"
+            sortable={false}
+          />
           <EditModuleButton />
           <ShowModuleButton />
         </Datagrid>

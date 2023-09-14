@@ -16,42 +16,49 @@ const messages = {
       edit: "Edit domain",
       create: "Create domain",
       show: "Domain",
+      delete: "Delete domain",
     },
     educators: {
       list: "Educators",
       edit: "Edit educator",
       create: "Create educator",
       show: "Educator",
+      delete: "Delete educator",
     },
     learners: {
       list: "Learners",
       edit: "Edit learner",
       create: "Create learner",
       show: "Learner",
+      delete: "Delete learner",
     },
     concepts: {
       list: "Concepts",
       edit: "Edit concept",
       create: "Create concept",
       show: "Concept",
+      delete: "Delete concept",
     },
     competences: {
       list: "Competences",
       edit: "Edit competence",
       create: "Create competence",
       show: "Competence",
+      delete: "Delete competence",
     },
     externalActivities: {
       list: "External activities",
       edit: "Edit external activity",
       create: "Create external activity",
       show: "External activity",
+      delete: "Delete external activity",
     },
     learningScenarios: {
       list: "Scenarios",
       edit: "Edit scenario",
       create: "Create scenario",
       show: "Scenario",
+      delete: "Delete scenario",
       learners: {
         show: "Learners of the scenario",
         edit: "Edit the learners of the scenario",
@@ -62,17 +69,20 @@ const messages = {
       edit: "Edit module",
       create: "Create module",
       show: "Module",
+      delete: "Delete module",
     },
     learningFragments: {
       list: "Fragments",
       edit: "Edit fragment",
       create: "Create fragment",
       show: "Fragment",
+      delete: "Delete fragment",
     },
     activities: {
       edit: "Edit activity",
       create: "Create activity",
       show: "Activity",
+      delete: "Delete activity",
     },
   },
   resources: {
@@ -87,6 +97,8 @@ const messages = {
       search: "Search domain",
       back: "Domains",
       addOne: "Do you want to add one?",
+      singular: "domain",
+      plural: "domains",
     },
     users: {
       menu: "Users",
@@ -99,6 +111,8 @@ const messages = {
       email: "Email",
       empty: "No educators found",
       addOne: "Do you want to add one?",
+      singular: "educator",
+      plural: "educators",
     },
     learners: {
       menu: "Learners",
@@ -108,12 +122,16 @@ const messages = {
       email: "Email",
       empty: "No learners found",
       addOne: "Do you want to add one?",
+      singular: "learner",
+      plural: "learners",
     },
     concepts: {
       menu: "Concepts",
       title: "Title",
       empty: "No concepts found",
       addOne: "Do you want to add one?",
+      singular: "concept",
+      plural: "concepts",
     },
     competences: {
       title: "Title",
@@ -126,6 +144,8 @@ const messages = {
       knowledgeSelection: {
         knowledge: "Knowledge",
       },
+      singular: "competence",
+      plural: "competences",
     },
     externalActivities: {
       menu: "External activities",
@@ -150,6 +170,8 @@ const messages = {
       },
       empty: "No external activities found",
       addOne: "Do you want to add one?",
+      singular: "external activity",
+      plural: "external activities",
     },
     learningScenarios: {
       back: "Scenarios",
@@ -164,6 +186,8 @@ const messages = {
       },
       empty: "No learning scenarios found",
       addOne: "Do you want to add one?",
+      singular: "scenario",
+      plural: "scenarios",
     },
     modules: {
       menu: "Modules",
@@ -175,6 +199,8 @@ const messages = {
       dateTo: "End date",
       empty: "No modules found",
       addOne: "Do you want to add one?",
+      singular: "module",
+      plural: "modules",
     },
     learningFragments: {
       menu: "Fragments",
@@ -188,6 +214,8 @@ const messages = {
         set: "Set",
         list: "List",
       },
+      singular: "fragment",
+      plural: "fragments",
     },
     activities: {
       menu: "Activities",
@@ -205,6 +233,8 @@ const messages = {
         abstr: "Abstract",
         group: "Group",
       },
+      singular: "activity",
+      plural: "activities",
     },
   },
 };

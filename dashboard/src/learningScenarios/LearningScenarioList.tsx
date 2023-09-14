@@ -16,6 +16,8 @@ import {
   ResourceContextProvider,
   BooleanField,
   Link,
+  useListContext,
+  BulkDeleteButton,
 } from "react-admin";
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -33,9 +35,40 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const LearningScenarioFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.learningScenarios.${
+      selectedIdsCount === 1 ? "singular" : "plural"
+    }`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
 
 export const LearningScenarioList = () => {
   const params = useParams();
@@ -46,12 +79,12 @@ export const LearningScenarioList = () => {
       <List
         empty={<Empty />}
         actions={<ListActions />}
-        filters={LearningScenarioFilters}
+        //filters={LearningScenarioFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.learningScenarios.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid>
+        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
           <TextField source="title" label="resources.learningScenarios.title" />
           <TextField
             source="desc"

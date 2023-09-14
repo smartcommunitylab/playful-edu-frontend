@@ -1,11 +1,14 @@
 import {
   AutocompleteArrayInput,
   BooleanInput,
+  DeleteButton,
   Edit,
   ReferenceArrayInput,
+  SaveButton,
   ShowButton,
   SimpleForm,
   TextInput,
+  Toolbar,
   TopToolbar,
   required,
   useGetList,
@@ -30,6 +33,31 @@ const PostEditActions = () => {
     </>
   );
 };
+
+const EditToolbar = (props: any) => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const to = `/scenarios/d/${domainId}`;
+  return (
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
+      <SaveButton />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={
+          <Title
+            translationKey="titlePages.learningScenarios.delete"
+          />
+        }
+      />
+    </Toolbar>
+  );
+};
+
 export const LearningScenarioEdit = () => {
   const recordId = useGetRecordId();
   const params = useParams();
@@ -51,7 +79,7 @@ export const LearningScenarioEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.learningScenarios.edit" />}
     >
-      <SimpleForm>
+      <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
           source="title"
           validate={[required()]}

@@ -40,9 +40,21 @@ const EditToolbar = (props: any) => {
   const domainId = params.domainId;
   const to = `/external-activities/d/${domainId}`;
   return (
-    <Toolbar {...props}>
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
       <SaveButton />
-      <DeleteButton redirect={to} />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={
+          <Title
+            translationKey="titlePages.externalActivities.delete"
+          />
+        }
+      />
     </Toolbar>
   );
 };

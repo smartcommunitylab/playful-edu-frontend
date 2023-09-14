@@ -1,9 +1,12 @@
 import {
   DateInput,
+  DeleteButton,
   Edit,
+  SaveButton,
   ShowButton,
   SimpleForm,
   TextInput,
+  Toolbar,
   TopToolbar,
   required,
   useGetRecordId,
@@ -30,6 +33,32 @@ const PostEditActions = () => {
   );
 };
 
+const EditToolbar = (props: any) => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}`;
+  return (
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
+      <SaveButton />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={
+          <Title
+            translationKey="titlePages.modules.delete"
+          />
+        }
+      />
+    </Toolbar>
+  );
+};
+
 export const ModuleEdit = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -47,7 +76,7 @@ export const ModuleEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.modules.edit" />}
     >
-      <SimpleForm>
+      <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
           source="title"
           validate={[required()]}

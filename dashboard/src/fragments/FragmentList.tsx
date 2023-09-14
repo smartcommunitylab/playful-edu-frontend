@@ -17,6 +17,8 @@ import {
   SelectField,
   Link,
   FunctionField,
+  useListContext,
+  BulkDeleteButton,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -33,9 +35,41 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const FragmentFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.learningFragments.${
+      selectedIdsCount === 1 ? "singular" : "plural"
+    }`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const FragmentList = () => {
   const params = useParams();
   const translate = useTranslate();
@@ -47,7 +81,7 @@ export const FragmentList = () => {
     <List
       empty={<Empty />}
       actions={<ListActions />}
-      filters={FragmentFilters}
+      //filters={FragmentFilters}
       queryOptions={{
         meta: { domainId, learningScenarioId, learningModuleId },
       }}
@@ -55,9 +89,13 @@ export const FragmentList = () => {
       sx={{ justifyContent: "center" }}
       pagination={false}
     >
-      <Datagrid>
+      <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
         {/* <FragmentButton></FragmentButton> */}
-        <TextField source="title" label="resources.learningFragments.title" />
+        <TextField
+          source="title"
+          label="resources.learningFragments.title"
+          sortable={false}
+        />
         <FunctionField
           label="resources.learningFragments.type"
           render={(record: any) =>

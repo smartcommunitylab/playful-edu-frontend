@@ -22,6 +22,8 @@ import {
   ReferenceField,
   Link,
   FunctionField,
+  useListContext,
+  BulkDeleteButton,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -38,7 +40,37 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 // const ActivityFilters = [<TextInput label="ra.action.search" source="title" alwaysOn />];
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.activities.${selectedIdsCount === 1 ? "singular" : "plural"}`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const ActivityList = (props: any) => {
   const params = useParams();
   const record = useRecordContext();
@@ -48,6 +80,7 @@ export const ActivityList = (props: any) => {
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.id;
   const title = " ";
+  const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
 
   return (
     <ResourceContextProvider value="activities">
@@ -73,9 +106,17 @@ export const ActivityList = (props: any) => {
         }}
         pagination={false}
       >
-        <Datagrid bulkActionButtons={props.edit}>
-          <TextField source="title" label="resources.activities.title" />
-          <TextField source="desc" label="resources.activities.description" />
+        <Datagrid bulkActionButtons={bulkActionButtons}>
+          <TextField
+            source="title"
+            label="resources.activities.title"
+            sortable={false}
+          />
+          <TextField
+            source="desc"
+            label="resources.activities.description"
+            sortable={false}
+          />
           <FunctionField
             label="resources.activities.type"
             render={(record: any) =>
@@ -147,6 +188,7 @@ const ShowActivityButton = () => {
     </>
   );
 };
+
 const CreateActivityButton = () => {
   const params = useParams();
   const domainId = params.domainId;

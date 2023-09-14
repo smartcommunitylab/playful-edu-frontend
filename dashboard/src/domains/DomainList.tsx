@@ -12,6 +12,8 @@ import {
   useRecordContext,
   useTranslate,
   Link,
+  BulkDeleteButton,
+  useListContext,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -28,8 +30,38 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 // const domainFilters = [
 //     <TextInput label="resources.domains.search" source="q"  alwaysOn />]
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.domains.${selectedIdsCount === 1 ? "singular" : "plural"}`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const DomainList = () => {
   const redirect = useRedirect();
   const translate = useTranslate();
@@ -41,7 +73,7 @@ export const DomainList = () => {
       title="titlePages.domains.list"
       sx={{ justifyContent: "center" }}
     >
-      <Datagrid>
+      <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
         <DomainButton
           source="title"
           label="resources.domains.title"

@@ -1,9 +1,12 @@
 import {
+  DeleteButton,
   Edit,
+  SaveButton,
   SelectInput,
   ShowButton,
   SimpleForm,
   TextInput,
+  Toolbar,
   TopToolbar,
   required,
   useGetRecordId,
@@ -31,6 +34,32 @@ const PostEditActions = () => {
   );
 };
 
+const EditToolbar = (props: any) => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const learningModuleId = params.learningModuleId;
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`;
+  return (
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
+      <SaveButton />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={
+          <Title
+            translationKey="titlePages.learningFragments.delete"
+          />
+        }
+      />
+    </Toolbar>
+  );
+};
+
 export const FragmentEdit = () => {
   const translate = useTranslate();
   const redirect = useRedirect();
@@ -51,7 +80,7 @@ export const FragmentEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.learningFragments.edit" />}
     >
-      <SimpleForm>
+      <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
           source="title"
           validate={[required()]}

@@ -15,6 +15,8 @@ import {
   ResourceContextProvider,
   Link,
   FunctionField,
+  useListContext,
+  BulkDeleteButton,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -37,6 +39,36 @@ const ExternalActivityFilters = [
   <TextInput label="ra.action.search" source="title" alwaysOn />,
 ];
 
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.externalActivities.${
+      selectedIdsCount === 1 ? "singular" : "plural"
+    }`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const ExternalActivityList = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -47,12 +79,12 @@ export const ExternalActivityList = () => {
       <List
         empty={<Empty />}
         actions={<ListActions />}
-        filters={ExternalActivityFilters}
+        //filters={ExternalActivityFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.externalActivities.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid>
+        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
           <TextField
             source="title"
             label="resources.externalActivities.title"
@@ -63,6 +95,7 @@ export const ExternalActivityList = () => {
           />
           <FunctionField
             label="resources.externalActivities.type"
+            source="type"
             render={(record: any) =>
               record && record.type
                 ? translate(
@@ -77,6 +110,7 @@ export const ExternalActivityList = () => {
           />
           <FunctionField
             label="resources.externalActivities.tool"
+            source="tool"
             render={(record: any) =>
               record && record.tool
                 ? translate(
@@ -87,6 +121,7 @@ export const ExternalActivityList = () => {
           />
           <FunctionField
             label="resources.externalActivities.difficulty"
+            source="difficulty"
             render={(record: any) =>
               record && record.difficulty
                 ? translate(

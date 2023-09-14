@@ -20,6 +20,8 @@ import {
   ResourceContextProvider,
   Link,
   FunctionField,
+  useListContext,
+  BulkDeleteButton,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -37,9 +39,39 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const CompetencesFilters = [
   <TextInput label="ra.action.search" source="title" alwaysOn />,
 ];
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.competences.${selectedIdsCount === 1 ? "singular" : "plural"}`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const CompetencesList = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -50,16 +82,17 @@ export const CompetencesList = () => {
       <List
         empty={<Empty />}
         actions={<ListActions />}
-        filters={CompetencesFilters}
+        //filters={CompetencesFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.competences.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid>
+        <Datagrid bulkActionButtons={<PostBulkActionButtons />}>
           <TextField source="title" label="resources.competences.title" />
           <TextField source="desc" label="resources.competences.description" />
           <FunctionField
             label="resources.competences.type"
+            source="type"
             render={(record: any) =>
               record && record.type
                 ? translate(

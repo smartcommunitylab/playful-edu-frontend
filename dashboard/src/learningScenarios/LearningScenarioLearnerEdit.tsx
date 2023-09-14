@@ -2,34 +2,25 @@ import {
   List,
   TextField,
   TopToolbar,
-  ShowButton,
   useRedirect,
   useRecordContext,
   useGetRecordId,
-  Edit,
   SimpleForm,
   Toolbar,
   SaveButton,
   TextInput,
   useTranslate,
-  useGetList,
   useStore,
-  ListContextProvider,
-  Pagination,
   useGetOne,
   SaveContextProvider,
   useUpdate,
-  useList,
   Datagrid,
   ResourceContextProvider,
-  ExportButton,
   Button,
-  SearchInput,
-  useListContext,
+  Empty,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { debounce } from "lodash";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Card } from "@mui/material";
 
