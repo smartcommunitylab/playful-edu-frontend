@@ -24,8 +24,11 @@ const springDataProvider = (
       if (params?.meta) meta = params?.meta;
       if (params?.filter) filter = params?.filter;
 
+      const sort: string[] = [field + "," + order];
+      if (field !== "id") sort.push("id");
+
       let query: any = {
-        sort: field + "," + order, //sorting
+        sort, //sorting
         page: page - 1, //page starts from zero
         size: perPage,
       };
