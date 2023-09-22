@@ -270,10 +270,6 @@ export const App = () => (
       </Resource>
       <Resource name="fragments" recordRepresentation="title">
         <Route
-          path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/*"
-          element={<FragmentList />}
-        />
-        <Route
           path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/create/*"
           element={<FragmentCreate />}
         />

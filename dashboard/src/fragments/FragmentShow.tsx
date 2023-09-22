@@ -50,7 +50,6 @@ export const FragmentShow = () => {
               : ""
           }
         />
-        <ActivityList edit={false} />
       </SimpleShowLayout>
     </Show>
   );

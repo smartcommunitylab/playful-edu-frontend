@@ -39,7 +39,7 @@ const EditToolbar = (props: any) => {
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
-  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`;
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`;
   return (
     <Toolbar
       {...props}
@@ -51,9 +51,7 @@ const EditToolbar = (props: any) => {
       <DeleteButton
         redirect={to}
         confirmTitle={
-          <Title
-            translationKey="titlePages.learningFragments.delete"
-          />
+          <Title translationKey="titlePages.learningFragments.delete" />
         }
       />
     </Toolbar>
@@ -69,7 +67,7 @@ export const FragmentEdit = () => {
   const learningModuleId = params.learningModuleId;
   const onSuccess = () => {
     redirect(
-      `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
+      `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
     );
   };
 
@@ -107,7 +105,6 @@ export const FragmentEdit = () => {
           ]}
           label="resources.learningFragments.type"
         />
-        <ActivityList edit={true}/>
       </SimpleForm>
     </Edit>
   );

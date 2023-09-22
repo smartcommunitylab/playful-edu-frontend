@@ -37,7 +37,7 @@ export const ActivityCreate = () => {
 
   const onSuccess = () => {
     redirect(
-      `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`
+      `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
     );
   };
 

@@ -179,7 +179,21 @@ const messages = {
       title: "Titolo",
       description: "Descrizione",
       language: "Lingua",
-      publicScenario: "Scenario pubblico",
+      publicScenario: "Scenario",
+      publicScenarioOption: {
+        public: "Pubblico",
+        private: "Privato",
+      },
+      status: "Stato",
+      statusOption: {
+        inProgress: "In corso",
+        toStart: "Da avviare",
+      },
+      start: "Avvia",
+      statusNotification: {
+        success: "Scenario avviato con successo",
+        error: "Errore nell'avvio dello scenario",
+      },
       educators: "Educatori",
       learners: {
         title: "Studenti",
@@ -204,7 +218,7 @@ const messages = {
     },
     learningFragments: {
       menu: "Frammenti",
-      back: "Frammenti",
+      back: "Modulo",
       title: "Titolo",
       type: "Tipo",
       empty: "Nessun frammento presente",
@@ -219,7 +233,7 @@ const messages = {
     },
     activities: {
       menu: "Attività",
-      back: "Attività",
+      back: "Modulo",
       title: "Titolo",
       description: "Descrizione",
       type: "Tipo",

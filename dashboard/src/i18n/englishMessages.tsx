@@ -179,7 +179,21 @@ const messages = {
       title: "Title",
       description: "Description",
       language: "Language",
-      publicScenario: "Public scenario",
+      publicScenario: "Scenario",
+      publicScenarioOption: {
+        public: "Public",
+        private: "Private",
+      },
+      status: "Status",
+      statusOption: {
+        inProgress: "In progress",
+        toStart: "To start",
+      },
+      start: "Start",
+      statusNotification: {
+        success: "Scenario started successfully",
+        error: "Error starting the scenario",
+      },
       educators: "Educators",
       learners: {
         title: "Learners",
@@ -204,7 +218,7 @@ const messages = {
     },
     learningFragments: {
       menu: "Fragments",
-      back: "Fragments",
+      back: "Module",
       title: "Title",
       type: "Type",
       empty: "No fragments found",
@@ -219,7 +233,7 @@ const messages = {
     },
     activities: {
       menu: "Activities",
-      back: "Activities",
+      back: "Module",
       title: "Title",
       description: "Description",
       type: "Type",

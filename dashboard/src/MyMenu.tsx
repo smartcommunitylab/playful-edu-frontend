@@ -196,7 +196,10 @@ export const MyMenu = () => {
         </Menu>
       )}
 
-      {learningModuleId && !learningFragmentId && (
+      {((learningModuleId && !learningFragmentId) ||
+        (learningFragmentId &&
+          url.pathname.includes("activities") &&
+          url.pathname.endsWith("create"))) && (
         <Menu
           sx={{
             "& .MuiListItemIcon-root": {
@@ -218,38 +221,35 @@ export const MyMenu = () => {
               />
             }
           />
-          <Menu.Item
-            to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
-            primaryText="resources.learningFragments.menu"
-            leftIcon={<FragmentIcon />}
-          />
         </Menu>
       )}
 
-      {learningFragmentId && !activityId && (
-        <Menu
-          sx={{
-            "& .MuiListItemIcon-root": {
-              paddingRight: "1rem",
-            },
-          }}
-        >
-          <BackButtonMenu
-            name={FRAGMENT_URL_PARAM}
-            label="resources.learningFragments.back"
-            redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
-          />
-          <Menu.Item
-            to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
-            primaryText="resources.info"
-            leftIcon={
-              <InfoIcon
-                sx={{ width: "1.4em", height: "1.4em", fontSize: "1.7rem" }}
-              />
-            }
-          />
-        </Menu>
-      )}
+      {learningFragmentId &&
+        !activityId &&
+        !url.pathname.includes("activities") && (
+          <Menu
+            sx={{
+              "& .MuiListItemIcon-root": {
+                paddingRight: "1rem",
+              },
+            }}
+          >
+            <BackButtonMenu
+              name={FRAGMENT_URL_PARAM}
+              label="resources.learningFragments.back"
+              redirect={`modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
+            />
+            <Menu.Item
+              to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
+              primaryText="resources.info"
+              leftIcon={
+                <InfoIcon
+                  sx={{ width: "1.4em", height: "1.4em", fontSize: "1.7rem" }}
+                />
+              }
+            />
+          </Menu>
+        )}
 
       {activityId && (
         <Menu
@@ -262,7 +262,7 @@ export const MyMenu = () => {
           <BackButtonMenu
             name={COMPOSED_ACTIVITY_URL_PARAM}
             label="resources.activities.back"
-            redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
+            redirect={`modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
           />
           <Menu.Item
             to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${activityId}`}

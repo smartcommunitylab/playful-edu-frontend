@@ -33,10 +33,17 @@ import {
   Typography,
   Button as MuiButton,
 } from "@mui/material";
+import { useEffect } from "react";
 
-const ListActions = () => (
-  <TopToolbar sx={{ minHeight: "40px !important" }}>
-    <CreateActivityButton />
+const ListActions = (props: {
+  learningModuleId: string;
+  learningFragmentId: string;
+}) => (
+  <TopToolbar sx={{ minHeight: "48px !important" }}>
+    <CreateActivityButton
+      learningModuleId={props.learningModuleId}
+      learningFragmentId={props.learningFragmentId}
+    />
     <ExportButton />
   </TopToolbar>
 );
@@ -71,22 +78,44 @@ const PostBulkActionButtons = () => {
   );
 };
 
-export const ActivityList = (props: any) => {
+export const ActivityList = (props: {
+  edit: boolean;
+  learningModuleId: any;
+  learningFragmentId: any;
+}) => {
   const params = useParams();
-  const record = useRecordContext();
-  const translate = useTranslate();
+  // const record = useRecordContext();
+  // const translate = useTranslate();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  const learningFragmentId = params.id;
+  const learningModuleId = props.learningModuleId
+    ? props.learningModuleId
+    : params.learningModuleId;
+  const learningFragmentId = props.learningFragmentId
+    ? props.learningFragmentId
+    : params.id;
   const title = " ";
-  const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
+  //const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
 
   return (
     <ResourceContextProvider value="activities">
       <List
-        empty={<Empty />}
-        actions={props.edit ? <ListActions /> : <></>}
+        empty={
+          <Empty
+            learningModuleId={learningModuleId}
+            learningFragmentId={learningFragmentId}
+          />
+        }
+        actions={
+          props.edit ? (
+            <ListActions
+              learningModuleId={learningModuleId}
+              learningFragmentId={learningFragmentId}
+            />
+          ) : (
+            <></>
+          )
+        }
         // filters={ActivityFilters}
         queryOptions={{
           meta: {
@@ -101,12 +130,16 @@ export const ActivityList = (props: any) => {
           justifyContent: "center",
           width: "100%",
           "& .RaList-actions": {
-            minHeight: "40px",
+            minHeight: props.edit ? "48px" : "0",
+          },
+          padding: "1rem",
+          "& .RaList-content": {
+            boxShadow: "none",
           },
         }}
         pagination={false}
       >
-        <Datagrid
+        {/* <Datagrid
           bulkActionButtons={bulkActionButtons}
           sx={{
             "& .RaBulkActionsToolbar-topToolbar": {
@@ -132,7 +165,7 @@ export const ActivityList = (props: any) => {
                 : ""
             }
           />
-          {record.type === "abstr" && (
+          {record && record.type === "abstr" && (
             <ReferenceArrayField
               label="Concepts"
               reference="concepts"
@@ -143,8 +176,10 @@ export const ActivityList = (props: any) => {
               </SingleFieldList>
             </ReferenceArrayField>
           )}
-          {record.type === "group" && <TextField source="groupCorreletator" />}
-          {record.type === "concrete" && (
+          {record && record.type === "group" && (
+            <TextField source="groupCorreletator" />
+          )}
+          {record && record.type === "concrete" && (
             <ReferenceField
               source="externalActivityId"
               reference="xternal-activities"
@@ -155,21 +190,107 @@ export const ActivityList = (props: any) => {
           )}
           <EditActivityButton />
           <ShowActivityButton />
-        </Datagrid>
+        </Datagrid> */}
+
+        <ActivityDatagrid
+          edit={props.edit}
+          learningModuleId={learningModuleId}
+          learningFragmentId={learningFragmentId}
+        />
       </List>
     </ResourceContextProvider>
   );
 };
 
-const EditActivityButton = () => {
-  // const translate = useTranslate();
-  const redirect = useRedirect();
+const ActivityDatagrid = (props: {
+  edit: boolean;
+  learningModuleId: string;
+  learningFragmentId: string;
+}) => {
+  const record = useRecordContext();
+  const translate = useTranslate();
+  const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
+  const listContext = useListContext();
+
+  useEffect(() => {
+    return () => {
+      listContext.onUnselectItems();
+    };
+  }, [listContext.data]);
+
+  return (
+    <Datagrid
+      bulkActionButtons={bulkActionButtons}
+      sx={{
+        "& .RaBulkActionsToolbar-topToolbar": {
+          backgroundColor: "initial",
+        },
+      }}
+    >
+      <TextField
+        source="title"
+        label="resources.activities.title"
+        sortable={false}
+      />
+      <TextField
+        source="desc"
+        label="resources.activities.description"
+        sortable={false}
+      />
+      <FunctionField
+        label="resources.activities.type"
+        render={(record: any) =>
+          record && record.type
+            ? translate("resources.activities.typeSelection." + record.type)
+            : ""
+        }
+      />
+      {record && record.type === "abstr" && (
+        <ReferenceArrayField
+          label="Concepts"
+          reference="concepts"
+          source="concepts"
+        >
+          <SingleFieldList linkType={false}>
+            <ChipField source="title" />
+          </SingleFieldList>
+        </ReferenceArrayField>
+      )}
+      {record && record.type === "group" && (
+        <TextField source="groupCorreletator" />
+      )}
+      {record && record.type === "concrete" && (
+        <ReferenceField
+          source="externalActivityId"
+          reference="xternal-activities"
+        >
+          <TextField source="title" />
+          <TextField source="desc" />
+        </ReferenceField>
+      )}
+      <EditActivityButton
+        learningModuleId={props.learningModuleId}
+        learningFragmentId={props.learningFragmentId}
+      />
+      <ShowActivityButton
+        learningModuleId={props.learningModuleId}
+        learningFragmentId={props.learningFragmentId}
+      />
+    </Datagrid>
+  );
+};
+
+const EditActivityButton = (props: {
+  learningModuleId: string;
+  learningFragmentId: string;
+}) => {
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  const learningFragmentId = params.id;
+  const learningModuleId = props.learningModuleId;
+  const learningFragmentId = props.learningFragmentId;
+
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${record.id}/edit`;
   if (!record) return null;
   return (
@@ -179,14 +300,17 @@ const EditActivityButton = () => {
   );
 };
 
-const ShowActivityButton = () => {
-  const redirect = useRedirect();
+const ShowActivityButton = (props: {
+  learningModuleId: string;
+  learningFragmentId: string;
+}) => {
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  const learningFragmentId = params.id;
+  const learningModuleId = props.learningModuleId;
+  const learningFragmentId = props.learningFragmentId;
+
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${record.id}`;
   if (!record) return null;
   return (
@@ -196,12 +320,16 @@ const ShowActivityButton = () => {
   );
 };
 
-const CreateActivityButton = () => {
+const CreateActivityButton = (props: {
+  learningModuleId: string;
+  learningFragmentId: string;
+}) => {
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  const learningFragmentId = params.id;
+  const learningModuleId = props.learningModuleId;
+  const learningFragmentId = props.learningFragmentId;
+
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
   return (
     <>
@@ -210,35 +338,37 @@ const CreateActivityButton = () => {
   );
 };
 
-const Empty = () => {
+const Empty = (props: {
+  learningModuleId: string;
+  learningFragmentId: string;
+}) => {
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const learningModuleId = params.learningModuleId;
-  const learningFragmentId = params.id;
+  const learningModuleId = props.learningModuleId;
+  const learningFragmentId = props.learningFragmentId;
   const translate = useTranslate();
+
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
 
   return (
     <Box display="flex" alignItems="start" textAlign="center">
-      <Card>
-        <CardContent sx={{ padding: "33px !important" }}>
-          <Typography variant="h4" paragraph>
-            {translate("resources.activities.empty")}
-          </Typography>
-          <Typography variant="body1">
-            {translate("resources.activities.addOne")}
-          </Typography>
+      <div style={{ padding: "24px" }}>
+        <Typography variant="h4" paragraph>
+          {translate("resources.activities.empty")}
+        </Typography>
+        <Typography variant="body1">
+          {translate("resources.activities.addOne")}
+        </Typography>
 
-          <Box mt={3}>
-            <Link to={to}>
-              <MuiButton color="primary" variant="contained">
-                {translate("ra.action.create")}
-              </MuiButton>
-            </Link>
-          </Box>
-        </CardContent>
-      </Card>
+        <Box mt={3}>
+          <Link to={to}>
+            <MuiButton color="primary" variant="contained">
+              {translate("ra.action.create")}
+            </MuiButton>
+          </Link>
+        </Box>
+      </div>
     </Box>
   );
 };
