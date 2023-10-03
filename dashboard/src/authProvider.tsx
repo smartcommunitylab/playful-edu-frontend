@@ -13,7 +13,7 @@ const api_url: string = process.env.REACT_APP_API_URL as string;
 
 const userManager = new UserManager({
   authority,
-  client_id: "c_601a6d6bc4464c4fbfac7589dcb9d8c0",
+  client_id,
   redirect_uri,
   post_logout_redirect_uri,
   silent_redirect_uri,
@@ -39,6 +39,7 @@ export interface CustomAuthProviderMethods extends AuthProvider {
 
 const authProvider: CustomAuthProviderMethods = {
   login: async () => {
+    console.log("client_id", client_id);
     await userManager.signinRedirect();
     return;
   },
