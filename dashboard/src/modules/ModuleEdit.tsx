@@ -2,6 +2,7 @@ import {
   DateInput,
   DeleteButton,
   Edit,
+  Identifier,
   SaveButton,
   ShowButton,
   SimpleForm,
@@ -76,14 +77,14 @@ export const ModuleEdit = () => {
     redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
   };
 
-  const handleRowClick = (e: any, id: string) => {
+  const handleRowClick = (e: any, id: Identifier) => {
     if (isFirstTime) {
-      setFragmentId(id);
-      setPreviosFragmentId(id);
+      setFragmentId(id as string);
+      setPreviosFragmentId(id as string);
       setIsFirstTime(false);
     } else {
       setPreviosFragmentId(fragmentId);
-      setFragmentId(id);
+      setFragmentId(id as string);
     }
   }
 

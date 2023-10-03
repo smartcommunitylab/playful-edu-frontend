@@ -1,47 +1,133 @@
-import { AUTH_LOGIN, AUTH_CHECK, AUTH_LOGOUT } from 'react-admin';
-import { Buffer } from 'buffer';
+import { AUTH_LOGIN, AUTH_CHECK, AUTH_LOGOUT, AuthProvider } from "react-admin";
+import { UserManager } from "oidc-client-ts";
 
-const apiUrl= process.env.REACT_APP_API_ENDPOINT + '';
+const authority: string = process.env.OIDC_AUTHORITY as string;
+const client_id: string = process.env.OIDC_CLIENT_ID as string;
+const redirect_uri: string = process.env.OIDC_REDIRECT_URI as string;
+const post_logout_redirect_uri: string = process.env
+  .OIDC_POST_LOGOUT_REDIRECT_URI as string;
+const silent_redirect_uri: string = process.env
+  .OIDC_SILENT_REDIRECT_URI as string;
 
-const auth =  (type:any, params:any) => {
+const api_url: string = process.env.REACT_APP_API_URL as string;
 
-    if (type === AUTH_CHECK) {
-        return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
-    }
+const userManager = new UserManager({
+  authority,
+  client_id: "c_601a6d6bc4464c4fbfac7589dcb9d8c0",
+  redirect_uri,
+  post_logout_redirect_uri,
+  silent_redirect_uri,
+  response_type: "code",
+  scope: "openid email profile",
+  automaticSilentRenew: false,
+  accessTokenExpiringNotificationTimeInSeconds: 10,
+  filterProtocolClaims: true,
+  loadUserInfo: true,
+});
 
-    if (type === AUTH_LOGIN) {
-        const { username, password } = params;
-        const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
-        const request = new Request(apiUrl + '/userProfile/', {
-            method: 'GET',
-            headers: new Headers({ 'Content-Type': 'application/json', "Accept": "application/json", 'Authorization': `Basic ${token}` }),
-            
-        })
-        return fetch(request)
-            .then(response => {
-                if (response.status < 200 || response.status >= 300) {
-                    throw new Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then(auth => {
-                const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64');
-                localStorage.setItem('token', token);
-                localStorage.setItem('RaStore.user.role', auth.domains[0]);
-                localStorage.setItem('username', auth.username);
-            })
-            .catch(() => {
-                throw new Error('Network error')
-        });     
-    }
+const cleanup = () => {
+  window.history.replaceState(
+    {},
+    window.document.title,
+    window.location.origin
+  );
+};
 
-    if (type === AUTH_LOGOUT) {
-        localStorage.clear();
-    }
-
-    return Promise.resolve();
+export interface CustomAuthProviderMethods extends AuthProvider {
+  isUserSignedIn: () => boolean;
 }
 
+const authProvider: CustomAuthProviderMethods = {
+  login: async () => {
+    await userManager.signinRedirect();
+    return;
+  },
+  logout: () => {
+    localStorage.clear();
+    return Promise.resolve();
+  },
+  checkError: (error) => {
+    const status = error.status;
+    if (status === 401 || status === 403) {
+      localStorage.clear();
+      return Promise.reject();
+    } else return Promise.resolve();
+  },
+  checkAuth: () => {
+    if (localStorage.getItem("auth")) return Promise.resolve();
+    else return Promise.reject();
+  },
+  getPermissions: () => {
+    return Promise.resolve();
+  },
+  isUserSignedIn: () => {
+    return localStorage.getItem("auth") ? true : false;
+  },
+  handleCallback: async () => {
+    try {
+      // extract code and state from URL
+      const { searchParams } = new URL(window.location.href);
+      const code = searchParams.get("code");
+      const state = searchParams.get("state");
 
+      // retrieve code_verifier from localStorage
+      const stateKey = `oidc.${state}`;
+      const { code_verifier } = JSON.parse(
+        localStorage.getItem(stateKey) || "{}"
+      );
 
-export default auth;
+      // fetch openid configuration
+      const openidConfigurationResponse = await fetch(
+        `${authority}.well-known/openid-configuration`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "*/*",
+          },
+        }
+      );
+
+      if (!openidConfigurationResponse.ok) {
+        throw new Error("Failed to fetch openid configuration");
+      }
+
+      const openidConfiguration = await openidConfigurationResponse.json();
+      const token_endpoint = openidConfiguration.token_endpoint;
+
+      // prepare and send authentication request
+      const authRequest = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          client_id,
+          redirect_uri,
+          code: code ? code : "",
+          code_verifier,
+          grant_type: "authorization_code",
+        }).toString(),
+      };
+
+      const authResponse = await fetch(token_endpoint, authRequest);
+
+      if (!authResponse.ok) {
+        throw new Error("Authentication request failed");
+      }
+
+      const auth = await authResponse.json();
+
+      // store authentication data in localStorage
+      localStorage.setItem("auth", JSON.stringify(auth));
+      userManager.clearStaleState();
+      cleanup();
+
+      return Promise.resolve({ redirectTo: "/domains" });
+    } catch (error) {
+      cleanup();
+      return Promise.reject();
+    }
+  },
+};
+
+export default authProvider;

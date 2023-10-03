@@ -25,6 +25,7 @@ import {
   DatagridRowProps,
   RecordContextProvider,
   FieldProps,
+  BulkExportButton,
 } from "react-admin";
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -74,11 +75,14 @@ const PostBulkActionButtons = () => {
   });
 
   return (
+    <>
     <BulkDeleteButton
       mutationMode="pessimistic"
       confirmTitle={title}
       confirmContent={content}
     />
+    <BulkExportButton />
+    </>
   );
 };
 
@@ -95,7 +99,7 @@ const CustomDatagridRow = ({
     return (
       <RecordContextProvider value={record}>
         <TableRow>
-          <TableCell padding="none">
+          <TableCell sx={{ padding: "0 12px 0 16px" }}>
             <Checkbox
               checked={selected}
               onClick={(event) => {
@@ -103,7 +107,7 @@ const CustomDatagridRow = ({
                   onToggleItem(id, event);
                 }
               }}
-              sx={{ padding: "0 12px 0 16px" }}
+              sx={{ padding: "0" }}
             />
           </TableCell>
 

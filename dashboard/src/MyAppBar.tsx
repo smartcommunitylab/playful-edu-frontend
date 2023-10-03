@@ -1,7 +1,26 @@
-import { AppBar } from "react-admin";
+import { useLayoutEffect, useState } from "react";
+import { AppBar, Logout, UserMenu } from "react-admin";
+import authProvider from "./authProvider";
 
-export const MyAppBar = (props: any) => {
-  return <AppBar color="primary"></AppBar>;
+const CustomUserMenu = () => {
+  return (
+    <UserMenu>
+      <Logout />
+    </UserMenu>
+  );
 };
 
-// export default MyAppBar;
+export const MyAppBar = (props: any) => {
+  const [isUserSignedIn, setIsUserSignedIn] = useState(false);
+
+  useLayoutEffect(() => {
+    setIsUserSignedIn(authProvider.isUserSignedIn());
+  }, [authProvider.isUserSignedIn()]);
+
+  return (
+    <AppBar
+      color="primary"
+      userMenu={isUserSignedIn ? <CustomUserMenu /> : false}
+    ></AppBar>
+  );
+};

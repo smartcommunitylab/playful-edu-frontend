@@ -1,5 +1,16 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
+import { Identifier } from "react-admin";
 
-export const ModuleContext = createContext({
-  onRowClick: (e: any, fragmentId: string) => {},
-});
+interface ModuleContextValue {
+  onRowClick: (e: any, fragmentId: Identifier) => void;
+}
+
+export const ModuleContext = createContext<ModuleContextValue | undefined>(undefined);
+
+export const useModuleContex = () => {
+  const moduleContext = useContext(ModuleContext);
+  if (moduleContext === undefined) {
+    throw new Error("useModuleContext must be inside a provider");
+  }
+  return moduleContext;
+};

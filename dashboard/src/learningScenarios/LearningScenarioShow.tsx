@@ -170,10 +170,10 @@ interface StatusContextValue {
 
 const StatusContext = createContext<StatusContextValue | undefined>(undefined);
 
-export const useStatusContex = () => {
+const useStatusContex = () => {
   const statusContext = useContext(StatusContext);
   if (statusContext === undefined) {
-    throw new Error("useStatusContext must be inside a OnboardingProvider");
+    throw new Error("useStatusContext must be inside a provider");
   }
   return statusContext;
 };

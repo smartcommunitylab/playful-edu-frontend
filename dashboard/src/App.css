@@ -73,10 +73,6 @@
   max-width: 100%;
 }
 
-.fragments-table .MuiTableCell-root {
-  padding: 6px 16px;
-}
-
 .fragments-table .MuiTableCell-root:first-child {
   border-left: 1px solid rgba(224, 224, 224, 1);
 }

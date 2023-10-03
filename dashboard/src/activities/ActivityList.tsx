@@ -84,8 +84,6 @@ export const ActivityList = (props: {
   learningFragmentId: any;
 }) => {
   const params = useParams();
-  // const record = useRecordContext();
-  // const translate = useTranslate();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = props.learningModuleId
@@ -95,7 +93,6 @@ export const ActivityList = (props: {
     ? props.learningFragmentId
     : params.id;
   const title = " ";
-  //const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
 
   return (
     <ResourceContextProvider value="activities">
@@ -139,59 +136,6 @@ export const ActivityList = (props: {
         }}
         pagination={false}
       >
-        {/* <Datagrid
-          bulkActionButtons={bulkActionButtons}
-          sx={{
-            "& .RaBulkActionsToolbar-topToolbar": {
-              backgroundColor: "initial",
-            },
-          }}
-        >
-          <TextField
-            source="title"
-            label="resources.activities.title"
-            sortable={false}
-          />
-          <TextField
-            source="desc"
-            label="resources.activities.description"
-            sortable={false}
-          />
-          <FunctionField
-            label="resources.activities.type"
-            render={(record: any) =>
-              record && record.type
-                ? translate("resources.activities.typeSelection." + record.type)
-                : ""
-            }
-          />
-          {record && record.type === "abstr" && (
-            <ReferenceArrayField
-              label="Concepts"
-              reference="concepts"
-              source="concepts"
-            >
-              <SingleFieldList linkType={false}>
-                <ChipField source="title" />
-              </SingleFieldList>
-            </ReferenceArrayField>
-          )}
-          {record && record.type === "group" && (
-            <TextField source="groupCorreletator" />
-          )}
-          {record && record.type === "concrete" && (
-            <ReferenceField
-              source="externalActivityId"
-              reference="xternal-activities"
-            >
-              <TextField source="title" />
-              <TextField source="desc" />
-            </ReferenceField>
-          )}
-          <EditActivityButton />
-          <ShowActivityButton />
-        </Datagrid> */}
-
         <ActivityDatagrid
           edit={props.edit}
           learningModuleId={learningModuleId}
@@ -226,6 +170,7 @@ const ActivityDatagrid = (props: {
           backgroundColor: "initial",
         },
       }}
+      className="fragments-table"
     >
       <TextField
         source="title"

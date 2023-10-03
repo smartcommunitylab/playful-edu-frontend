@@ -9,37 +9,30 @@ import {
   ShowButton,
   TextInput,
   useTranslate,
-  useStore,
-  Button,
-  useRedirect,
   useRecordContext,
-  useGetRecordId,
-  SelectField,
   Link,
-  FunctionField,
   useListContext,
   BulkDeleteButton,
   ResourceContextProvider,
+  DatagridProps,
+  DatagridBodyProps,
+  DatagridBody,
+  RecordContextProvider,
+  DatagridRowProps,
+  FieldProps,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
-  Card,
-  CardContent,
   Box,
   Typography,
   Button as MuiButton,
-  Table,
-  TableHead,
   TableRow,
-  TableBody,
   TableCell,
-  Toolbar,
-  IconButton,
 } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import { ModuleContext } from "../modules/ModuleContext";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useModuleContex } from "../modules/ModuleContext";
 import Checkbox from "@mui/material/Checkbox";
-import CloseIcon from "@mui/icons-material/Close";
+import React from "react";
 
 const ListActions = () => (
   <TopToolbar sx={{ minHeight: "48px !important", zIndex: "2" }}>
@@ -52,7 +45,7 @@ const FragmentFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
 
-const DeleteButton = () => {
+const PostBulkActionButtons = () => {
   const translate = useTranslate();
   const listContext = useListContext();
 
@@ -82,9 +75,105 @@ const DeleteButton = () => {
   );
 };
 
+const CustomDatagridRow = ({
+  record,
+  id,
+  onToggleItem,
+  children,
+  selected,
+}: DatagridRowProps) => {
+  const translate = useTranslate();
+  const { edit } = useEditContex();
+  const { onRowClick } = useModuleContex();
+
+  if (id) {
+    return (
+      <RecordContextProvider value={record}>
+        <TableRow
+          id={"_" + id}
+          sx={{
+            cursor: "pointer",
+            "&:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.04) !important",
+            },
+          }}
+          onClick={(e) => onRowClick(e, id)}
+        >
+          {edit && (
+            <TableCell sx={{ padding: "0 12px 0 16px" }}>
+              <Checkbox
+                checked={selected}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  if (onToggleItem) {
+                    onToggleItem(id, event);
+                  }
+                }}
+                sx={{ padding: "0" }}
+              />
+            </TableCell>
+          )}
+
+          {React.Children.map(children, (field) => {
+            if (React.isValidElement<FieldProps>(field) && field.props.source) {
+              if (record && field.props.source === "type") {
+                const translation = record[field.props.source]
+                  ? translate(
+                      "resources.learningFragments.typeSelection." +
+                        record[field.props.source]
+                    )
+                  : "";
+
+                return (
+                  <TableCell key={`${id}-${field.props.source}`}>
+                    <Typography component="span" variant="body2">
+                      {translation}
+                    </Typography>
+                  </TableCell>
+                );
+              } else {
+                return (
+                  <TableCell key={`${id}-${field.props.source}`}>
+                    {field}
+                  </TableCell>
+                );
+              }
+            } else return null;
+          })}
+
+          <TableCell>
+            <EditFragmentButton />
+          </TableCell>
+
+          <TableCell>
+            <ShowFragmentButton />
+          </TableCell>
+        </TableRow>
+      </RecordContextProvider>
+    );
+  } else return null;
+};
+
+const CustomDatagridBody = (props: DatagridBodyProps) => (
+  <DatagridBody {...props} row={<CustomDatagridRow />} />
+);
+
+const CustomDatagrid = (props: DatagridProps) => {
+  const { edit } = useEditContex();
+  const bulkActionButtons = edit ? <PostBulkActionButtons /> : false;
+
+  return (
+    <Datagrid
+      {...props}
+      body={<CustomDatagridBody />}
+      bulkActionButtons={bulkActionButtons}
+      className="fragments-table"
+    />
+  );
+};
+
 export const FragmentList = (props: { edit: boolean }) => {
   const params = useParams();
-  const translate = useTranslate();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId
@@ -93,43 +182,67 @@ export const FragmentList = (props: { edit: boolean }) => {
   const title = " ";
 
   return (
-    <ResourceContextProvider value="fragments">
-      <List
-        empty={<Empty />}
-        actions={props.edit ? <ListActions /> : <></>}
-        //filters={FragmentFilters}
-        queryOptions={{
-          meta: { domainId, learningScenarioId, learningModuleId },
-        }}
-        title={title}
-        pagination={false}
-        sx={{
-          justifyContent: "center",
-          "& .RaList-actions": {
-            minHeight: props.edit ? "48px" : "0",
-          },
-          padding: "1rem",
-          "& .RaList-content": {
-            boxShadow: "none",
-          },
-        }}
-      >
-        <FragmentTable edit={props.edit} />
-      </List>
-    </ResourceContextProvider>
+    <EditContext.Provider value={{ edit: props.edit }}>
+      <ResourceContextProvider value="fragments">
+        <List
+          empty={<Empty />}
+          actions={props.edit ? <ListActions /> : <></>}
+          //filters={FragmentFilters}
+          queryOptions={{
+            meta: { domainId, learningScenarioId, learningModuleId },
+          }}
+          title={title}
+          pagination={false}
+          sx={{
+            justifyContent: "center",
+            "& .RaList-actions": {
+              minHeight: props.edit ? "48px" : "0",
+            },
+            padding: "1rem",
+            "& .RaList-content": {
+              boxShadow: "none",
+            },
+          }}
+        >
+          {/* <FragmentTable edit={props.edit} /> */}
+
+          <CustomDatagrid
+            sx={{
+              "& .RaBulkActionsToolbar-topToolbar": {
+                backgroundColor: "initial",
+              },
+            }}
+          >
+            <TextField
+              source="title"
+              label="resources.learningFragments.title"
+              sortable={false}
+            />
+            <TextField
+              source="type"
+              label="resources.learningFragments.type"
+              sortable={false}
+            />
+            <TextField></TextField>
+            <TextField></TextField>
+          </CustomDatagrid>
+        </List>
+      </ResourceContextProvider>
+    </EditContext.Provider>
   );
 };
 
-const EditFragmentButton = (props: { record: any }) => {
+const EditFragmentButton = () => {
+  const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId
     ? params.learningModuleId
     : params.id;
-  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${props.record.id}/edit`;
-  if (!props.record) return null;
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}/edit`;
 
+  if (!record) return null;
   return (
     <>
       <EditButton to={to}></EditButton>
@@ -137,15 +250,17 @@ const EditFragmentButton = (props: { record: any }) => {
   );
 };
 
-const ShowFragmentButton = (props: { record: any }) => {
+const ShowFragmentButton = () => {
+  const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId
     ? params.learningModuleId
     : params.id;
-  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${props.record.id}`;
-  if (!props.record) return null;
+  const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}`;
+
+  if (!record) return null;
   return (
     <>
       <ShowButton to={to}></ShowButton>
@@ -200,177 +315,141 @@ const Empty = () => {
   );
 };
 
-const FragmentTable = (props: { edit: boolean }) => {
-  const translate = useTranslate();
-  const listContext = useListContext();
-  const { onRowClick } = useContext(ModuleContext);
-  const data = listContext.data;
-  const [isAtLeastOneCheckboxSelected, setIsAtLeastOneCheckboxSelected] =
-    useState(listContext.selectedIds.length > 0);
+// const FragmentTable = (props: { edit: boolean }) => {
+//   const translate = useTranslate();
+//   const listContext = useListContext();
+//   const { onRowClick } = useModuleContex();
+//   const data = listContext.data;
+//   const [isAtLeastOneCheckboxSelected, setIsAtLeastOneCheckboxSelected] =
+//     useState(listContext.selectedIds.length > 0);
 
-  const handleBodyCheckboxClick = (e: any, id: string) => {
-    e.stopPropagation();
-    listContext.onToggleItem(id);
-  };
+//   const handleBodyCheckboxClick = (e: any, id: string) => {
+//     e.stopPropagation();
+//     listContext.onToggleItem(id);
+//   };
 
-  const handleHeaderCheckboxClick = (e: any) => {
-    e.stopPropagation();
-    if (e.target.checked) {
-      const ids = data.map((item: any) => item.id);
-      listContext.onSelect(ids);
-    } else {
-      listContext.onUnselectItems();
-    }
-  };
+//   const handleHeaderCheckboxClick = (e: any) => {
+//     e.stopPropagation();
+//     if (e.target.checked) {
+//       const ids = data.map((item: any) => item.id);
+//       listContext.onSelect(ids);
+//     } else {
+//       listContext.onUnselectItems();
+//     }
+//   };
 
-  const handleCancelButtonClick = (e: any) => {
-    listContext.onUnselectItems();
-  };
+//   const handleCancelButtonClick = (e: any) => {
+//     listContext.onUnselectItems();
+//   };
 
-  useEffect(() => {
-    setIsAtLeastOneCheckboxSelected(listContext.selectedIds.length > 0);
-  }, [listContext.selectedIds]);
+//   useEffect(() => {
+//     setIsAtLeastOneCheckboxSelected(listContext.selectedIds.length > 0);
+//   }, [listContext.selectedIds]);
 
-  useEffect(() => {
-    return () => {
-      if (props.edit) {
-        listContext.onUnselectItems();
-      }
-    };
-  }, []);
+//   useEffect(() => {
+//     return () => {
+//       if (props.edit) {
+//         listContext.onUnselectItems();
+//       }
+//     };
+//   }, []);
 
-  return (
-    <>
-      {props.edit && isAtLeastOneCheckboxSelected && (
-        <Toolbar
-          sx={{
-            position: "absolute",
-            top: "-48px",
-            backgroundColor: "rgb(217, 237, 253)",
-            minHeight: "48px !important",
-            width: "100%",
-            zIndex: "3",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderTopLeftRadius: "4px",
-            borderTopRightRadius: "4px",
-            // transform: "translateY(-48px)",
-            // transition:
-            //   "height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,min-height 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-              sx={{
-                marginLeft: "-0.5rem",
-                marginRight: "0.5rem",
-                padding: "5px",
-              }}
-              onClick={(e) => handleCancelButtonClick(e)}
-            >
-              <CloseIcon sx={{ fontSize: "1.25rem" }} />
-            </IconButton>
-            <Typography variant="subtitle1" color="rgb(25, 118, 210)">
-              {translate("ra.action.bulk_actions", {
-                smart_count: listContext.selectedIds.length,
-              })}
-            </Typography>
-          </div>
+//   return (
+//     <>
+//       <Table sx={{ padding: 2 }} className="fragments-table">
+//         <TableHead>
+//           <TableRow>
+//             {props.edit && (
+//               <TableCell
+//                 sx={{
+//                   width: "52px",
+//                 }}
+//               >
+//                 <Checkbox
+//                   sx={{ padding: "0" }}
+//                   onClick={(e) => handleHeaderCheckboxClick(e)}
+//                   checked={listContext.selectedIds.length === listContext.total}
+//                 />
+//               </TableCell>
+//             )}
+//             <TableCell>
+//               {translate("resources.learningFragments.title")}
+//             </TableCell>
+//             <TableCell>
+//               {translate("resources.learningFragments.type")}
+//             </TableCell>
+//             <TableCell></TableCell>
+//             <TableCell></TableCell>
+//           </TableRow>
+//         </TableHead>
 
-          <div>
-            <DeleteButton />
-          </div>
-        </Toolbar>
-      )}
+//         <TableBody>
+//           {data &&
+//             data.map((record: any) => {
+//               if (!record) return null;
+//               return (
+//                 <TableRow
+//                   key={record.id}
+//                   id={"_" + record.id}
+//                   sx={{
+//                     cursor: "pointer",
+//                     "&:hover": {
+//                       backgroundColor: "rgba(0, 0, 0, 0.04) !important",
+//                     },
+//                   }}
+//                   onClick={(e) => onRowClick(e, record.id)}
+//                 >
+//                   {props.edit && (
+//                     <TableCell
+//                       sx={{
+//                         width: "52px",
+//                       }}
+//                     >
+//                       <Checkbox
+//                         sx={{ padding: "0" }}
+//                         onClick={(e) => handleBodyCheckboxClick(e, record.id)}
+//                         checked={
+//                           listContext.selectedIds.indexOf(record.id) !== -1
+//                         }
+//                       />
+//                     </TableCell>
+//                   )}
 
-      <Table sx={{ padding: 2 }} className="fragments-table">
-        <TableHead>
-          <TableRow>
-            {props.edit && (
-              <TableCell
-                sx={{
-                  width: "52px",
-                }}
-              >
-                <Checkbox
-                  sx={{ padding: "0" }}
-                  onClick={(e) => handleHeaderCheckboxClick(e)}
-                  checked={listContext.selectedIds.length === listContext.total}
-                />
-              </TableCell>
-            )}
-            <TableCell>
-              {translate("resources.learningFragments.title")}
-            </TableCell>
-            <TableCell>
-              {translate("resources.learningFragments.type")}
-            </TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
+//                   <TableCell>
+//                     <Typography component="span" variant="body2">
+//                       {record.title}
+//                     </Typography>
+//                   </TableCell>
 
-        <TableBody>
-          {data &&
-            data.map((record: any) => {
-              if (!record) return null;
-              return (
-                <TableRow
-                  key={record.id}
-                  id={"_" + record.id}
-                  sx={{
-                    cursor: "pointer",
-                    "&:hover": {
-                      backgroundColor: "rgba(0, 0, 0, 0.04) !important",
-                    },
-                  }}
-                  onClick={(e) => onRowClick(e, record.id)}
-                >
-                  {props.edit && (
-                    <TableCell
-                      sx={{
-                        width: "52px",
-                      }}
-                    >
-                      <Checkbox
-                        sx={{ padding: "0" }}
-                        onClick={(e) => handleBodyCheckboxClick(e, record.id)}
-                        checked={
-                          listContext.selectedIds.indexOf(record.id) !== -1
-                        }
-                      />
-                    </TableCell>
-                  )}
+//                   <TableCell>
+//                     <Typography component="span" variant="body2">
+//                       {record.type
+//                         ? translate(
+//                             "resources.learningFragments.typeSelection." +
+//                               record.type
+//                           )
+//                         : ""}
+//                     </Typography>
+//                   </TableCell>
+//                 </TableRow>
+//               );
+//             })}
+//         </TableBody>
+//       </Table>
+//     </>
+//   );
+// };
 
-                  <TableCell>
-                    <Typography component="span" variant="body2">
-                      {record.title}
-                    </Typography>
-                  </TableCell>
+interface EditContextValue {
+  edit: boolean;
+}
 
-                  <TableCell>
-                    <Typography component="span" variant="body2">
-                      {record.type
-                        ? translate(
-                            "resources.learningFragments.typeSelection." +
-                              record.type
-                          )
-                        : ""}
-                    </Typography>
-                  </TableCell>
+const EditContext = createContext<EditContextValue | undefined>(undefined);
 
-                  <TableCell>
-                    <EditFragmentButton record={record} />
-                  </TableCell>
-
-                  <TableCell>
-                    <ShowFragmentButton record={record} />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
-    </>
-  );
+const useEditContex = () => {
+  const editContext = useContext(EditContext);
+  if (editContext === undefined) {
+    throw new Error("useEditContext must be inside a provider");
+  }
+  return editContext;
 };
