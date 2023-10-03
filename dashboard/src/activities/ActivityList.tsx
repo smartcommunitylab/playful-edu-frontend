@@ -95,54 +95,56 @@ export const ActivityList = (props: {
   const title = " ";
 
   return (
-    <ResourceContextProvider value="activities">
-      <List
-        empty={
-          <Empty
-            learningModuleId={learningModuleId}
-            learningFragmentId={learningFragmentId}
-          />
-        }
-        actions={
-          props.edit ? (
-            <ListActions
+    <div id="activitiesBox">
+      <ResourceContextProvider value="activities">
+        <List
+          empty={
+            <Empty
               learningModuleId={learningModuleId}
               learningFragmentId={learningFragmentId}
             />
-          ) : (
-            <></>
-          )
-        }
-        // filters={ActivityFilters}
-        queryOptions={{
-          meta: {
-            domainId,
-            learningScenarioId,
-            learningModuleId,
-            learningFragmentId,
-          },
-        }}
-        title={title}
-        sx={{
-          justifyContent: "center",
-          width: "100%",
-          "& .RaList-actions": {
-            minHeight: props.edit ? "48px" : "0",
-          },
-          padding: "1rem",
-          "& .RaList-content": {
-            boxShadow: "none",
-          },
-        }}
-        pagination={false}
-      >
-        <ActivityDatagrid
-          edit={props.edit}
-          learningModuleId={learningModuleId}
-          learningFragmentId={learningFragmentId}
-        />
-      </List>
-    </ResourceContextProvider>
+          }
+          actions={
+            props.edit ? (
+              <ListActions
+                learningModuleId={learningModuleId}
+                learningFragmentId={learningFragmentId}
+              />
+            ) : (
+              <></>
+            )
+          }
+          // filters={ActivityFilters}
+          queryOptions={{
+            meta: {
+              domainId,
+              learningScenarioId,
+              learningModuleId,
+              learningFragmentId,
+            },
+          }}
+          title={title}
+          sx={{
+            justifyContent: "center",
+            width: "100%",
+            "& .RaList-actions": {
+              minHeight: props.edit ? "48px" : "0",
+            },
+            padding: "1rem",
+            "& .RaList-content": {
+              boxShadow: "none",
+            },
+          }}
+          pagination={false}
+        >
+          <ActivityDatagrid
+            edit={props.edit}
+            learningModuleId={learningModuleId}
+            learningFragmentId={learningFragmentId}
+          />
+        </List>
+      </ResourceContextProvider>
+    </div>
   );
 };
 

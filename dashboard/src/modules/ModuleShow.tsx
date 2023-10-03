@@ -101,7 +101,7 @@ export const ModuleShow = () => {
             {fragmentId && (
               <>
                 <Grid item xs={6}>
-                  <Paper id="activitiesBox">
+                  <Paper>
                     <ActivityList
                       edit={false}
                       learningModuleId={learningModuleId}

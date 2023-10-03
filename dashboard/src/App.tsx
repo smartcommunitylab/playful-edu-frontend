@@ -61,8 +61,8 @@ const httpClient = async (url: string, options: Options = {}) => {
     options.headers.set("Accept", "application/json");
   }
 
-  const auth = JSON.parse(localStorage.getItem("auth") || "{}").access_token;
-  options.headers.set("Authorization", `Bearer ${auth}`);
+  const auth = await authProvider.getAuthorization();
+  options.headers.set("Authorization", `${auth}`);
 
   return fetchUtils.fetchJson(url, options);
 };
