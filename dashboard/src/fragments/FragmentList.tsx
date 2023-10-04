@@ -78,7 +78,7 @@ const PostBulkActionButtons = () => {
 
   return (
     <BulkDeleteButton
-      mutationMode="pessimistic"
+      mutationMode="optimistic"
       confirmTitle={title}
       confirmContent={content}
     />
@@ -173,16 +173,16 @@ const CustomDatagridBody = (props: DatagridBodyProps) => (
 const CustomDatagrid = (props: DatagridProps) => {
   const { edit } = useEditContex();
   const bulkActionButtons = edit ? <PostBulkActionButtons /> : false;
-  const listContext = useListContext();
+  const { data } = useListContext();
   const { hideActivityList, setInitialState } = useModuleContex();
 
   useEffect(() => {
-    hideActivityList(listContext.data);
-  }, [listContext.data]);
+    hideActivityList(data);
+  }, [data]);
 
   useLayoutEffect(() => {
-    setInitialState(listContext.data);
-  }, [listContext.data]);
+    setInitialState(data);
+  }, [data]);
 
   return (
     <Datagrid
@@ -315,16 +315,16 @@ const Empty = () => {
     : params.id;
   const translate = useTranslate();
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
-  const listContext = useListContext();
+  const { data } = useListContext();
   const { hideActivityList, setInitialState } = useModuleContex();
 
   useEffect(() => {
-    hideActivityList(listContext.data);
-  }, [listContext.data]);
+    hideActivityList(data);
+  }, [data]);
 
   useLayoutEffect(() => {
-    setInitialState(listContext.data);
-  }, [listContext.data]);
+    setInitialState(data);
+  }, [data]);
 
   return (
     <Box display="flex" alignItems="start" textAlign="center">
@@ -347,131 +347,6 @@ const Empty = () => {
     </Box>
   );
 };
-
-// const FragmentTable = (props: { edit: boolean }) => {
-//   const translate = useTranslate();
-//   const listContext = useListContext();
-//   const { onRowClick } = useModuleContex();
-//   const data = listContext.data;
-//   const [isAtLeastOneCheckboxSelected, setIsAtLeastOneCheckboxSelected] =
-//     useState(listContext.selectedIds.length > 0);
-
-//   const handleBodyCheckboxClick = (e: any, id: string) => {
-//     e.stopPropagation();
-//     listContext.onToggleItem(id);
-//   };
-
-//   const handleHeaderCheckboxClick = (e: any) => {
-//     e.stopPropagation();
-//     if (e.target.checked) {
-//       const ids = data.map((item: any) => item.id);
-//       listContext.onSelect(ids);
-//     } else {
-//       listContext.onUnselectItems();
-//     }
-//   };
-
-//   const handleCancelButtonClick = (e: any) => {
-//     listContext.onUnselectItems();
-//   };
-
-//   useEffect(() => {
-//     setIsAtLeastOneCheckboxSelected(listContext.selectedIds.length > 0);
-//   }, [listContext.selectedIds]);
-
-//   useEffect(() => {
-//     return () => {
-//       if (props.edit) {
-//         listContext.onUnselectItems();
-//       }
-//     };
-//   }, []);
-
-//   return (
-//     <>
-//       <Table sx={{ padding: 2 }} className="fragments-activities-table">
-//         <TableHead>
-//           <TableRow>
-//             {props.edit && (
-//               <TableCell
-//                 sx={{
-//                   width: "52px",
-//                 }}
-//               >
-//                 <Checkbox
-//                   sx={{ padding: "0" }}
-//                   onClick={(e) => handleHeaderCheckboxClick(e)}
-//                   checked={listContext.selectedIds.length === listContext.total}
-//                 />
-//               </TableCell>
-//             )}
-//             <TableCell>
-//               {translate("resources.learningFragments.title")}
-//             </TableCell>
-//             <TableCell>
-//               {translate("resources.learningFragments.type")}
-//             </TableCell>
-//             <TableCell></TableCell>
-//             <TableCell></TableCell>
-//           </TableRow>
-//         </TableHead>
-
-//         <TableBody>
-//           {data &&
-//             data.map((record: any) => {
-//               if (!record) return null;
-//               return (
-//                 <TableRow
-//                   key={record.id}
-//                   id={"_" + record.id}
-//                   sx={{
-//                     cursor: "pointer",
-//                     "&:hover": {
-//                       backgroundColor: "rgba(0, 0, 0, 0.04) !important",
-//                     },
-//                   }}
-//                   onClick={(e) => onRowClick(e, record.id)}
-//                 >
-//                   {props.edit && (
-//                     <TableCell
-//                       sx={{
-//                         width: "52px",
-//                       }}
-//                     >
-//                       <Checkbox
-//                         sx={{ padding: "0" }}
-//                         onClick={(e) => handleBodyCheckboxClick(e, record.id)}
-//                         checked={
-//                           listContext.selectedIds.indexOf(record.id) !== -1
-//                         }
-//                       />
-//                     </TableCell>
-//                   )}
-
-//                   <TableCell>
-//                     <Typography component="span" variant="body2">
-//                       {record.title}
-//                     </Typography>
-//                   </TableCell>
-
-//                   <TableCell>
-//                     <Typography component="span" variant="body2">
-//                       {record.type
-//                         ? translate(
-//                             "resources.learningFragments.typeSelection." +
-//                               record.type
-//                           )
-//                         : ""}
-//                     </Typography>
-//                   </TableCell>
-//                 </TableRow>
-//               );
-//             })}
-//         </TableBody>
-//       </Table>
-//     </>
-//   );
-// };
 
 interface EditContextValue {
   edit: boolean;

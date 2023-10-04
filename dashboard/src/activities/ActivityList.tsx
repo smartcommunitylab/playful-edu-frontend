@@ -33,7 +33,8 @@ import {
   Typography,
   Button as MuiButton,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
+import { useModuleContex } from "../modules/ModuleContext";
 
 const ListActions = (props: {
   learningModuleId: string;
@@ -160,13 +161,24 @@ const ActivityDatagrid = (props: {
   const record = useRecordContext();
   const translate = useTranslate();
   const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
-  const listContext = useListContext();
+  const { data, onUnselectItems, isLoading, isFetching } = useListContext();
+  const { updateXArrow, setIsLoadingActivities } = useModuleContex();
 
   useEffect(() => {
     return () => {
-      listContext.onUnselectItems();
+      onUnselectItems();
     };
-  }, [listContext.data]);
+  }, [data]);
+
+  useLayoutEffect(() => {
+    if (!isFetching) {
+      updateXArrow();
+    }
+  }, [isFetching]);
+
+  useLayoutEffect(() => {
+    setIsLoadingActivities(isLoading);
+  }, [isLoading]);
 
   return (
     <Datagrid
@@ -303,6 +315,18 @@ const Empty = (props: {
   const learningFragmentId = props.learningFragmentId;
   const translate = useTranslate();
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
+  const { isLoading, isFetching } = useListContext();
+  const { updateXArrow, setIsLoadingActivities } = useModuleContex();
+
+  useLayoutEffect(() => {
+    if (!isFetching) {
+      updateXArrow();
+    }
+  }, [isFetching]);
+
+  useLayoutEffect(() => {
+    setIsLoadingActivities(isLoading);
+  }, [isLoading]);
 
   return (
     <Box display="flex" alignItems="start" textAlign="center">

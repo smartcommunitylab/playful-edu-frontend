@@ -8,6 +8,7 @@ import {
   TextField,
   TopToolbar,
   useGetRecordId,
+  useShowContext,
   useStore,
   useTranslate,
 } from "react-admin";
@@ -37,12 +38,16 @@ const PostShowActions = () => {
   );
 };
 
-export const ModuleShow = () => {
+const FragmentsActivitiesLists = () => {
+  const { isLoading } = useShowContext();
   const learningModuleId = useGetRecordId();
   const [fragmentId, setFragmentId] = useState("");
   const updateXarrow = useXarrow();
   const translate = useTranslate();
   const [storeFragmentId, setStoreFragmentId] = useStore("fragmentId");
+  const [isLoadingActivities, setIsLoadingActivities] = useState<
+    boolean | undefined
+  >(undefined);
 
   const handleRowClick = (id: Identifier) => {
     setFragmentId(id as string);
@@ -62,39 +67,31 @@ export const ModuleShow = () => {
   };
 
   const setInitialState = (data: any[]) => {
-    if (data && storeFragmentId && storeFragmentId != fragmentId) {
+    if (
+      data &&
+      data.length > 0 &&
+      storeFragmentId &&
+      storeFragmentId != fragmentId
+    ) {
       const index = data.findIndex((item: any) => item.id === storeFragmentId);
       if (index != -1) {
         setFragmentId(storeFragmentId);
-      }
+      } else setIsLoadingActivities(false);
+    } else if (!data || data.length === 0 || !storeFragmentId) {
+      setIsLoadingActivities(false);
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      updateXarrow();
-    }, 80);
-  }, [fragmentId]);
-
   return (
-    <Show
-      actions={<PostShowActions />}
-      title={<Title translationKey="titlePages.modules.show" />}
-    >
-      <SimpleShowLayout>
-        <TextField source="title" label="resources.modules.title" />
-        <TextField source="desc" label="resources.modules.description" />
-        <TextField source="level" label="resources.modules.level" />
-        <DateField source="dateFrom" label="resources.modules.dateFrom" />
-        <DateField source="dateTo" label="resources.modules.dateTo" />
-      </SimpleShowLayout>
-
+    !isLoading && (
       <ModuleContext.Provider
         value={{
           onRowClick: handleRowClick,
           selectedFragmentId: fragmentId,
           hideActivityList: hideActivityList,
           setInitialState: setInitialState,
+          updateXArrow: updateXarrow,
+          setIsLoadingActivities: setIsLoadingActivities,
         }}
       >
         <Xwrapper>
@@ -139,7 +136,7 @@ export const ModuleShow = () => {
                       learningFragmentId={fragmentId}
                     />
                   )}
-                  {!fragmentId && (
+                  {isLoadingActivities === false && !fragmentId && (
                     <Typography
                       variant="body1"
                       sx={{
@@ -155,7 +152,7 @@ export const ModuleShow = () => {
               </Labeled>
             </Grid>
 
-            {fragmentId && (
+            {isLoadingActivities === false && fragmentId && (
               <Xarrow
                 start={"_" + fragmentId}
                 end={"activitiesBox"}
@@ -169,6 +166,25 @@ export const ModuleShow = () => {
           </Grid>
         </Xwrapper>
       </ModuleContext.Provider>
+    )
+  );
+};
+
+export const ModuleShow = () => {
+  return (
+    <Show
+      actions={<PostShowActions />}
+      title={<Title translationKey="titlePages.modules.show" />}
+    >
+      <SimpleShowLayout>
+        <TextField source="title" label="resources.modules.title" />
+        <TextField source="desc" label="resources.modules.description" />
+        <TextField source="level" label="resources.modules.level" />
+        <DateField source="dateFrom" label="resources.modules.dateFrom" />
+        <DateField source="dateTo" label="resources.modules.dateTo" />
+      </SimpleShowLayout>
+
+      <FragmentsActivitiesLists />
     </Show>
   );
 };

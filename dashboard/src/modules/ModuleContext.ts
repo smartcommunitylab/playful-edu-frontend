@@ -6,9 +6,13 @@ interface ModuleContextValue {
   selectedFragmentId: Identifier;
   hideActivityList: (data: any[]) => void;
   setInitialState: (data: any[]) => void;
+  updateXArrow: () => void;
+  setIsLoadingActivities: (isLoading: boolean | undefined) => void;
 }
 
-export const ModuleContext = createContext<ModuleContextValue | undefined>(undefined);
+export const ModuleContext = createContext<ModuleContextValue | undefined>(
+  undefined
+);
 
 export const useModuleContex = () => {
   const moduleContext = useContext(ModuleContext);

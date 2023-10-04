@@ -11,6 +11,7 @@ import {
   Toolbar,
   TopToolbar,
   required,
+  useEditContext,
   useGetRecordId,
   useRedirect,
   useStore,
@@ -65,20 +66,16 @@ const EditToolbar = (props: any) => {
   );
 };
 
-export const ModuleEdit = () => {
-  const params = useParams();
-  const domainId = params.domainId;
-  const learningScenarioId = params.learningScenarioId;
+const FragmentsActivitiesLists = () => {
+  const { isLoading } = useEditContext();
   const learningModuleId = useGetRecordId();
   const [fragmentId, setFragmentId] = useState("");
   const updateXarrow = useXarrow();
   const translate = useTranslate();
   const [storeFragmentId, setStoreFragmentId] = useStore("fragmentId");
-
-  const redirect = useRedirect();
-  const onSuccess = () => {
-    redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
-  };
+  const [isLoadingActivities, setIsLoadingActivities] = useState<
+    boolean | undefined
+  >(undefined);
 
   const handleRowClick = (id: Identifier) => {
     setFragmentId(id as string);
@@ -107,15 +104,103 @@ export const ModuleEdit = () => {
       const index = data.findIndex((item: any) => item.id === storeFragmentId);
       if (index != -1) {
         setFragmentId(storeFragmentId);
-      }
+      } else setIsLoadingActivities(false);
+    } else if (!data || data.length === 0 || !storeFragmentId) {
+      setIsLoadingActivities(false);
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      updateXarrow();
-    }, 80);
-  }, [fragmentId]);
+  return (
+    !isLoading && (
+      <ModuleContext.Provider
+        value={{
+          onRowClick: handleRowClick,
+          selectedFragmentId: fragmentId,
+          hideActivityList: hideActivityList,
+          setInitialState: setInitialState,
+          updateXArrow: updateXarrow,
+          setIsLoadingActivities: setIsLoadingActivities,
+        }}
+      >
+        <Xwrapper>
+          <Grid container spacing={4}>
+            <Grid item xs={6}>
+              <Labeled
+                label="resources.learningFragments.menu"
+                width="100%"
+                sx={{
+                  "& .RaLabeled-label": {
+                    marginBottom: "0.5rem",
+                  },
+                }}
+              >
+                <Paper>
+                  <FragmentList edit={true} />
+                </Paper>
+              </Labeled>
+            </Grid>
+
+            <Grid item xs={6}>
+              <Labeled
+                label="resources.activities.menu"
+                width="100%"
+                sx={{
+                  "& .RaLabeled-label": {
+                    marginBottom: "0.5rem",
+                  },
+                }}
+              >
+                <Paper>
+                  {fragmentId && (
+                    <ActivityList
+                      learningModuleId={learningModuleId}
+                      learningFragmentId={fragmentId}
+                      edit={true}
+                    />
+                  )}
+                  {isLoadingActivities === false && !fragmentId && (
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        padding: "1rem",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {translate("resources.activities.viewFragmentActivities")}
+                    </Typography>
+                  )}
+                </Paper>
+              </Labeled>
+            </Grid>
+
+            {isLoadingActivities === false && fragmentId && (
+              <Xarrow
+                start={"_" + fragmentId}
+                end={"activitiesBox"}
+                path={"smooth"}
+                curveness={0.7}
+                color="rgba(0, 0, 0, 0.1)"
+                strokeWidth={3}
+                showHead={false}
+              />
+            )}
+          </Grid>
+        </Xwrapper>
+      </ModuleContext.Provider>
+    )
+  );
+};
+
+export const ModuleEdit = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+
+  const redirect = useRedirect();
+  const onSuccess = () => {
+    redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
+  };
 
   return (
     <Edit
@@ -137,82 +222,7 @@ export const ModuleEdit = () => {
         <DateInput source="dateFrom" label="resources.modules.dateFrom" />
         <DateInput source="dateTo" label="resources.modules.dateTo" />
 
-        <ModuleContext.Provider
-          value={{
-            onRowClick: handleRowClick,
-            selectedFragmentId: fragmentId,
-            hideActivityList: hideActivityList,
-            setInitialState: setInitialState,
-          }}
-        >
-          <Xwrapper>
-            <Grid container spacing={4}>
-              <Grid item xs={6}>
-                <Labeled
-                  label="resources.learningFragments.menu"
-                  width="100%"
-                  sx={{
-                    "& .RaLabeled-label": {
-                      marginBottom: "0.5rem",
-                    },
-                  }}
-                >
-                  <Paper>
-                    <FragmentList edit={true} />
-                  </Paper>
-                </Labeled>
-              </Grid>
-
-              <Grid item xs={6}>
-                <Labeled
-                  label="resources.activities.menu"
-                  width="100%"
-                  sx={{
-                    "& .RaLabeled-label": {
-                      marginBottom: "0.5rem",
-                    },
-                  }}
-                >
-                  <Paper>
-                    {fragmentId && (
-                      <ActivityList
-                        learningModuleId={learningModuleId}
-                        learningFragmentId={fragmentId}
-                        edit={true}
-                      />
-                    )}
-                    {!fragmentId && (
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          padding: "1rem",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {translate(
-                          "resources.activities.viewFragmentActivities"
-                        )}
-                      </Typography>
-                    )}
-                  </Paper>
-                </Labeled>
-              </Grid>
-
-              {fragmentId && (
-                <Xarrow
-                  start={"_" + fragmentId}
-                  end={"activitiesBox"}
-                  path={"smooth"}
-                  curveness={0.7}
-                  color="rgba(0, 0, 0, 0.1)"
-                  strokeWidth={3}
-                  showHead={false}
-                />
-              )}
-            </Grid>
-          </Xwrapper>
-        </ModuleContext.Provider>
+        <FragmentsActivitiesLists />
       </SimpleForm>
     </Edit>
   );
