@@ -249,6 +249,7 @@ const messages = {
       },
       singular: "activity",
       plural: "activities",
+      viewFragmentActivities: "Select a fragment to view its activities",
     },
   },
 };

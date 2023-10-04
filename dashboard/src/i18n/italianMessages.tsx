@@ -249,6 +249,7 @@ const messages = {
       },
       singular: "attività",
       plural: "attività",
+      viewFragmentActivities: "Seleziona un frammento per visualizzarne le attività"
     },
   },
 };

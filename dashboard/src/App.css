@@ -73,15 +73,15 @@
   max-width: 100%;
 }
 
-.fragments-table .MuiTableCell-root:first-child {
+.fragments-activities-table .MuiTableCell-root:first-child {
   border-left: 1px solid rgba(224, 224, 224, 1);
 }
 
-.fragments-table .MuiTableCell-root:last-child {
+.fragments-activities-table .MuiTableCell-root:last-child {
   border-right: 1px solid rgba(224, 224, 224, 1);
 }
 
-.fragments-table .MuiTableHead-root .MuiTableCell-root {
+.fragments-activities-table .MuiTableHead-root .MuiTableCell-root {
   border-top: 1px solid rgba(224, 224, 224, 1);
 }
 

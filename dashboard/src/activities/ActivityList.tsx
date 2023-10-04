@@ -38,15 +38,19 @@ import { useEffect } from "react";
 const ListActions = (props: {
   learningModuleId: string;
   learningFragmentId: string;
-}) => (
-  <TopToolbar sx={{ minHeight: "48px !important" }}>
-    <CreateActivityButton
-      learningModuleId={props.learningModuleId}
-      learningFragmentId={props.learningFragmentId}
-    />
-    <ExportButton />
-  </TopToolbar>
-);
+}) => {
+  const listContext = useListContext();
+
+  return listContext.data?.length > 0 ? (
+    <TopToolbar sx={{ minHeight: "48px !important" }}>
+      <CreateActivityButton
+        learningModuleId={props.learningModuleId}
+        learningFragmentId={props.learningFragmentId}
+      />
+      <ExportButton />
+    </TopToolbar>
+  ) : null;
+};
 
 // const ActivityFilters = [<TextInput label="ra.action.search" source="title" alwaysOn />];
 
@@ -171,8 +175,11 @@ const ActivityDatagrid = (props: {
         "& .RaBulkActionsToolbar-topToolbar": {
           backgroundColor: "initial",
         },
+        "& .RaDatagrid-table": {
+          borderCollapse: "separate",
+        },
       }}
-      className="fragments-table"
+      className="fragments-activities-table"
     >
       <TextField
         source="title"
@@ -295,7 +302,6 @@ const Empty = (props: {
   const learningModuleId = props.learningModuleId;
   const learningFragmentId = props.learningFragmentId;
   const translate = useTranslate();
-
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
 
   return (

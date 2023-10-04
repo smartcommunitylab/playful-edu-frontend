@@ -2,7 +2,10 @@ import { createContext, useContext } from "react";
 import { Identifier } from "react-admin";
 
 interface ModuleContextValue {
-  onRowClick: (e: any, fragmentId: Identifier) => void;
+  onRowClick: (fragmentId: Identifier) => void;
+  selectedFragmentId: Identifier;
+  hideActivityList: (data: any[]) => void;
+  setInitialState: (data: any[]) => void;
 }
 
 export const ModuleContext = createContext<ModuleContextValue | undefined>(undefined);

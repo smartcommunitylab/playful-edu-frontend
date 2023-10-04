@@ -29,17 +29,27 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useModuleContex } from "../modules/ModuleContext";
 import Checkbox from "@mui/material/Checkbox";
 import React from "react";
 
-const ListActions = () => (
-  <TopToolbar sx={{ minHeight: "48px !important", zIndex: "2" }}>
-    <CreateFragmentButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const listContext = useListContext();
+  
+  return listContext.data?.length > 0 ? (
+    <TopToolbar sx={{ minHeight: "48px !important", zIndex: "2" }}>
+      <CreateFragmentButton />
+      <ExportButton />
+    </TopToolbar>
+  ) : null;
+};
 
 const FragmentFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
@@ -84,7 +94,7 @@ const CustomDatagridRow = ({
 }: DatagridRowProps) => {
   const translate = useTranslate();
   const { edit } = useEditContex();
-  const { onRowClick } = useModuleContex();
+  const { onRowClick, selectedFragmentId } = useModuleContex();
 
   if (id) {
     return (
@@ -96,8 +106,10 @@ const CustomDatagridRow = ({
             "&:hover": {
               backgroundColor: "rgba(0, 0, 0, 0.04) !important",
             },
+            backgroundColor:
+              selectedFragmentId === id ? "rgba(0, 0, 0, 0.08)" : "",
           }}
-          onClick={(e) => onRowClick(e, id)}
+          onClick={(e) => onRowClick(id)}
         >
           {edit && (
             <TableCell sx={{ padding: "0 12px 0 16px" }}>
@@ -161,13 +173,23 @@ const CustomDatagridBody = (props: DatagridBodyProps) => (
 const CustomDatagrid = (props: DatagridProps) => {
   const { edit } = useEditContex();
   const bulkActionButtons = edit ? <PostBulkActionButtons /> : false;
+  const listContext = useListContext();
+  const { hideActivityList, setInitialState } = useModuleContex();
+
+  useEffect(() => {
+    hideActivityList(listContext.data);
+  }, [listContext.data]);
+
+  useLayoutEffect(() => {
+    setInitialState(listContext.data);
+  }, [listContext.data]);
 
   return (
     <Datagrid
       {...props}
       body={<CustomDatagridBody />}
       bulkActionButtons={bulkActionButtons}
-      className="fragments-table"
+      className="fragments-activities-table"
     />
   );
 };
@@ -204,12 +226,13 @@ export const FragmentList = (props: { edit: boolean }) => {
             },
           }}
         >
-          {/* <FragmentTable edit={props.edit} /> */}
-
           <CustomDatagrid
             sx={{
               "& .RaBulkActionsToolbar-topToolbar": {
                 backgroundColor: "initial",
+              },
+              "& .RaDatagrid-table": {
+                borderCollapse: "separate",
               },
             }}
           >
@@ -292,6 +315,16 @@ const Empty = () => {
     : params.id;
   const translate = useTranslate();
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
+  const listContext = useListContext();
+  const { hideActivityList, setInitialState } = useModuleContex();
+
+  useEffect(() => {
+    hideActivityList(listContext.data);
+  }, [listContext.data]);
+
+  useLayoutEffect(() => {
+    setInitialState(listContext.data);
+  }, [listContext.data]);
 
   return (
     <Box display="flex" alignItems="start" textAlign="center">
@@ -356,7 +389,7 @@ const Empty = () => {
 
 //   return (
 //     <>
-//       <Table sx={{ padding: 2 }} className="fragments-table">
+//       <Table sx={{ padding: 2 }} className="fragments-activities-table">
 //         <TableHead>
 //           <TableRow>
 //             {props.edit && (
