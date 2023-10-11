@@ -15,16 +15,23 @@ export const MyAppBar = (props: any) => {
 
   useLayoutEffect(() => {
     const checkUserSignedIn = async () => {
-      const userSignedIn = await authProvider.isUserSignedIn();
-      setIsUserSignedIn(userSignedIn);
+      await authProvider
+        .checkAuth({})
+        .then(() => {
+          setIsUserSignedIn(true);
+        })
+        .catch(() => {
+          setIsUserSignedIn(false);
+        });
     };
+
     checkUserSignedIn();
   }, []);
 
   return (
     <AppBar
       color="primary"
-      userMenu={ isUserSignedIn ? <CustomUserMenu /> : false}
+      userMenu={isUserSignedIn ? <CustomUserMenu /> : false}
     ></AppBar>
   );
 };

@@ -4,6 +4,7 @@ import { Login, Title, useLogin, useTranslate } from "react-admin";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+import { LoginButton } from "@dslab/ra-auth-oidc";
 
 export const LoginPage = () => {
   const isLarge = useMediaQuery<Theme>((theme) => theme.breakpoints.down("lg"));
@@ -42,30 +43,15 @@ export const LoginPage = () => {
 
 const LoginCard = () => {
   const translate = useTranslate();
-  const login = useLogin();
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = () => {
-    setLoading(true);
-    login({});
-  };
 
   return (
     <Box style={{ padding: 20 }}>
-      <Box textAlign="center" mb={4}>
+      <Box textAlign="center">
         <h1>{translate("resources.dashboard.welcome")}</h1>
       </Box>
 
       <Box display="flex" justifyContent="center">
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          onClick={handleLogin}
-          disabled={loading}
-        >
-          {translate("ra.auth.sign_in")}
-        </Button>
+        <LoginButton />
       </Box>
     </Box>
   );

@@ -25,7 +25,6 @@ import {
   DatagridRowProps,
   RecordContextProvider,
   FieldProps,
-  BulkExportButton,
 } from "react-admin";
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -75,14 +74,11 @@ const PostBulkActionButtons = () => {
   });
 
   return (
-    <>
     <BulkDeleteButton
       mutationMode="pessimistic"
       confirmTitle={title}
       confirmContent={content}
     />
-    <BulkExportButton />
-    </>
   );
 };
 
@@ -116,8 +112,12 @@ const CustomDatagridRow = ({
               if (record && field.props.source === "publicScenario") {
                 const fieldValue = record[field.props.source];
                 const publicScenarioChipLabel = fieldValue
-                  ? translate("resources.learningScenarios.publicScenarioOption.public")
-                  : translate("resources.learningScenarios.publicScenarioOption.private");
+                  ? translate(
+                      "resources.learningScenarios.publicScenarioOption.public"
+                    )
+                  : translate(
+                      "resources.learningScenarios.publicScenarioOption.private"
+                    );
 
                 return (
                   <TableCell key={`${id}-${field.props.source}`}>
@@ -127,12 +127,20 @@ const CustomDatagridRow = ({
               } else if (record && field.props.source === "running") {
                 const fieldValue = record[field.props.source];
                 const runningChipLabel = fieldValue
-                  ? translate("resources.learningScenarios.statusOption.inProgress")
-                  : translate("resources.learningScenarios.statusOption.toStart");
+                  ? translate(
+                      "resources.learningScenarios.statusOption.inProgress"
+                    )
+                  : translate(
+                      "resources.learningScenarios.statusOption.toStart"
+                    );
 
                 return (
                   <TableCell key={`${id}-${field.props.source}`}>
-                    <Chip label={runningChipLabel} color={fieldValue ? "success" : "error"} className="chip"/>
+                    <Chip
+                      label={runningChipLabel}
+                      color={fieldValue ? "success" : "error"}
+                      className="chip"
+                    />
                   </TableCell>
                 );
               } else {
