@@ -19,7 +19,6 @@ import {
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Title } from "../Title";
-import "@fontsource/inter";
 import { Chip } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {
