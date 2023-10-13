@@ -1,6 +1,8 @@
 import {
   DeleteButton,
   Edit,
+  FormDataConsumer,
+  NumberInput,
   SaveButton,
   SelectInput,
   ShowButton,
@@ -8,6 +10,7 @@ import {
   TextInput,
   Toolbar,
   TopToolbar,
+  minValue,
   required,
   useGetList,
   useGetRecordId,
@@ -88,8 +91,6 @@ const EditToolbar = (props: any) => {
 };
 
 const FramgmentEditChildren = () => {
-  const translate = useTranslate();
-
   return (
     <SimpleForm toolbar={<EditToolbar />}>
       <TextInput
@@ -103,21 +104,51 @@ const FramgmentEditChildren = () => {
         choices={[
           {
             id: "singleton",
-            name: translate(
-              "resources.learningFragments.typeSelection.singleton"
-            ),
+            name: "resources.learningFragments.typeSelection.singleton",
           },
           {
             id: "set",
-            name: translate("resources.learningFragments.typeSelection.set"),
+            name: "resources.learningFragments.typeSelection.set",
           },
           {
             id: "list",
-            name: translate("resources.learningFragments.typeSelection.list"),
+            name: "resources.learningFragments.typeSelection.list",
           },
         ]}
         label="resources.learningFragments.type"
+        sx={{ minWidth: "265px" }}
       />
+      <SelectInput
+        source="setCompletionRule"
+        choices={[
+          {
+            id: "all",
+            name: "resources.learningFragments.ruleSelection.all",
+          },
+          {
+            id: "at_least",
+            name: "resources.learningFragments.ruleSelection.at_least",
+          },
+        ]}
+        label="resources.learningFragments.rule"
+        sx={{ minWidth: "265px" }}
+      />
+      <FormDataConsumer>
+        {({ formData, ...rest }) => {
+          if (
+            formData.setCompletionRule &&
+            formData.setCompletionRule == "at_least"
+          )
+            return (
+              <NumberInput
+                source="minActivities"
+                validate={minValue(1, "resources.validation.minValue")}
+                label="resources.learningFragments.minimumNumberOfActivities"
+                sx={{ minWidth: "265px" }}
+              ></NumberInput>
+            );
+        }}
+      </FormDataConsumer>
     </SimpleForm>
   );
 };

@@ -42,7 +42,7 @@ import React from "react";
 
 const ListActions = () => {
   const listContext = useListContext();
-  
+
   return listContext.data?.length > 0 ? (
     <TopToolbar sx={{ minHeight: "48px !important", zIndex: "2" }}>
       <CreateFragmentButton />
@@ -134,6 +134,29 @@ const CustomDatagridRow = ({
                       "resources.learningFragments.typeSelection." +
                         record[field.props.source]
                     )
+                  : "";
+
+                return (
+                  <TableCell key={`${id}-${field.props.source}`}>
+                    <Typography component="span" variant="body2">
+                      {translation}
+                    </Typography>
+                  </TableCell>
+                );
+              } else if (record && field.props.source === "setCompletionRule") {
+                const translation = record[field.props.source]
+                  ? record[field.props.source] === "at_least"
+                    ? translate(
+                        "resources.learningFragments.ruleSelection.at_least_label",
+                        {
+                          number: record.minActivities,
+                          smart_count: record.minActivities,
+                        }
+                      )
+                    : translate(
+                        "resources.learningFragments.ruleSelection." +
+                          record[field.props.source]
+                      )
                   : "";
 
                 return (
@@ -244,6 +267,11 @@ export const FragmentList = (props: { edit: boolean }) => {
             <TextField
               source="type"
               label="resources.learningFragments.type"
+              sortable={false}
+            />
+            <TextField
+              source="setCompletionRule"
+              label="resources.learningFragments.rule"
               sortable={false}
             />
             <TextField></TextField>

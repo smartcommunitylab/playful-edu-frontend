@@ -1,8 +1,11 @@
 import {
   Create,
+  FormDataConsumer,
+  NumberInput,
   SelectInput,
   SimpleForm,
   TextInput,
+  minValue,
   required,
   useRedirect,
   useTranslate,
@@ -17,7 +20,6 @@ export const FragmentCreate = () => {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const redirect = useRedirect();
-  const translate = useTranslate();
   const onSuccess = () => {
     redirect(
       `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
@@ -43,21 +45,51 @@ export const FragmentCreate = () => {
           choices={[
             {
               id: "singleton",
-              name: translate(
-                "resources.learningFragments.typeSelection.singleton"
-              ),
+              name: "resources.learningFragments.typeSelection.singleton",
             },
             {
               id: "set",
-              name: translate("resources.learningFragments.typeSelection.set"),
+              name: "resources.learningFragments.typeSelection.set",
             },
             {
               id: "list",
-              name: translate("resources.learningFragments.typeSelection.list"),
+              name: "resources.learningFragments.typeSelection.list",
             },
           ]}
           label="resources.learningFragments.type"
+          sx={{ minWidth: "265px" }}
         />
+        <SelectInput
+          source="setCompletionRule"
+          choices={[
+            {
+              id: "all",
+              name: "resources.learningFragments.ruleSelection.all",
+            },
+            {
+              id: "at_least",
+              name: "resources.learningFragments.ruleSelection.at_least",
+            },
+          ]}
+          label="resources.learningFragments.rule"
+          sx={{ minWidth: "265px" }}
+        />
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            if (
+              formData.setCompletionRule &&
+              formData.setCompletionRule == "at_least"
+            )
+              return (
+                <NumberInput
+                  source="minActivities"
+                  validate={minValue(1, "resources.validation.minValue")}
+                  label="resources.learningFragments.minimumNumberOfActivities"
+                  sx={{ minWidth: "265px" }}
+                ></NumberInput>
+              );
+          }}
+        </FormDataConsumer>
       </SimpleForm>
     </Create>
   );

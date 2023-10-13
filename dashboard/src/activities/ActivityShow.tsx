@@ -83,21 +83,19 @@ export const ActivityLayout = () => {
   }
 
   return (
-    <>
-      <SimpleShowLayout>
-        <TextField source="title" label="resources.activities.title" />
-        <TextField source="desc" label="resources.activities.description" />
-        <FunctionField
-          label="resources.activities.type"
-          render={(record: any) =>
-            record && record.type
-              ? translate("resources.activities.typeSelection." + record.type)
-              : ""
-          }
-        />
-        {field}
-      </SimpleShowLayout>
-    </>
+    <SimpleShowLayout>
+      <TextField source="title" label="resources.activities.title" />
+      <TextField source="desc" label="resources.activities.description" />
+      <FunctionField
+        label="resources.activities.type"
+        render={(record: any) =>
+          record && record.type
+            ? translate("resources.activities.typeSelection." + record.type)
+            : ""
+        }
+      />
+      {field}
+    </SimpleShowLayout>
   );
 };
 

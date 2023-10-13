@@ -221,12 +221,20 @@ const messages = {
       back: "Module",
       title: "Title",
       type: "Type",
+      rule: "Completion rule",
+      minimumNumberOfActivities: "Minimum number of activities",
       empty: "No fragments found",
       addOne: "Do you want to add one?",
       typeSelection: {
         singleton: "Singleton",
         set: "Set",
         list: "List",
+      },
+      ruleSelection: {
+        all: "All activities",
+        at_least: "At least a minimum number",
+        at_least_label:
+          "At least 1 activity |||| At least %{number} activities",
       },
       singular: "fragment",
       plural: "fragments",
@@ -253,6 +261,9 @@ const messages = {
       singular: "activity",
       plural: "activities",
       viewFragmentActivities: "Select a fragment to view its activities",
+    },
+    validation: {
+      minValue: "Value must be greater that or equal to %{min}",
     },
   },
 };

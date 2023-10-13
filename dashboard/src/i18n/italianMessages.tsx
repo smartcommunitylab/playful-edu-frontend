@@ -221,12 +221,19 @@ const messages = {
       back: "Modulo",
       title: "Titolo",
       type: "Tipo",
+      rule: "Regola di completamento",
+      minimumNumberOfActivities: "Numero minimo di attività",
       empty: "Nessun frammento presente",
       addOne: "Vuoi aggiungerne uno?",
       typeSelection: {
         singleton: "Singolo",
         set: "Insieme",
         list: "Lista",
+      },
+      ruleSelection: {
+        all: "Tutte le attività",
+        at_least: "Almeno un numero minimo",
+        at_least_label: "Almeno %{number} attività"
       },
       singular: "frammento",
       plural: "frammenti",
@@ -254,6 +261,9 @@ const messages = {
       plural: "attività",
       viewFragmentActivities:
         "Seleziona un frammento per visualizzarne le attività",
+    },
+    validation: {
+      minValue: "Il valore deve esere maggiore o uguale a %{min}",
     },
   },
 };
