@@ -1,74 +1,62 @@
 import {
-  BooleanField,
   Button,
   ChipField,
-  Datagrid,
   EditButton,
   Labeled,
   ReferenceArrayField,
   Show,
-  ShowButton,
   SimpleShowLayout,
   SingleFieldList,
   TextField,
   TopToolbar,
+  useDataProvider,
   useGetRecordId,
+  useInput,
   useNotify,
-  useRecordContext,
+  useShowContext,
   useTranslate,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Title } from "../Title";
 import { Chip } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { useMutation } from "react-query";
 
 const StartButton = () => {
-  const record = useRecordContext();
-  const API_URL: string = process.env.REACT_APP_API_URL as string;
-  const { status, setStatus } = useStatusContex();
+  const { record, refetch } = useShowContext();
   const notify = useNotify();
+  const dataProvider = useDataProvider();
 
-  const handleStartButtonClick = () => {
-    const encodedId = encodeURIComponent(record?.id);
-    const url = `${API_URL}/ext/learningscenario/run?id=${encodedId}`;
+  const handleClickEvent = async () => {
+    await dataProvider.runScenario(record.id);
+    refetch();
+  };
 
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        Accept: "*/*",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error while starting the scenario");
-        } else {
-          setStatus(true);
-          notify("resources.learningScenarios.statusNotification.success", {
-            type: "success",
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        notify("resources.learningScenarios.statusNotification.error", {
-          type: "error",
-        });
-      });
+  const { mutate, isLoading } = useMutation(handleClickEvent);
+
+  const onSuccess = () => {
+    notify("resources.learningScenarios.statusNotification.success", {
+      type: "success",
+    });
+  };
+
+  const onError = () => {
+    notify("resources.learningScenarios.statusNotification.error", {
+      type: "error",
+    });
   };
 
   return (
     <Button
       color="primary"
-      onClick={() => handleStartButtonClick()}
+      onClick={() =>
+        mutate(undefined, {
+          onSuccess,
+          onError,
+        })
+      }
       label="resources.learningScenarios.start"
-      disabled={status}
+      disabled={record?.running || isLoading}
     >
       <PlayArrowIcon />
     </Button>
@@ -92,18 +80,8 @@ const PostShowActions = () => {
 };
 
 const ShowLayout = () => {
-  const record = useRecordContext();
   const translate = useTranslate();
-  const { status, setStatus } = useStatusContex();
-
-  const publicScenarioValue = record?.publicScenario;
-  const publicScenarioChipLabel = publicScenarioValue
-    ? translate("resources.learningScenarios.publicScenarioOption.public")
-    : translate("resources.learningScenarios.publicScenarioOption.private");
-
-  useLayoutEffect(() => {
-    setStatus(record?.running);
-  }, [record?.running]);
+  const { record } = useShowContext();
 
   return (
     <SimpleShowLayout>
@@ -119,17 +97,27 @@ const ShowLayout = () => {
       />
 
       <Labeled label="resources.learningScenarios.publicScenario">
-        <Chip label={publicScenarioChipLabel} />
+        <Chip
+          label={
+            record?.publicScenario
+              ? translate(
+                  "resources.learningScenarios.publicScenarioOption.public"
+                )
+              : translate(
+                  "resources.learningScenarios.publicScenarioOption.private"
+                )
+          }
+        />
       </Labeled>
 
       <Labeled label="resources.learningScenarios.status">
         <Chip
           label={
-            status
+            record?.running
               ? translate("resources.learningScenarios.statusOption.inProgress")
               : translate("resources.learningScenarios.statusOption.toStart")
           }
-          color={status ? "success" : "error"}
+          color={record?.running ? "success" : "error"}
           className="chip"
         />
       </Labeled>
@@ -148,31 +136,12 @@ const ShowLayout = () => {
 };
 
 export const LearningScenarioShow = () => {
-  const [status, setStatus] = useState(false);
-
   return (
-    <StatusContext.Provider value={{ status, setStatus }}>
-      <Show
-        actions={<PostShowActions />}
-        title={<Title translationKey="titlePages.learningScenarios.show" />}
-      >
-        <ShowLayout />
-      </Show>
-    </StatusContext.Provider>
+    <Show
+      actions={<PostShowActions />}
+      title={<Title translationKey="titlePages.learningScenarios.show" />}
+    >
+      <ShowLayout />
+    </Show>
   );
-};
-
-interface StatusContextValue {
-  status: boolean;
-  setStatus: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const StatusContext = createContext<StatusContextValue | undefined>(undefined);
-
-const useStatusContex = () => {
-  const statusContext = useContext(StatusContext);
-  if (statusContext === undefined) {
-    throw new Error("useStatusContext must be inside a provider");
-  }
-  return statusContext;
 };

@@ -1,5 +1,3 @@
-import { AUTH_LOGIN, AUTH_CHECK, AUTH_LOGOUT, AuthProvider } from "react-admin";
-import { UserManager, WebStorageStateStore } from "oidc-client-ts";
 import { OidcAuthProvider } from "@dslab/ra-auth-oidc";
 
 const issuer: string = process.env.OIDC_ISSUER as string;

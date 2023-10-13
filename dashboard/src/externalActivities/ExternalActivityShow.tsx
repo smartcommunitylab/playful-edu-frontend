@@ -51,9 +51,6 @@ export const ExternalActivityShow = () => {
           source="language"
           label="resources.externalActivities.language"
         />
-        <TextField source="extId" />
-        <TextField source="extGroupId" />
-        <TextField source="extUrl" label="resources.externalActivities.url" />
         <FunctionField
           label="resources.externalActivities.type"
           render={(record: any) =>
@@ -85,6 +82,9 @@ export const ExternalActivityShow = () => {
               : ""
           }
         />
+        <TextField source="extId" />
+        <TextField source="extGroupId" />
+        <TextField source="extUrl" label="resources.externalActivities.url" />
         <TextField
           source="groupCorrelator"
           label="resources.externalActivities.groupCorrelator"

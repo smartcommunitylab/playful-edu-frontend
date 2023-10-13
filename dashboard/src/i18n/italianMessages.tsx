@@ -224,12 +224,15 @@ const messages = {
       empty: "Nessun frammento presente",
       addOne: "Vuoi aggiungerne uno?",
       typeSelection: {
-        singleton: "Singola",
+        singleton: "Singolo",
         set: "Insieme",
         list: "Lista",
       },
       singular: "frammento",
       plural: "frammenti",
+      singletonFragmentError:
+        "Modifica non riuscita. Un frammento di tipo singolo deve possedere una sola attività",
+      activitiesNotYetLoaded: "Attività non ancora ottenute dal server",
     },
     activities: {
       menu: "Attività",
@@ -249,7 +252,8 @@ const messages = {
       },
       singular: "attività",
       plural: "attività",
-      viewFragmentActivities: "Seleziona un frammento per visualizzarne le attività"
+      viewFragmentActivities:
+        "Seleziona un frammento per visualizzarne le attività",
     },
   },
 };

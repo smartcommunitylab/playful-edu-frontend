@@ -36,7 +36,7 @@ import {
   useLayoutEffect,
   useState,
 } from "react";
-import { useModuleContex } from "../modules/ModuleContext";
+import { useModuleContext } from "../modules/ModuleContext";
 import Checkbox from "@mui/material/Checkbox";
 import React from "react";
 
@@ -94,7 +94,7 @@ const CustomDatagridRow = ({
 }: DatagridRowProps) => {
   const translate = useTranslate();
   const { edit } = useEditContex();
-  const { onRowClick, selectedFragmentId } = useModuleContex();
+  const { onRowClick, selectedFragmentId } = useModuleContext();
 
   if (id) {
     return (
@@ -109,7 +109,7 @@ const CustomDatagridRow = ({
             backgroundColor:
               selectedFragmentId === id ? "rgba(0, 0, 0, 0.08)" : "",
           }}
-          onClick={(e) => onRowClick(id)}
+          onClick={(e) => onRowClick(record)}
         >
           {edit && (
             <TableCell sx={{ padding: "0 12px 0 16px" }}>
@@ -174,14 +174,14 @@ const CustomDatagrid = (props: DatagridProps) => {
   const { edit } = useEditContex();
   const bulkActionButtons = edit ? <PostBulkActionButtons /> : false;
   const { data } = useListContext();
-  const { hideActivityList, setInitialState } = useModuleContex();
+  const { hideActivityList, handleFragmentListChanges } = useModuleContext();
 
-  useEffect(() => {
-    hideActivityList(data);
-  }, [data]);
+  // useEffect(() => {
+  // }, [data]);
 
   useLayoutEffect(() => {
-    setInitialState(data);
+    handleFragmentListChanges(data);
+    hideActivityList(data);
   }, [data]);
 
   return (
@@ -316,14 +316,11 @@ const Empty = () => {
   const translate = useTranslate();
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
   const { data } = useListContext();
-  const { hideActivityList, setInitialState } = useModuleContex();
-
-  useEffect(() => {
-    hideActivityList(data);
-  }, [data]);
+  const { hideActivityList, handleFragmentListChanges } = useModuleContext();
 
   useLayoutEffect(() => {
-    setInitialState(data);
+    handleFragmentListChanges(data);
+    hideActivityList(data);
   }, [data]);
 
   return (

@@ -3,6 +3,7 @@ import {
   EditButton,
   Identifier,
   Labeled,
+  RaRecord,
   Show,
   SimpleShowLayout,
   TextField,
@@ -19,7 +20,7 @@ import { FragmentList } from "../fragments/FragmentList";
 import { ActivityList } from "../activities/ActivityList";
 import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import { useEffect, useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery, Theme } from "@mui/material";
 import { ModuleContext } from "./ModuleContext";
 
 const PostShowActions = () => {
@@ -41,19 +42,27 @@ const PostShowActions = () => {
 const FragmentsActivitiesLists = () => {
   const { isLoading } = useShowContext();
   const learningModuleId = useGetRecordId();
-  const [fragmentId, setFragmentId] = useState("");
   const updateXarrow = useXarrow();
   const translate = useTranslate();
-  const [storeFragmentId, setStoreFragmentId] = useStore("fragmentId");
-  const [isLoadingActivities, setIsLoadingActivities] = useState<
+  const [fragmentId, setFragmentId] = useState("");
+  const [storedFragmentInfo, setStoredFragmentInfo] = useStore<{
+    fragmentId: string;
+  }>("fragmentInfo");
+  const [areLoadingActivities, setAreLoadingActivities] = useState<
     boolean | undefined
   >(undefined);
 
-  const handleRowClick = (id: Identifier) => {
-    setFragmentId(id as string);
-    setStoreFragmentId(id as string);
+  // const isSmallerThanBreakpoint = useMediaQuery<Theme>((theme) =>
+  //   theme.breakpoints.down(1700)
+  // );
+
+  const handleRowClick = (record: RaRecord<Identifier> | undefined) => {
+    const fragmentId = record ? (record.id as string) : "";
+    setFragmentId(fragmentId);
+    setStoredFragmentInfo({ fragmentId });
   };
 
+  // Hide the activity list if the fragment associated with it has been deleted
   const hideActivityList = (data: any[]) => {
     if (data && fragmentId) {
       const index = data.findIndex((item: any) => item.id === fragmentId);
@@ -66,19 +75,22 @@ const FragmentsActivitiesLists = () => {
     }
   };
 
-  const setInitialState = (data: any[]) => {
+  // Update fragment-related state based on changes in the provided data or stored information
+  const handleFragmentListChanges = (data: any[]) => {
     if (
       data &&
       data.length > 0 &&
-      storeFragmentId &&
-      storeFragmentId != fragmentId
+      storedFragmentInfo &&
+      storedFragmentInfo.fragmentId != fragmentId
     ) {
-      const index = data.findIndex((item: any) => item.id === storeFragmentId);
+      const index = data.findIndex(
+        (item: any) => item.id === storedFragmentInfo.fragmentId
+      );
       if (index != -1) {
-        setFragmentId(storeFragmentId);
-      } else setIsLoadingActivities(false);
-    } else if (!data || data.length === 0 || !storeFragmentId) {
-      setIsLoadingActivities(false);
+        setFragmentId(storedFragmentInfo.fragmentId);
+      } else setAreLoadingActivities(false);
+    } else if (!data || data.length === 0 || !storedFragmentInfo) {
+      setAreLoadingActivities(false);
     }
   };
 
@@ -89,9 +101,9 @@ const FragmentsActivitiesLists = () => {
           onRowClick: handleRowClick,
           selectedFragmentId: fragmentId,
           hideActivityList: hideActivityList,
-          setInitialState: setInitialState,
+          handleFragmentListChanges: handleFragmentListChanges,
           updateXArrow: updateXarrow,
-          setIsLoadingActivities: setIsLoadingActivities,
+          setAreLoadingActivities: setAreLoadingActivities,
         }}
       >
         <Xwrapper>
@@ -136,7 +148,7 @@ const FragmentsActivitiesLists = () => {
                       learningFragmentId={fragmentId}
                     />
                   )}
-                  {isLoadingActivities === false && !fragmentId && (
+                  {areLoadingActivities === false && !fragmentId && (
                     <Typography
                       variant="body1"
                       sx={{
@@ -152,7 +164,7 @@ const FragmentsActivitiesLists = () => {
               </Labeled>
             </Grid>
 
-            {isLoadingActivities === false && fragmentId && (
+            {areLoadingActivities === false && fragmentId && (
               <Xarrow
                 start={"_" + fragmentId}
                 end={"activitiesBox"}

@@ -1,7 +1,11 @@
 import { stringify } from "querystring";
 import { fetchUtils, DataProvider } from "ra-core";
 
-const springDataProvider = (
+export type CustomDataProvider = DataProvider & {
+  runScenario: (id: string) => Promise<void>;
+};
+
+const customDataProvider = (
   apiUrl: string,
   httpClient: (
     url: any,
@@ -12,7 +16,7 @@ const springDataProvider = (
     body: string;
     json: any;
   }>
-): DataProvider => {
+): CustomDataProvider => {
   return {
     getList: (resource, params) => {
       if (resource === "scenario-learners") resource = "learners";
@@ -150,7 +154,13 @@ const springDataProvider = (
         )
       ).then((responses) => ({ data: responses.map(({ json }) => json) }));
     },
+    runScenario: (id: string): Promise<void> => {
+      const url = `${apiUrl}/scenarios/${id}/run`;
+      return httpClient(url, {
+        method: "PUT",
+      }).then();
+    },
   };
 };
 
-export default springDataProvider;
+export default customDataProvider;

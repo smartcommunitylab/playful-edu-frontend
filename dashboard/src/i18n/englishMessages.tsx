@@ -230,6 +230,9 @@ const messages = {
       },
       singular: "fragment",
       plural: "fragments",
+      singletonFragmentError:
+        "Edit failed. A singleton fragment must have only one activity",
+      activitiesNotYetLoaded: "Activities not yet received from the server",
     },
     activities: {
       menu: "Activities",

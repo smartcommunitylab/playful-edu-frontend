@@ -100,6 +100,10 @@ export const ExternalActivityList = () => {
             source="desc"
             label="resources.externalActivities.description"
           />
+          <TextField
+            source="language"
+            label="resources.externalActivities.language"
+          />
           <FunctionField
             label="resources.externalActivities.type"
             source="type"
@@ -110,10 +114,6 @@ export const ExternalActivityList = () => {
                   )
                 : ""
             }
-          />
-          <TextField
-            source="language"
-            label="resources.externalActivities.language"
           />
           <FunctionField
             label="resources.externalActivities.tool"

@@ -96,13 +96,6 @@ export const ExternalActivityEdit = () => {
           source="language"
           label="resources.externalActivities.language"
         />
-        <TextInput source="extId" />
-        <TextInput source="extGroupId" />
-        <TextInput
-          source="extUrl"
-          type="url"
-          label="resources.externalActivities.url"
-        />
         <SelectInput
           source="type"
           choices={[
@@ -138,6 +131,13 @@ export const ExternalActivityEdit = () => {
             },
           ]}
           label="resources.externalActivities.difficulty"
+        />
+        <TextInput source="extId" />
+        <TextInput source="extGroupId" />
+        <TextInput
+          source="extUrl"
+          type="url"
+          label="resources.externalActivities.url"
         />
         <TextInput
           source="groupCorrelator"

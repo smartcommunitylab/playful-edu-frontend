@@ -34,7 +34,7 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 import { useEffect, useLayoutEffect } from "react";
-import { useModuleContex } from "../modules/ModuleContext";
+import { useModuleContext } from "../modules/ModuleContext";
 
 const ListActions = (props: {
   learningModuleId: string;
@@ -162,7 +162,7 @@ const ActivityDatagrid = (props: {
   const translate = useTranslate();
   const bulkActionButtons = props.edit ? <PostBulkActionButtons /> : false;
   const { data, onUnselectItems, isLoading, isFetching } = useListContext();
-  const { updateXArrow, setIsLoadingActivities } = useModuleContex();
+  const { updateXArrow, setAreLoadingActivities } = useModuleContext();
 
   useEffect(() => {
     return () => {
@@ -177,7 +177,7 @@ const ActivityDatagrid = (props: {
   }, [isFetching]);
 
   useLayoutEffect(() => {
-    setIsLoadingActivities(isLoading);
+    setAreLoadingActivities(isLoading);
   }, [isLoading]);
 
   return (
@@ -295,11 +295,12 @@ const CreateActivityButton = (props: {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = props.learningModuleId;
   const learningFragmentId = props.learningFragmentId;
+  const { isFragmentSingleton } = useModuleContext();
 
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
   return (
     <>
-      <CreateButton to={to}></CreateButton>
+      <CreateButton to={to} disabled={isFragmentSingleton}></CreateButton>
     </>
   );
 };
@@ -316,7 +317,7 @@ const Empty = (props: {
   const translate = useTranslate();
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
   const { isLoading, isFetching } = useListContext();
-  const { updateXArrow, setIsLoadingActivities } = useModuleContex();
+  const { updateXArrow, setAreLoadingActivities } = useModuleContext();
 
   useLayoutEffect(() => {
     if (!isFetching) {
@@ -325,7 +326,7 @@ const Empty = (props: {
   }, [isFetching]);
 
   useLayoutEffect(() => {
-    setIsLoadingActivities(isLoading);
+    setAreLoadingActivities(isLoading);
   }, [isLoading]);
 
   return (

@@ -4,6 +4,7 @@ import {
   Edit,
   Identifier,
   Labeled,
+  RaRecord,
   SaveButton,
   ShowButton,
   SimpleForm,
@@ -69,19 +70,31 @@ const EditToolbar = (props: any) => {
 const FragmentsActivitiesLists = () => {
   const { isLoading } = useEditContext();
   const learningModuleId = useGetRecordId();
-  const [fragmentId, setFragmentId] = useState("");
   const updateXarrow = useXarrow();
   const translate = useTranslate();
-  const [storeFragmentId, setStoreFragmentId] = useStore("fragmentId");
-  const [isLoadingActivities, setIsLoadingActivities] = useState<
+  const [fragmentId, setFragmentId] = useState("");
+  const [isFragmentSingleton, setIsFragmentSingleton] = useState<
+    boolean | undefined
+  >(undefined);
+  const [storedFragmentInfo, setStoredFragmentInfo] = useStore<{
+    fragmentId: string;
+  }>("fragmentInfo");
+  const [areLoadingActivities, setAreLoadingActivities] = useState<
     boolean | undefined
   >(undefined);
 
-  const handleRowClick = (id: Identifier) => {
-    setFragmentId(id as string);
-    setStoreFragmentId(id as string);
+  const handleRowClick = (record: RaRecord<Identifier> | undefined) => {
+    const fragmentId = record ? (record.id as string) : "";
+    const isFragmentSingleton = record
+      ? record.type === "singleton"
+      : undefined;
+
+    setFragmentId(fragmentId);
+    setIsFragmentSingleton(isFragmentSingleton);
+    setStoredFragmentInfo({ fragmentId });
   };
 
+  // Hide the activity list if the fragment associated with it has been deleted
   const hideActivityList = (data: any[]) => {
     if (data && fragmentId) {
       const index = data.findIndex((item: any) => item.id === fragmentId);
@@ -94,19 +107,25 @@ const FragmentsActivitiesLists = () => {
     }
   };
 
-  const setInitialState = (data: any[]) => {
+  // Update fragment-related state based on changes in the provided data or stored information
+  const handleFragmentListChanges = (data: any[]) => {
     if (
       data &&
       data.length > 0 &&
-      storeFragmentId &&
-      storeFragmentId != fragmentId
+      storedFragmentInfo &&
+      storedFragmentInfo.fragmentId != fragmentId
     ) {
-      const index = data.findIndex((item: any) => item.id === storeFragmentId);
+      const index = data.findIndex(
+        (item: any) => item.id === storedFragmentInfo.fragmentId
+      );
       if (index != -1) {
-        setFragmentId(storeFragmentId);
-      } else setIsLoadingActivities(false);
-    } else if (!data || data.length === 0 || !storeFragmentId) {
-      setIsLoadingActivities(false);
+        setFragmentId(storedFragmentInfo.fragmentId);
+
+        const isCurrentFragmentSingleton = data[index].type === "singleton";
+        setIsFragmentSingleton(isCurrentFragmentSingleton);
+      } else setAreLoadingActivities(false);
+    } else if (!data || data.length === 0 || !storedFragmentInfo) {
+      setAreLoadingActivities(false);
     }
   };
 
@@ -116,10 +135,11 @@ const FragmentsActivitiesLists = () => {
         value={{
           onRowClick: handleRowClick,
           selectedFragmentId: fragmentId,
+          isFragmentSingleton: isFragmentSingleton,
           hideActivityList: hideActivityList,
-          setInitialState: setInitialState,
+          handleFragmentListChanges: handleFragmentListChanges,
           updateXArrow: updateXarrow,
-          setIsLoadingActivities: setIsLoadingActivities,
+          setAreLoadingActivities: setAreLoadingActivities,
         }}
       >
         <Xwrapper>
@@ -158,7 +178,7 @@ const FragmentsActivitiesLists = () => {
                       edit={true}
                     />
                   )}
-                  {isLoadingActivities === false && !fragmentId && (
+                  {areLoadingActivities === false && !fragmentId && (
                     <Typography
                       variant="body1"
                       sx={{
@@ -174,7 +194,7 @@ const FragmentsActivitiesLists = () => {
               </Labeled>
             </Grid>
 
-            {isLoadingActivities === false && fragmentId && (
+            {areLoadingActivities === false && fragmentId && (
               <Xarrow
                 start={"_" + fragmentId}
                 end={"activitiesBox"}
