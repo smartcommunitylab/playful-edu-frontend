@@ -8,11 +8,9 @@ import {
   minValue,
   required,
   useRedirect,
-  useTranslate,
 } from "react-admin";
 import { BackButton } from "@dslab/ra-back-button";
 import { useParams } from "react-router-dom";
-import { ActivityList } from "../activities/ActivityList";
 
 export const FragmentCreate = () => {
   const params = useParams();
@@ -57,6 +55,7 @@ export const FragmentCreate = () => {
             },
           ]}
           label="resources.learningFragments.type"
+          validate={required()}
           sx={{ minWidth: "265px" }}
         />
         <SelectInput

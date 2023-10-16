@@ -116,6 +116,7 @@ const FramgmentEditChildren = () => {
           },
         ]}
         label="resources.learningFragments.type"
+        validate={required()}
         sx={{ minWidth: "265px" }}
       />
       <SelectInput

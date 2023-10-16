@@ -1,7 +1,7 @@
 import "./App.css";
 import { Admin, Options, Resource, fetchUtils } from "react-admin";
 import { Route, BrowserRouter } from "react-router-dom";
-import appDataProvider from "./dataProvider";
+import appDataProvider from "./provider/dataProvider";
 import { i18nProvider } from "./i18n/i18nProvider";
 import { EducatorList } from "./educators/EducatorList";
 import { DomainList } from "./domains/DomainList";
@@ -43,7 +43,7 @@ import { FragmentShow } from "./fragments/FragmentShow";
 import { LearningScenarioLearnerShow } from "./learningScenarios/LearningScenarioLearnerShow";
 import { LearningScenarioLearnerEdit } from "./learningScenarios/LearningScenarioLearnerEdit";
 import { ActivityEdit } from "./activities/ActivityEdit";
-import authProvider from "./authProvider";
+import authProvider from "./provider/authProvider";
 import { LoginPage } from "./LoginPage";
 import { Dashboard } from "./Dashboard";
 import { MyLayout } from "./MyLayout";

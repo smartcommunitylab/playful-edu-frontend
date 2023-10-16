@@ -15,6 +15,7 @@ import {
   useEditContext,
   useGetRecordId,
   useRedirect,
+  useSidebarState,
   useStore,
   useTranslate,
 } from "react-admin";
@@ -26,7 +27,7 @@ import { FragmentList } from "../fragments/FragmentList";
 import { ActivityList } from "../activities/ActivityList";
 import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import { useEffect, useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useMediaQuery, Theme } from "@mui/material";
 import { ModuleContext } from "./ModuleContext";
 
 const PostEditActions = () => {
@@ -72,6 +73,7 @@ const FragmentsActivitiesLists = () => {
   const learningModuleId = useGetRecordId();
   const updateXarrow = useXarrow();
   const translate = useTranslate();
+
   const [fragmentId, setFragmentId] = useState("");
   const [isFragmentSingleton, setIsFragmentSingleton] = useState<
     boolean | undefined
@@ -79,9 +81,15 @@ const FragmentsActivitiesLists = () => {
   const [storedFragmentInfo, setStoredFragmentInfo] = useStore<{
     fragmentId: string;
   }>("fragmentInfo");
+
   const [areLoadingActivities, setAreLoadingActivities] = useState<
     boolean | undefined
   >(undefined);
+
+  const isSmallerThanBreakpoint = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down(1700)
+  );
+  const [sidebarState] = useSidebarState();
 
   const handleRowClick = (record: RaRecord<Identifier> | undefined) => {
     const fragmentId = record ? (record.id as string) : "";
@@ -129,6 +137,12 @@ const FragmentsActivitiesLists = () => {
     }
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      updateXarrow();
+    }, 195);
+  }, [sidebarState]);
+
   return (
     !isLoading && (
       <ModuleContext.Provider
@@ -143,8 +157,15 @@ const FragmentsActivitiesLists = () => {
         }}
       >
         <Xwrapper>
-          <Grid container spacing={4}>
-            <Grid item xs={6}>
+          <Grid
+            container
+            spacing={4}
+          >
+            <Grid
+              item
+              xs={isSmallerThanBreakpoint ? 12 : 6}
+              sx={{ zIndex: isSmallerThanBreakpoint ? "1" : "0" }}
+            >
               <Labeled
                 label="resources.learningFragments.menu"
                 width="100%"
@@ -160,7 +181,7 @@ const FragmentsActivitiesLists = () => {
               </Labeled>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={isSmallerThanBreakpoint ? 12 : 6}>
               <Labeled
                 label="resources.activities.menu"
                 width="100%"
@@ -198,6 +219,8 @@ const FragmentsActivitiesLists = () => {
               <Xarrow
                 start={"_" + fragmentId}
                 end={"activitiesBox"}
+                startAnchor={isSmallerThanBreakpoint ? "bottom" : "right"}
+                endAnchor={isSmallerThanBreakpoint ? "top" : "left"}
                 path={"smooth"}
                 curveness={0.7}
                 color="rgba(0, 0, 0, 0.1)"

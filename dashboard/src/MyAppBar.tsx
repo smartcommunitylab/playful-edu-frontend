@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import { AppBar, Logout, UserMenu } from "react-admin";
-import authProvider from "./authProvider";
+import authProvider from "./provider/authProvider";
 
 const CustomUserMenu = () => {
   return (

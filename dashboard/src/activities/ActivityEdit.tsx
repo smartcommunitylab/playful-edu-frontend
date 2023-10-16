@@ -125,6 +125,7 @@ export const ActivityEdit = () => {
             },
           ]}
           label="resources.activities.type"
+          validate={required()}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {

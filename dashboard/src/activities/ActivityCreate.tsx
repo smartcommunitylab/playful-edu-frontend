@@ -90,6 +90,7 @@ export const ActivityCreate = () => {
             },
           ]}
           label="resources.activities.type"
+          validate={required()}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {

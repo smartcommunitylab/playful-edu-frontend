@@ -3,7 +3,6 @@ import {
   Datagrid,
   TextField,
   TopToolbar,
-  CreateButton,
   ExportButton,
   EditButton,
   ShowButton,
@@ -39,6 +38,7 @@ import {
 import { useModuleContext } from "../modules/ModuleContext";
 import Checkbox from "@mui/material/Checkbox";
 import React from "react";
+import CreateButton from "../CreateButton";
 
 const ListActions = () => {
   const listContext = useListContext();

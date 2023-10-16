@@ -3,7 +3,6 @@ import {
   Datagrid,
   TextField,
   TopToolbar,
-  CreateButton,
   ExportButton,
   EditButton,
   ShowButton,
@@ -35,6 +34,7 @@ import {
 } from "@mui/material";
 import { useEffect, useLayoutEffect } from "react";
 import { useModuleContext } from "../modules/ModuleContext";
+import CreateButton from "../CreateButton";
 
 const ListActions = (props: {
   learningModuleId: string;

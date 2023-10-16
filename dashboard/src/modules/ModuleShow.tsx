@@ -10,6 +10,7 @@ import {
   TopToolbar,
   useGetRecordId,
   useShowContext,
+  useSidebarState,
   useStore,
   useTranslate,
 } from "react-admin";
@@ -44,6 +45,7 @@ const FragmentsActivitiesLists = () => {
   const learningModuleId = useGetRecordId();
   const updateXarrow = useXarrow();
   const translate = useTranslate();
+
   const [fragmentId, setFragmentId] = useState("");
   const [storedFragmentInfo, setStoredFragmentInfo] = useStore<{
     fragmentId: string;
@@ -52,9 +54,10 @@ const FragmentsActivitiesLists = () => {
     boolean | undefined
   >(undefined);
 
-  // const isSmallerThanBreakpoint = useMediaQuery<Theme>((theme) =>
-  //   theme.breakpoints.down(1700)
-  // );
+  const isSmallerThanBreakpoint = useMediaQuery<Theme>((theme) =>
+    theme.breakpoints.down(1700)
+  );
+  const [sidebarState] = useSidebarState();
 
   const handleRowClick = (record: RaRecord<Identifier> | undefined) => {
     const fragmentId = record ? (record.id as string) : "";
@@ -94,6 +97,12 @@ const FragmentsActivitiesLists = () => {
     }
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      updateXarrow();
+    }, 195);
+  }, [sidebarState]);
+
   return (
     !isLoading && (
       <ModuleContext.Provider
@@ -107,14 +116,12 @@ const FragmentsActivitiesLists = () => {
         }}
       >
         <Xwrapper>
-          <Grid
-            container
-            spacing={4}
-            sx={{
-              padding: "16px",
-            }}
-          >
-            <Grid item xs={6}>
+          <Grid container spacing={4}>
+            <Grid
+              item
+              xs={isSmallerThanBreakpoint ? 12 : 6}
+              sx={{ zIndex: isSmallerThanBreakpoint ? "1" : "0" }}
+            >
               <Labeled
                 label="resources.learningFragments.menu"
                 width="100%"
@@ -130,7 +137,7 @@ const FragmentsActivitiesLists = () => {
               </Labeled>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={isSmallerThanBreakpoint ? 12 : 6}>
               <Labeled
                 label="resources.activities.menu"
                 width="100%"
@@ -168,6 +175,8 @@ const FragmentsActivitiesLists = () => {
               <Xarrow
                 start={"_" + fragmentId}
                 end={"activitiesBox"}
+                startAnchor={isSmallerThanBreakpoint ? "bottom" : "right"}
+                endAnchor={isSmallerThanBreakpoint ? "top" : "left"}
                 path={"smooth"}
                 curveness={0.7}
                 color="rgba(0, 0, 0, 0.1)"
@@ -194,9 +203,8 @@ export const ModuleShow = () => {
         <TextField source="level" label="resources.modules.level" />
         <DateField source="dateFrom" label="resources.modules.dateFrom" />
         <DateField source="dateTo" label="resources.modules.dateTo" />
+        <FragmentsActivitiesLists />
       </SimpleShowLayout>
-
-      <FragmentsActivitiesLists />
     </Show>
   );
 };
