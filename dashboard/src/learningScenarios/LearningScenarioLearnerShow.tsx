@@ -1,32 +1,77 @@
-import { useEffect } from "react";
 import {
   Datagrid,
   TextField,
   TopToolbar,
   EditButton,
-  Show,
   useGetRecordId,
-  Pagination,
-  useGetOne,
-  useGetMany,
-  useList,
-  ListContextProvider,
-  useStore,
+  ResourceContextProvider,
+  List,
+  ExportButton,
+  Button,
+  useRedirect,
+  useTranslate,
+  Link,
 } from "react-admin";
 import { useParams } from "react-router-dom";
+import CreateButton from "../CreateButton";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 
-const PostShowActions = () => {
+const ListActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
-  const to = `/scenarios/d/${domainId}/s/${recordId}/learners/edit`;
+  const to = `/scenario-learners/d/${domainId}/s/${recordId}/edit`;
+  const redirect = useRedirect();
+
   if (!recordId) return null;
   return (
-    <>
-      <TopToolbar>
-        <EditButton to={to}></EditButton>
-      </TopToolbar>
-    </>
+    <TopToolbar>
+      <Button
+        color="primary"
+        label="ra.action.edit"
+        onClick={() => redirect(to)}
+      >
+        <EditIcon />
+      </Button>
+    </TopToolbar>
+  );
+};
+
+const Empty = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const recordId = useGetRecordId();
+  const translate = useTranslate();
+  const to = `/scenario-learners/d/${domainId}/s/${recordId}/edit`;
+
+  return (
+    <Box display="flex" alignItems="start" textAlign="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.learningScenarios.emptyLearners")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.learningScenarios.addLearners")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.add")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
@@ -34,68 +79,34 @@ export const LearningScenarioLearnerShow = () => {
   const params = useParams();
   const learningScenarioId = params.id;
 
-  const obj = {
-    page: 1,
-    perPage: 10,
-    sort: "id",
-    order: "ASC",
-  };
-  const [listParams, setListParams] = useStore(
-    "scenarios.learners.show.listParams",
-    obj
-  );
-
-  // get the learning scenario
-  const { data: scenario } = useGetOne("scenarios", {
-    id: learningScenarioId,
-  });
-  // get the learners of the learning scenario
-  const { data, isLoading } = useGetMany("learners", {
-    ids: scenario?.learners,
-  });
-
-  const listContext = useList({
-    data,
-    isLoading,
-    page: listParams.page,
-    perPage: listParams.perPage,
-    sort: { field: listParams.sort, order: listParams.order },
-  });
-
-  useEffect(() => {
-    const obj = {
-      page: listContext.page,
-      perPage: listContext.perPage,
-      sort: listContext.sort.field,
-      order: listContext.sort.order,
-    };
-    setListParams(obj);
-  }, [listContext.perPage, listContext.page, listContext.sort]);
-
-  useEffect(() => {
-    const page = listContext.total
-      ? listContext.page > Math.ceil(listContext.total / listContext.perPage)
-        ? 1
-        : listContext.page
-      : 1;
-      
-    listContext.setPage(page);
-  }, []);
-
   return (
-    <ListContextProvider value={listContext}>
-      <Show
-        actions={<PostShowActions />}
-        title="titlePages.learningScenarios.learners.show"
+    <ResourceContextProvider value="learners">
+      <List
+        empty={<Empty />}
+        actions={<ListActions />}
+        filter={{ domainId: params.domainId }}
+        queryOptions={{
+          meta: { domainId: params.domainId, learningScenarioId },
+        }}
+        title="titlePages.learners.list"
+        sx={{ justifyContent: "center" }}
       >
-        <Datagrid bulkActionButtons={false}>
+        <Datagrid
+          bulkActionButtons={false}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="firstname" label="resources.learners.firstname" />
+          <span> </span>
           <TextField source="lastname" label="resources.learners.lastname" />
+          <span> </span>
           <TextField source="email" label="resources.learners.email" />
           <TextField source="nickname" label="resources.learners.nickname" />
         </Datagrid>
-      </Show>
-      <Pagination />
-    </ListContextProvider>
+      </List>
+    </ResourceContextProvider>
   );
 };

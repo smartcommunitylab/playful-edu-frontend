@@ -1,7 +1,11 @@
 import { stringify } from "querystring";
 import { fetchUtils, DataProvider } from "ra-core";
 
-const springDataProvider = (
+export type CustomDataProvider = DataProvider & {
+  runScenario: (id: string) => Promise<void>;
+};
+
+const customDataProvider = (
   apiUrl: string,
   httpClient: (
     url: any,
@@ -12,9 +16,10 @@ const springDataProvider = (
     body: string;
     json: any;
   }>
-): DataProvider => {
+): CustomDataProvider => {
   return {
     getList: (resource, params) => {
+      if (resource === "scenario-learners") resource = "learners";
       //handle pagination request as pageable (page,size)
       const { page, perPage } = params.pagination;
       const { field, order } = params.sort;
@@ -23,8 +28,11 @@ const springDataProvider = (
       if (params?.meta) meta = params?.meta;
       if (params?.filter) filter = params?.filter;
 
+      const sort: string[] = [field + "," + order];
+      if (field !== "id") sort.push("id");
+
       let query: any = {
-        sort: field + "," + order, //sorting
+        sort, //sorting
         page: page - 1, //page starts from zero
         size: perPage,
       };
@@ -55,6 +63,7 @@ const springDataProvider = (
       });
     },
     getOne: (resource, params) => {
+      if (resource === "scenario-learners") resource = "learners";
       const url = `${apiUrl}/${resource}/${params.id}`;
       return httpClient(url).then(({ status, json }) => {
         if (status !== 200) {
@@ -89,6 +98,7 @@ const springDataProvider = (
       throw new Error("Unsupported");
     },
     update: (resource, params) => {
+      if (resource === "scenario-learners") resource = "scenarios";
       const url = `${apiUrl}/${resource}/${params.id}`;
       return httpClient(url, {
         method: "PUT",
@@ -144,7 +154,13 @@ const springDataProvider = (
         )
       ).then((responses) => ({ data: responses.map(({ json }) => json) }));
     },
+    runScenario: (id: string): Promise<void> => {
+      const url = `${apiUrl}/scenarios/${id}/run`;
+      return httpClient(url, {
+        method: "PUT",
+      }).then();
+    },
   };
 };
 
-export default springDataProvider;
+export default customDataProvider;

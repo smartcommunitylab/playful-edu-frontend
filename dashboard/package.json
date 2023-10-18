@@ -14,6 +14,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@dslab/ra-auth-oidc": "^1.0.1",
     "@dslab/ra-back-button": "1.0.0",
     "@dslab/ra-language-italian": "1.0.0",
     "buffer": "^6.0.3",
@@ -26,7 +27,9 @@
     "react": "^18.2.0",
     "react-admin": "^4.9.0",
     "react-admin-import-csv": "^4.0.1",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
+    "react-xarrows": "^2.0.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",

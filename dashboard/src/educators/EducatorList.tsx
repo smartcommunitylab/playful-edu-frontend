@@ -15,6 +15,8 @@ import {
   ResourceContextProvider,
   Title,
   Link,
+  BulkDeleteButton,
+  useListContext,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import {
@@ -40,6 +42,34 @@ const EducatorFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
 
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.educators.${selectedIdsCount === 1 ? "singular" : "plural"}`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const EducatorList = () => {
   const params = useParams();
   const translate = useTranslate();
@@ -54,7 +84,14 @@ export const EducatorList = () => {
         title="titlePages.educators.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="firstname" label="resources.educators.firstname" />
           <span> </span>
           <TextField source="lastname" label="resources.educators.lastname" />

@@ -1,65 +1,50 @@
 import {
   List,
-  Datagrid,
   TextField,
   TopToolbar,
-  ShowButton,
   useRedirect,
   useRecordContext,
   useGetRecordId,
-  Edit,
   SimpleForm,
   Toolbar,
   SaveButton,
   TextInput,
   useTranslate,
-  useGetList,
   useStore,
-  useList,
-  ListContextProvider,
-  Pagination,
   useGetOne,
   SaveContextProvider,
   useUpdate,
+  Datagrid,
+  ResourceContextProvider,
+  Button,
+  Empty,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Card } from "@mui/material";
 
-const PostEditActions = (props: {
-  onTextFilterChange: any;
-  defaultValue: string;
-}) => {
+const PostEditActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
   const to = `/scenarios/d/${domainId}/s/${recordId}/learners`;
+  const redirect = useRedirect();
   if (!recordId) return null;
   return (
     <>
       <TopToolbar
         sx={{
-          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <SimpleForm
-          toolbar={false}
-          sx={{
-            padding: "0 !important",
-          }}
+        <Button
+          color="primary"
+          onClick={() => redirect(to)}
+          label="ra.action.show"
         >
-          <TextInput
-            label="ra.action.search"
-            source="text"
-            onChange={(e) => props.onTextFilterChange(e.target.value)}
-            defaultValue={props.defaultValue}
-            sx={{
-              "& .MuiFormHelperText-root": {
-                display: "none",
-              },
-            }}
-          />
-        </SimpleForm>
-        <ShowButton to={to}></ShowButton>
+          <VisibilityIcon />
+        </Button>
       </TopToolbar>
     </>
   );
@@ -97,117 +82,30 @@ export const LearningScenarioLearnerEdit = () => {
   const learningScenarioId = params.id;
   const redirect = useRedirect();
   const [update] = useUpdate();
-
-  const obj = {
-    page: 1,
-    perPage: 10,
-    sort: "id",
-    order: "ASC",
-    filter: { text: "" },
-  };
-  const [listParams, setListParams] = useStore(
-    "scenarios.learners.edit.listParams",
-    obj
+  const [selectedIds, setSelectedIds] = useStore(
+    "scenario-learners.selectedIds"
   );
-
-  const [textFilter, setTextFilter] = useState(listParams.filter.text);
-
-  // get the total number of learners
-  const { total } = useGetList("learners", {
-    meta: { domainId },
-  });
-
-  // get the learners of the domain
-  const { data, isLoading } = useGetList("learners", {
-    meta: { domainId },
-    pagination: { perPage: total ? total : 0, page: 1 },
-  });
 
   // get the learning scenario
   const { data: scenario } = useGetOne("scenarios", {
     id: learningScenarioId,
   });
 
-  // initialize listContext
-  const listContext = useList({
-    data,
-    isLoading,
-    page: listParams.page,
-    perPage: listParams.perPage,
-    sort: { field: listParams.sort, order: listParams.order },
-    filterCallback: (record: any) => {
-      const ids =
-        listContext.selectedIds.length > 0
-          ? listContext.selectedIds
-          : scenario?.learners;
-
-      if (ids.includes(record.id)) return true;
-      else if (textFilter === "") return true;
-      else if (
-        record.firstname.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
-      )
-        return true;
-      else if (
-        record.lastname &&
-        record.lastname.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
-      )
-        return true;
-      else if (
-        record.email &&
-        record.email?.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
-      )
-        return true;
-      else if (
-        record.nickname &&
-        record.nickname?.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1
-      )
-        return true;
-      else return false;
-    },
-  });
-
-  useEffect(() => {
-    const obj = {
-      page: listContext.page,
-      perPage: listContext.perPage,
-      sort: listContext.sort.field,
-      order: listContext.sort.order,
-      filter: { text: textFilter },
-    };
-
-    setListParams(obj);
-  }, [listContext.perPage, listContext.page, listContext.sort, textFilter]);
-
-  useEffect(() => {
-    const ids = scenario?.learners.filter((scenarioLearnerId: any) => {
-      if (data?.find((learner: any) => learner.id === scenarioLearnerId)) {
-        return scenarioLearnerId;
-      }
-    });
-    listContext.onSelect(ids);
-  }, [scenario, data]);
-
-  useEffect(() => {
-    const page = listContext.total
-      ? listContext.page > Math.ceil(listContext.total / listContext.perPage)
-        ? 1
-        : listContext.page
-      : 1;
-
-    listContext.setPage(page);
-  }, []);
-
   useLayoutEffect(() => {
     return () => {
-      listContext.onUnselectItems();
+      setSelectedIds([]);
     };
   }, []);
+
+  useEffect(() => {
+    setSelectedIds(scenario?.learners);
+  }, [scenario]);
 
   // save
   const save = (data: any) => {
-    const previousData = data;
+    const previousData = scenario;
     const currentData = { ...previousData };
-    currentData.learners = listContext.selectedIds;
+    currentData.learners = selectedIds;
 
     update(
       "scenarios",
@@ -225,25 +123,25 @@ export const LearningScenarioLearnerEdit = () => {
     );
   };
 
-  function handleTextFilterChange(value: any) {
-    setTextFilter(value);
-
-    // call setFilters to trigger filterCallback
-    const filters = {};
-    const displayedFilters = {};
-    listContext.setFilters(filters, displayedFilters);
-  }
+  const postFilters = [
+    <TextInput
+      label="ra.action.search"
+      source="text"
+      sx={{
+        "& .MuiFormHelperText-root": {
+          display: "none",
+        },
+      }}
+      alwaysOn
+    />,
+  ];
 
   return (
-    <ListContextProvider value={listContext}>
-      <Edit
-        actions={
-          <PostEditActions
-            onTextFilterChange={handleTextFilterChange}
-            defaultValue={listParams.filter.text}
-          />
-        }
-        title={<Title />}
+    <ResourceContextProvider value="scenario-learners">
+      <Card
+        sx={{
+          marginTop: "2rem",
+        }}
       >
         <SaveContextProvider
           value={{ save, saving: false, mutationMode: "pessimistic" }}
@@ -251,35 +149,58 @@ export const LearningScenarioLearnerEdit = () => {
           <SimpleForm
             toolbar={<EditToolbar />}
             sx={{
-              "& .MuiStack-root": { alignItems: "stretch", marginTop: "3rem" },
+              "& .MuiStack-root": { alignItems: "stretch" },
             }}
           >
-            <Datagrid
-              bulkActionButtons={<PostBulkActionButtons />}
+            <List
+              //empty={<Empty />}
+              actions={<PostEditActions />}
+              filters={postFilters}
+              queryOptions={{
+                meta: { domainId: params.domainId },
+              }}
               sx={{
-                "& .RaBulkActionsToolbar-icon": {
-                  display: "none",
+                justifyContent: "center",
+                "& .RaList-actions": {
+                  marginBottom: "3rem",
+                  alignItems: "center",
+                  flexWrap: "nowrap",
+                  flexDirection: "row",
                 },
               }}
+              title={<Title />}
             >
-              <TextField
-                source="firstname"
-                label="resources.learners.firstname"
-              />
-              <TextField
-                source="lastname"
-                label="resources.learners.lastname"
-              />
-              <TextField source="email" label="resources.learners.email" />
-              <TextField
-                source="nickname"
-                label="resources.learners.nickname"
-              />
-            </Datagrid>
-            <Pagination />
+              <Datagrid
+                bulkActionButtons={<PostBulkActionButtons />}
+                sx={{
+                  "& .RaBulkActionsToolbar-icon": {
+                    display: "none",
+                  },
+                  "& .RaBulkActionsToolbar-topToolbar": {
+                    backgroundColor: "initial",
+                  },
+                }}
+              >
+                <TextField
+                  source="firstname"
+                  label="resources.learners.firstname"
+                />
+                <span> </span>
+                <TextField
+                  source="lastname"
+                  label="resources.learners.lastname"
+                />
+                <span> </span>
+                <TextField source="email" label="resources.learners.email" />
+                <TextField
+                  source="nickname"
+                  label="resources.learners.nickname"
+                />
+              </Datagrid>
+            </List>
           </SimpleForm>
         </SaveContextProvider>
-      </Edit>
-    </ListContextProvider>
+      </Card>
+    </ResourceContextProvider>
   );
 };
