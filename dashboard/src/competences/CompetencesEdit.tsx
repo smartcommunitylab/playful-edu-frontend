@@ -41,9 +41,21 @@ const EditToolbar = (props: any) => {
   const domainId = params.domainId;
   const to = `/competences/d/${domainId}`;
   return (
-    <Toolbar {...props}>
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
       <SaveButton />
-      <DeleteButton redirect={to} />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={
+          <Title
+            translationKey="titlePages.competences.delete"
+          />
+        }
+      />
     </Toolbar>
   );
 };

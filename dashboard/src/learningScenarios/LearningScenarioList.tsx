@@ -16,6 +16,15 @@ import {
   ResourceContextProvider,
   BooleanField,
   Link,
+  useListContext,
+  BulkDeleteButton,
+  Labeled,
+  DatagridProps,
+  DatagridBodyProps,
+  DatagridBody,
+  DatagridRowProps,
+  RecordContextProvider,
+  FieldProps,
 } from "react-admin";
 import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -25,7 +34,12 @@ import {
   Box,
   Typography,
   Button as MuiButton,
+  Chip,
+  TableCell,
+  TableRow,
+  Checkbox,
 } from "@mui/material";
+import React from "react";
 
 const ListActions = () => (
   <TopToolbar>
@@ -33,9 +47,136 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const LearningScenarioFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.learningScenarios.${
+      selectedIdsCount === 1 ? "singular" : "plural"
+    }`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
+const CustomDatagridRow = ({
+  record,
+  id,
+  onToggleItem,
+  children,
+  selected,
+}: DatagridRowProps) => {
+  const translate = useTranslate();
+
+  if (id) {
+    return (
+      <RecordContextProvider value={record}>
+        <TableRow>
+          <TableCell sx={{ padding: "0 12px 0 16px" }}>
+            <Checkbox
+              checked={selected}
+              onClick={(event) => {
+                if (onToggleItem) {
+                  onToggleItem(id, event);
+                }
+              }}
+              sx={{ padding: "0" }}
+            />
+          </TableCell>
+
+          {React.Children.map(children, (field) => {
+            if (React.isValidElement<FieldProps>(field) && field.props.source) {
+              if (record && field.props.source === "publicScenario") {
+                const fieldValue = record[field.props.source];
+                const publicScenarioChipLabel = fieldValue
+                  ? translate(
+                      "resources.learningScenarios.publicScenarioOption.public"
+                    )
+                  : translate(
+                      "resources.learningScenarios.publicScenarioOption.private"
+                    );
+
+                return (
+                  <TableCell key={`${id}-${field.props.source}`}>
+                    <Chip label={publicScenarioChipLabel} />
+                  </TableCell>
+                );
+              } else if (record && field.props.source === "running") {
+                const fieldValue = record[field.props.source];
+                const runningChipLabel = fieldValue
+                  ? translate(
+                      "resources.learningScenarios.statusOption.inProgress"
+                    )
+                  : translate(
+                      "resources.learningScenarios.statusOption.toStart"
+                    );
+
+                return (
+                  <TableCell key={`${id}-${field.props.source}`}>
+                    <Chip
+                      label={runningChipLabel}
+                      color={fieldValue ? "success" : "error"}
+                      className="chip"
+                    />
+                  </TableCell>
+                );
+              } else {
+                return (
+                  <TableCell key={`${id}-${field.props.source}`}>
+                    {field}
+                  </TableCell>
+                );
+              }
+            } else return null;
+          })}
+
+          <TableCell>
+            <EditScenarioButton />
+          </TableCell>
+
+          <TableCell>
+            <ShowScenarioButton />
+          </TableCell>
+        </TableRow>
+      </RecordContextProvider>
+    );
+  } else return null;
+};
+
+const CustomDatagridBody = (props: DatagridBodyProps) => (
+  <DatagridBody {...props} row={<CustomDatagridRow />} />
+);
+
+const CustomDatagrid = (props: DatagridProps) => (
+  <Datagrid
+    {...props}
+    body={<CustomDatagridBody />}
+    bulkActionButtons={<PostBulkActionButtons />}
+  />
+);
 
 export const LearningScenarioList = () => {
   const params = useParams();
@@ -46,12 +187,18 @@ export const LearningScenarioList = () => {
       <List
         empty={<Empty />}
         actions={<ListActions />}
-        filters={LearningScenarioFilters}
+        //filters={LearningScenarioFilters}
         queryOptions={{ meta: { domainId } }}
         title="titlePages.learningScenarios.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid>
+        <CustomDatagrid
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="title" label="resources.learningScenarios.title" />
           <TextField
             source="desc"
@@ -61,13 +208,17 @@ export const LearningScenarioList = () => {
             source="language"
             label="resources.learningScenarios.language"
           />
-          <BooleanField
+          <TextField
             source="publicScenario"
             label="resources.learningScenarios.publicScenario"
           />
-          <EditScenarioButton />
-          <ShowScenarioButton />
-        </Datagrid>
+          <TextField
+            source="running"
+            label="resources.learningScenarios.status"
+          />
+          <TextField></TextField>
+          <TextField></TextField>
+        </CustomDatagrid>
       </List>
     </ResourceContextProvider>
   );
@@ -87,26 +238,6 @@ const EditScenarioButton = () => {
     </>
   );
 };
-
-// const LearningScenarioButton = () => {
-
-//     const redirect = useRedirect();
-//     const record = useRecordContext();
-//     const params = useParams();
-//     const domainId =params.domainId;
-//     if (!record)
-//         return null;
-//     return (
-//         <>
-//             <Button  label={record.title} onClick={() => {
-//                 redirect(`/scenarios/d/${domainId}/s/${record.id}`);
-//             }}></Button>
-//             <TextField source="desc" />
-//             <TextField source="language" />
-//         </>
-//     );
-
-// };
 
 const ShowScenarioButton = () => {
   // const translate = useTranslate();

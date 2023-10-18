@@ -36,14 +36,22 @@ const EditToolbar = (props: any) => {
   const domainId = params.domainId;
   const to = `/learners/d/${domainId}`;
   return (
-    <Toolbar {...props}>
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
       <SaveButton />
-      <DeleteButton redirect={to} />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={<Title translationKey="titlePages.learners.delete" />}
+      />
     </Toolbar>
   );
 };
 
-const Title = () => {
+const Title = ({ translationKey }: { translationKey: string }) => {
   const translate = useTranslate();
   const record = useRecordContext();
   const fullName = record
@@ -52,7 +60,7 @@ const Title = () => {
       (record.lastname ? " " + record.lastname : "") +
       '"'
     : "";
-  const title = translate("titlePages.learners.edit") + " " + fullName;
+  const title = translate(translationKey) + " " + fullName;
 
   return title;
 };
@@ -70,7 +78,7 @@ export const LearnerEdit = () => {
       actions={<PostEditActions />}
       transform={(data: any) => ({ ...data, domainId })}
       mutationMode="pessimistic"
-      title={<Title />}
+      title={<Title translationKey="titlePages.learners.edit" />}
     >
       <SimpleForm toolbar={<EditToolbar />}>
         <TextInput

@@ -2,25 +2,19 @@ import {
   Button,
   Menu,
   useRedirect,
-  useRemoveFromStore,
-  useResourceDefinitions,
   useSidebarState,
   useTranslate,
 } from "react-admin";
-import { useSearchParams } from "react-router-dom";
 import {
-  ACTIVITY_URL_PARAM,
   COMPOSED_ACTIVITY_URL_PARAM,
   DOMAIN_URL_PARAM,
   FRAGMENT_URL_PARAM,
   MODULO_URL_PARAM,
   SCENARIO_URL_PARAM,
 } from "./constants";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import UsersIcon from "@mui/icons-material/People";
 import InfoIcon from "@mui/icons-material/Info";
-import SchoolIcon from "@mui/icons-material/School";
 import { CompetenceIcon } from "./icons/CompetenceIcon";
 import { StudentIcon } from "./icons/StudentIcon";
 import { EducatorIcon } from "./icons/EducatorIcon";
@@ -28,7 +22,6 @@ import { ConceptIcon } from "./icons/ConceptIconIcon";
 import { ActivityIcon } from "./icons/ActivityIcon";
 import { ScenarioIcon } from "./icons/ScenarioIcon";
 import { ModuleIcon } from "./icons/ModuleIcon";
-import { FragmentIcon } from "./icons/FragmentIcon";
 
 const BackButtonMenu = (props: {
   name: string;
@@ -196,7 +189,10 @@ export const MyMenu = () => {
         </Menu>
       )}
 
-      {learningModuleId && !learningFragmentId && (
+      {((learningModuleId && !learningFragmentId) ||
+        (learningFragmentId &&
+          url.pathname.includes("activities") &&
+          url.pathname.endsWith("create"))) && (
         <Menu
           sx={{
             "& .MuiListItemIcon-root": {
@@ -218,38 +214,35 @@ export const MyMenu = () => {
               />
             }
           />
-          <Menu.Item
-            to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
-            primaryText="resources.learningFragments.menu"
-            leftIcon={<FragmentIcon />}
-          />
         </Menu>
       )}
 
-      {learningFragmentId && !activityId && (
-        <Menu
-          sx={{
-            "& .MuiListItemIcon-root": {
-              paddingRight: "1rem",
-            },
-          }}
-        >
-          <BackButtonMenu
-            name={FRAGMENT_URL_PARAM}
-            label="resources.learningFragments.back"
-            redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
-          />
-          <Menu.Item
-            to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
-            primaryText="resources.info"
-            leftIcon={
-              <InfoIcon
-                sx={{ width: "1.4em", height: "1.4em", fontSize: "1.7rem" }}
-              />
-            }
-          />
-        </Menu>
-      )}
+      {learningFragmentId &&
+        !activityId &&
+        !url.pathname.includes("activities") && (
+          <Menu
+            sx={{
+              "& .MuiListItemIcon-root": {
+                paddingRight: "1rem",
+              },
+            }}
+          >
+            <BackButtonMenu
+              name={FRAGMENT_URL_PARAM}
+              label="resources.learningFragments.back"
+              redirect={`modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
+            />
+            <Menu.Item
+              to={`/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
+              primaryText="resources.info"
+              leftIcon={
+                <InfoIcon
+                  sx={{ width: "1.4em", height: "1.4em", fontSize: "1.7rem" }}
+                />
+              }
+            />
+          </Menu>
+        )}
 
       {activityId && (
         <Menu
@@ -262,7 +255,7 @@ export const MyMenu = () => {
           <BackButtonMenu
             name={COMPOSED_ACTIVITY_URL_PARAM}
             label="resources.activities.back"
-            redirect={`fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`}
+            redirect={`modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`}
           />
           <Menu.Item
             to={`/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${activityId}`}
