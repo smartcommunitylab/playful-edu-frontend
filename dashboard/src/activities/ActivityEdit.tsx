@@ -2,14 +2,17 @@ import {
   AutocompleteArrayInput,
   AutocompleteInput,
   CheckboxGroupInput,
+  DeleteButton,
   Edit,
   FormDataConsumer,
   ReferenceArrayInput,
   ReferenceInput,
+  SaveButton,
   SelectInput,
   ShowButton,
   SimpleForm,
   TextInput,
+  Toolbar,
   TopToolbar,
   required,
   useGetList,
@@ -39,6 +42,29 @@ const PostEditActions = () => {
   );
 };
 
+const EditToolbar = (props: any) => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const learningModuleId = params.learningModuleId;
+  const learningFragmentId = params.learningFragmentId;
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`;
+  return (
+    <Toolbar
+      {...props}
+      sx={{
+        justifyContent: "space-between",
+      }}
+    >
+      <SaveButton />
+      <DeleteButton
+        redirect={to}
+        confirmTitle={<Title translationKey="titlePages.activities.delete" />}
+      />
+    </Toolbar>
+  );
+};
+
 export const ActivityEdit = () => {
   const redirect = useRedirect();
   const params = useParams();
@@ -50,7 +76,7 @@ export const ActivityEdit = () => {
 
   const onSuccess = () => {
     redirect(
-      `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`
+      `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
     );
   };
 
@@ -74,7 +100,7 @@ export const ActivityEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.activities.edit" />}
     >
-      <SimpleForm>
+      <SimpleForm toolbar={<EditToolbar />}>
         <TextInput
           source="title"
           validate={[required()]}
@@ -99,6 +125,7 @@ export const ActivityEdit = () => {
             },
           ]}
           label="resources.activities.type"
+          validate={required()}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {

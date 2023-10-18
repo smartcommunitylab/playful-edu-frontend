@@ -1,24 +1,8 @@
 import "./App.css";
-import {
-  Admin,
-  ButtonProps,
-  Layout,
-  Link,
-  ListButton,
-  Options,
-  Resource,
-  Title,
-  fetchUtils,
-  useTranslate,
-} from "react-admin";
+import { Admin, Options, Resource, fetchUtils } from "react-admin";
 import { Route, BrowserRouter } from "react-router-dom";
-import appDataProvider from "./dataProvider";
-import { MyMenu } from "./MyMenu";
-import { MyAppBar } from "./MyAppBar";
+import appDataProvider from "./provider/dataProvider";
 import { i18nProvider } from "./i18n/i18nProvider";
-import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
 import { EducatorList } from "./educators/EducatorList";
 import { DomainList } from "./domains/DomainList";
 import { DomainEdit } from "./domains/DomainEdit";
@@ -53,56 +37,19 @@ import { ModuleList } from "./modules/ModuleList";
 import { ModuleCreate } from "./modules/ModuleCreate";
 import { ModuleEdit } from "./modules/ModuleEdit";
 import { ModuleShow } from "./modules/ModuleShow";
-import { FragmentList } from "./fragments/FragmentList";
 import { FragmentCreate } from "./fragments/FragmentCreate";
 import { FragmentEdit } from "./fragments/FragmentEdit";
 import { FragmentShow } from "./fragments/FragmentShow";
 import { LearningScenarioLearnerShow } from "./learningScenarios/LearningScenarioLearnerShow";
 import { LearningScenarioLearnerEdit } from "./learningScenarios/LearningScenarioLearnerEdit";
 import { ActivityEdit } from "./activities/ActivityEdit";
-import { useMediaQuery, Theme } from "@mui/material";
-import { useLocation } from "react-router-dom";
-
-const MyLayout = (props: any) => {
-  const url = useLocation();
-  let style = {};
-  const isLarge = useMediaQuery<Theme>((theme) => theme.breakpoints.down("lg"));
-  const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
-
-  if (url.pathname === "/") {
-    style = {
-      position: "absolute",
-      marginLeft: "auto",
-      marginRight: "auto",
-      left: !isLarge && !isSmall ? "30%" : isLarge && !isSmall ? "20%" : "5%",
-      right: !isLarge && !isSmall ? "30%" : isLarge && !isSmall ? "20%" : "5%",
-      top: "35%",
-    };
-  } else if (url.pathname === "/domains") {
-    style = {
-      position: "absolute",
-      marginLeft: "auto",
-      marginRight: "auto",
-      left: "5%",
-      right: "5%",
-    };
-  } else {
-    style = {};
-  }
-
-  return (
-    <Layout
-      {...props}
-      menu={MyMenu}
-      appBar={MyAppBar}
-      sx={{
-        "& .RaLayout-content": style,
-      }}
-    />
-  );
-};
+import authProvider from "./provider/authProvider";
+import { LoginPage } from "./LoginPage";
+import { Dashboard } from "./Dashboard";
+import { MyLayout } from "./MyLayout";
 
 const API_URL: string = process.env.REACT_APP_API_URL as string;
+
 const httpClient = async (url: string, options: Options = {}) => {
   if (!options.headers) {
     options.headers = new Headers({ Accept: "application/json" }) as Headers;
@@ -110,53 +57,17 @@ const httpClient = async (url: string, options: Options = {}) => {
     options.headers = new Headers(options.headers) as Headers;
   }
 
-  // if (authType === AUTH_TYPE_OAUTH) {
-  //     const user = await manager.getUser();
-  //     if (!user) {
-  //         return Promise.reject('OAuth: No user found in store');
-  //     }
-  //     options.headers.set('Authorization', 'Bearer ' + user.access_token);
-  // } else if (authType === AUTH_TYPE_BASIC) {
-  //     const basicAuth = sessionStorage.getItem('basic-auth');
-  //     if (!basicAuth) {
-  //         return Promise.reject('Basic: No user found in store');
-  //     }
-  //     options.headers.set('Authorization', 'Basic ' + basicAuth);
-  // }
-
   if (!options.headers.has("Accept")) {
     options.headers.set("Accept", "application/json");
   }
 
+  const auth = await authProvider.getAuthorization();
+  options.headers.set("Authorization", `${auth}`);
+
   return fetchUtils.fetchJson(url, options);
 };
+
 const dataProvider = appDataProvider(API_URL, httpClient);
-
-const Dashboard = () => {
-  const translate = useTranslate();
-
-  return (
-    <>
-      <Title title="titlePages.dashboard" />
-
-      <Box>
-        <Card style={{ padding: 20 }}>
-          <Box textAlign="center" mb={4}>
-            <h1>{translate("resources.dashboard.welcome")}</h1>
-          </Box>
-
-          <Box display="flex" justifyContent="center">
-            <Link to="/domains">
-              <Button color="primary" variant="contained">
-                {translate("resources.dashboard.button")}
-              </Button>
-            </Link>
-          </Box>
-        </Card>
-      </Box>
-    </>
-  );
-};
 
 const theme = {
   sidebar: {
@@ -170,10 +81,12 @@ export const App = () => (
     <Admin
       layout={MyLayout}
       i18nProvider={i18nProvider}
-      // authProvider={authProvider}
+      authProvider={authProvider}
       dataProvider={dataProvider}
       dashboard={Dashboard}
       theme={theme}
+      loginPage={LoginPage}
+      requireAuth={true}
     >
       {/* <Resource name="domain" {...domains}></Resource> */}
       <Resource name="domains">
@@ -231,8 +144,10 @@ export const App = () => (
           path="/d/:domainId/s/:id/learners/*"
           element={<LearningScenarioLearnerShow />}
         />
+      </Resource>
+      <Resource name="scenario-learners">
         <Route
-          path="/d/:domainId/s/:id/learners/edit/*"
+          path="/d/:domainId/s/:id/edit/*"
           element={<LearningScenarioLearnerEdit />}
         />
       </Resource>
@@ -267,10 +182,6 @@ export const App = () => (
         />
       </Resource>
       <Resource name="fragments" recordRepresentation="title">
-        <Route
-          path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/*"
-          element={<FragmentList />}
-        />
         <Route
           path="/d/:domainId/s/:learningScenarioId/m/:learningModuleId/create/*"
           element={<FragmentCreate />}

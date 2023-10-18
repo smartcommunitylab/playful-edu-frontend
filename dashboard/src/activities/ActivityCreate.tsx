@@ -37,7 +37,7 @@ export const ActivityCreate = () => {
 
   const onSuccess = () => {
     redirect(
-      `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}`
+      `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
     );
   };
 
@@ -90,6 +90,7 @@ export const ActivityCreate = () => {
             },
           ]}
           label="resources.activities.type"
+          validate={required()}
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {

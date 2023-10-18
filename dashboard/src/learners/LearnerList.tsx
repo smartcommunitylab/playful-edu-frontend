@@ -14,6 +14,8 @@ import {
   useRecordContext,
   ResourceContextProvider,
   Link,
+  BulkDeleteButton,
+  useListContext,
 } from "react-admin";
 import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
@@ -31,12 +33,41 @@ const ListActions = () => (
     <ExportButton />
   </TopToolbar>
 );
+
 const LearnerFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
+
+const PostBulkActionButtons = () => {
+  const translate = useTranslate();
+  const listContext = useListContext();
+
+  const selectedIdsCount = listContext.selectedIds.length;
+  const resourceName = translate(
+    `resources.learners.${selectedIdsCount === 1 ? "singular" : "plural"}`
+  );
+
+  const title = translate("ra.message.bulk_delete_title", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  const content = translate("ra.message.bulk_delete_content", {
+    name: resourceName,
+    smart_count: selectedIdsCount,
+  });
+
+  return (
+    <BulkDeleteButton
+      mutationMode="pessimistic"
+      confirmTitle={title}
+      confirmContent={content}
+    />
+  );
+};
+
 export const LearnerList = () => {
   const params = useParams();
-  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="learners">
@@ -48,7 +79,14 @@ export const LearnerList = () => {
         title="titlePages.learners.list"
         sx={{ justifyContent: "center" }}
       >
-        <Datagrid>
+        <Datagrid
+          bulkActionButtons={<PostBulkActionButtons />}
+          sx={{
+            "& .RaBulkActionsToolbar-topToolbar": {
+              backgroundColor: "initial",
+            },
+          }}
+        >
           <TextField source="firstname" label="resources.learners.firstname" />
           <span> </span>
           <TextField source="lastname" label="resources.learners.lastname" />
@@ -65,8 +103,6 @@ export const LearnerList = () => {
 };
 
 const EditLearnerButton = () => {
-  // const translate = useTranslate();
-  const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
@@ -80,7 +116,6 @@ const EditLearnerButton = () => {
 };
 
 const ShowLearnerButton = () => {
-  const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
@@ -104,6 +139,7 @@ const CreateLearnerButton = () => {
     </>
   );
 };
+
 const Empty = () => {
   const params = useParams();
   const domainId = params.domainId;
