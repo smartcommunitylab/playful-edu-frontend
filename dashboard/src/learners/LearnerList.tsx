@@ -68,7 +68,6 @@ const PostBulkActionButtons = () => {
 
 export const LearnerList = () => {
   const params = useParams();
-  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="learners">
@@ -104,8 +103,6 @@ export const LearnerList = () => {
 };
 
 const EditLearnerButton = () => {
-  // const translate = useTranslate();
-  const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
@@ -119,7 +116,6 @@ const EditLearnerButton = () => {
 };
 
 const ShowLearnerButton = () => {
-  const redirect = useRedirect();
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
@@ -143,6 +139,7 @@ const CreateLearnerButton = () => {
     </>
   );
 };
+
 const Empty = () => {
   const params = useParams();
   const domainId = params.domainId;

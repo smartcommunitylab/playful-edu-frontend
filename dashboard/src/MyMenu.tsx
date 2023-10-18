@@ -2,25 +2,19 @@ import {
   Button,
   Menu,
   useRedirect,
-  useRemoveFromStore,
-  useResourceDefinitions,
   useSidebarState,
   useTranslate,
 } from "react-admin";
-import { useSearchParams } from "react-router-dom";
 import {
-  ACTIVITY_URL_PARAM,
   COMPOSED_ACTIVITY_URL_PARAM,
   DOMAIN_URL_PARAM,
   FRAGMENT_URL_PARAM,
   MODULO_URL_PARAM,
   SCENARIO_URL_PARAM,
 } from "./constants";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import UsersIcon from "@mui/icons-material/People";
 import InfoIcon from "@mui/icons-material/Info";
-import SchoolIcon from "@mui/icons-material/School";
 import { CompetenceIcon } from "./icons/CompetenceIcon";
 import { StudentIcon } from "./icons/StudentIcon";
 import { EducatorIcon } from "./icons/EducatorIcon";
@@ -28,7 +22,6 @@ import { ConceptIcon } from "./icons/ConceptIconIcon";
 import { ActivityIcon } from "./icons/ActivityIcon";
 import { ScenarioIcon } from "./icons/ScenarioIcon";
 import { ModuleIcon } from "./icons/ModuleIcon";
-import { FragmentIcon } from "./icons/FragmentIcon";
 
 const BackButtonMenu = (props: {
   name: string;

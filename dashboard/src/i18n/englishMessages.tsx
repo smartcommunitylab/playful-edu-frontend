@@ -202,6 +202,8 @@ const messages = {
       addOne: "Do you want to add one?",
       singular: "scenario",
       plural: "scenarios",
+      emptyLearners: "There are no students associated with this scenario",
+      addLearners: "Do you want to add some?",
     },
     modules: {
       menu: "Modules",

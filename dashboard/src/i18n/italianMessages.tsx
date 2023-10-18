@@ -202,6 +202,8 @@ const messages = {
       addOne: "Vuoi aggiungerne uno?",
       singular: "scenario",
       plural: "scenari",
+      emptyLearners: "Non sono presenti studenti associati a questo scenario",
+      addLearners: "Vuoi aggiungerne qualcuno?",
     },
     modules: {
       back: "Moduli",
@@ -233,7 +235,7 @@ const messages = {
       ruleSelection: {
         all: "Tutte le attività",
         at_least: "Almeno un numero minimo",
-        at_least_label: "Almeno %{number} attività"
+        at_least_label: "Almeno %{number} attività",
       },
       singular: "frammento",
       plural: "frammenti",
