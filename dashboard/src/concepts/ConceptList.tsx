@@ -9,8 +9,6 @@ import {
   ShowButton,
   TextInput,
   useTranslate,
-  useStore,
-  Button,
   useRedirect,
   useRecordContext,
   ResourceContextProvider,
@@ -18,8 +16,6 @@ import {
   useListContext,
   BulkDeleteButton,
 } from "react-admin";
-import { ImportButton } from "react-admin-import-csv";
-import { DOMAIN_URL_PARAM } from "../constants";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -29,13 +25,17 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 
-const ListActions = () => (
-  <TopToolbar>
-    <CreateConceptButton />
-    <ExportButton />
-    <ImportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+
+  return (
+    <TopToolbar>
+      <CreateConceptButton />
+      <ExportButton meta={{ domainId }} />
+    </TopToolbar>
+  );
+};
 
 const PostBulkActionButtons = () => {
   const translate = useTranslate();
@@ -88,6 +88,9 @@ export const ConceptList = () => {
           sx={{
             "& .RaBulkActionsToolbar-topToolbar": {
               backgroundColor: "initial",
+            },
+            "& .column-undefined": {
+              width: "8rem",
             },
           }}
         >

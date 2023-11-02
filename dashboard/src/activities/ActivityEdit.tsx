@@ -1,7 +1,6 @@
 import {
   AutocompleteArrayInput,
   AutocompleteInput,
-  CheckboxGroupInput,
   DeleteButton,
   Edit,
   FormDataConsumer,
@@ -49,6 +48,7 @@ const EditToolbar = (props: any) => {
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.learningFragmentId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`;
+
   return (
     <Toolbar
       {...props}
@@ -93,21 +93,55 @@ export const ActivityEdit = () => {
     },
   });
 
+  const transform = (data: any) => {
+    switch (data.type) {
+      case "concrete":
+        delete data.goals;
+        delete data.groupCorrelator;
+        break;
+      case "abstr":
+        delete data.externalActivityId;
+        delete data.groupCorrelator;
+        break;
+      case "group":
+        delete data.externalActivityId;
+        delete data.goals;
+        break;
+    }
+
+    return {
+      ...data,
+    };
+  };
+
   return (
     <Edit
       mutationOptions={{ onSuccess }}
       actions={<PostEditActions />}
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.activities.edit" />}
+      transform={transform}
     >
-      <SimpleForm toolbar={<EditToolbar />}>
+      <SimpleForm
+        toolbar={<EditToolbar />}
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
           fullWidth
           label="resources.activities.title"
         />
-        <TextInput source="desc" label="resources.activities.description" />
+        <TextInput
+          source="desc"
+          label="resources.activities.description"
+          fullWidth
+          multiline={true}
+        />
         <SelectInput
           source="type"
           choices={[
@@ -126,6 +160,7 @@ export const ActivityEdit = () => {
           ]}
           label="resources.activities.type"
           validate={required()}
+          fullWidth
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {
@@ -139,7 +174,10 @@ export const ActivityEdit = () => {
                   }}
                   perPage={conceptsTotal}
                 >
-                  <AutocompleteArrayInput label="resources.activities.goals" />
+                  <AutocompleteArrayInput
+                    label="resources.activities.goals"
+                    fullWidth
+                  />
                 </ReferenceArrayInput>
               );
             else if (formData.type == "concrete")
@@ -157,7 +195,10 @@ export const ActivityEdit = () => {
                   }}
                   perPage={externalActivitiesTotal}
                 >
-                  <AutocompleteInput label="resources.activities.externalActivity" />
+                  <AutocompleteInput
+                    label="resources.activities.externalActivity"
+                    fullWidth
+                  />
                 </ReferenceInput>
               );
             else if (formData.type == "group")
@@ -165,6 +206,7 @@ export const ActivityEdit = () => {
                 <TextInput
                   source="groupCorrelator"
                   label="resources.activities.groupCorrelator"
+                  fullWidth
                 />
               );
           }}

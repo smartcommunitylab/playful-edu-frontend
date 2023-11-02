@@ -41,12 +41,17 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const ListActions = () => (
-  <TopToolbar>
-    <CreateScenarioButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+
+  return (
+    <TopToolbar>
+      <CreateScenarioButton />
+      <ExportButton meta={{ domainId }} />
+    </TopToolbar>
+  );
+};
 
 const LearningScenarioFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
@@ -153,11 +158,19 @@ const CustomDatagridRow = ({
             } else return null;
           })}
 
-          <TableCell>
+          <TableCell
+            sx={{
+              width: "8rem",
+            }}
+          >
             <EditScenarioButton />
           </TableCell>
 
-          <TableCell>
+          <TableCell
+            sx={{
+              width: "8rem",
+            }}
+          >
             <ShowScenarioButton />
           </TableCell>
         </TableRow>

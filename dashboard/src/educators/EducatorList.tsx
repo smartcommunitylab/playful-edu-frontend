@@ -28,11 +28,14 @@ import {
 } from "@mui/material";
 
 const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+
   return (
     <Box width="100%">
       <TopToolbar>
         <CreateEducatorButton />
-        <ExportButton />
+        <ExportButton meta={{ domainId }} />
       </TopToolbar>
     </Box>
   );
@@ -72,7 +75,6 @@ const PostBulkActionButtons = () => {
 
 export const EducatorList = () => {
   const params = useParams();
-  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="educators">
@@ -90,12 +92,13 @@ export const EducatorList = () => {
             "& .RaBulkActionsToolbar-topToolbar": {
               backgroundColor: "initial",
             },
+            "& .column-undefined": {
+              width: "8rem",
+            },
           }}
         >
           <TextField source="firstname" label="resources.educators.firstname" />
-          <span> </span>
           <TextField source="lastname" label="resources.educators.lastname" />
-          <span> </span>
           <TextField source="email" label="resources.educators.email" />
           <TextField source="nickname" label="resources.educators.nickname" />
 

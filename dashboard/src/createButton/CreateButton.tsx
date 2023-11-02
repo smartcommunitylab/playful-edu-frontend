@@ -9,8 +9,15 @@ import { Link } from "react-router-dom";
 import { useTranslate, useResourceContext, useCreatePath } from "ra-core";
 import isEqual from "lodash/isEqual";
 
+/**
+ * Original component from React-admin (MIT License)
+ * 
+ * Modified to avoid that on mobile the button is rendered as a Floating Action Button
+ * 
+ * @author SmartCommunityLab
+ * @author Marmelab
+ */
 import { Button, ButtonProps } from "react-admin";
-
 const CreateButton = (props: CreateButtonProps) => {
   const {
     className,

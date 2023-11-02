@@ -35,14 +35,25 @@ export const CompetencesCreate = () => {
       title="titlePages.competences.create"
     >
       <BackButton />
-      <SimpleForm>
+      <SimpleForm
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           label="resources.competences.title"
           validate={[required()]}
           fullWidth
         />
-        <TextInput source="desc" label="resources.competences.description" />
+        <TextInput
+          source="desc"
+          label="resources.competences.description"
+          fullWidth
+          multiline={true}
+        />
         <SelectInput
           source="type"
           choices={[
@@ -53,6 +64,7 @@ export const CompetencesCreate = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.competences.type"
         />
         <ReferenceArrayInput
@@ -61,7 +73,10 @@ export const CompetencesCreate = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.competences.concepts" />
+          <AutocompleteArrayInput
+            label="resources.competences.concepts"
+            fullWidth
+          />
         </ReferenceArrayInput>
       </SimpleForm>
     </Create>

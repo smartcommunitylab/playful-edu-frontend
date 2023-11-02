@@ -7,6 +7,7 @@ import {
   TextInput,
   Toolbar,
   TopToolbar,
+  email,
   required,
   useGetRecordId,
   useRecordContext,
@@ -44,11 +45,7 @@ const EditToolbar = (props: any) => {
       <SaveButton />
       <DeleteButton
         redirect={to}
-        confirmTitle={
-          <Title
-            translationKey="titlePages.educators.delete"
-          />
-        }
+        confirmTitle={<Title translationKey="titlePages.educators.delete" />}
       />
     </Toolbar>
   );
@@ -82,24 +79,37 @@ export const EducatorEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.educators.edit" />}
     >
-      <SimpleForm toolbar={<EditToolbar />}>
+      <SimpleForm
+        toolbar={<EditToolbar />}
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="firstname"
-          validate={[required()]}
+          validate={required()}
           fullWidth
           label="resources.educators.firstname"
         />
         <TextInput
           source="lastname"
-          multiline={true}
+          validate={required()}
+          fullWidth
           label="resources.educators.lastname"
         />
         <TextInput
           source="email"
-          type="email"
+          validate={[required(), email()]}
+          fullWidth
           label="resources.educators.email"
         />
-        <TextInput source="nickname" label="resources.educators.nickname" />
+        <TextInput
+          source="nickname"
+          label="resources.educators.nickname"
+          fullWidth
+        />
       </SimpleForm>
     </Edit>
   );

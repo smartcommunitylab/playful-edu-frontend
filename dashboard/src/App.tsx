@@ -71,7 +71,7 @@ const dataProvider = appDataProvider(API_URL, httpClient);
 
 const theme = {
   sidebar: {
-    width: 200,
+    width: 210,
     closedWidth: 64,
   },
 };
@@ -144,10 +144,8 @@ export const App = () => (
           path="/d/:domainId/s/:id/learners/*"
           element={<LearningScenarioLearnerShow />}
         />
-      </Resource>
-      <Resource name="scenario-learners">
         <Route
-          path="/d/:domainId/s/:id/edit/*"
+          path="/d/:domainId/s/:id/learners/edit/*"
           element={<LearningScenarioLearnerEdit />}
         />
       </Resource>

@@ -6,15 +6,9 @@ import {
   ExportButton,
   EditButton,
   ShowButton,
-  TextInput,
   useTranslate,
-  useStore,
-  useRedirect,
   useRecordContext,
-  BooleanField,
-  Button,
   ResourceContextProvider,
-  SelectField,
   ReferenceArrayField,
   ChipField,
   SingleFieldList,
@@ -25,22 +19,19 @@ import {
   BulkDeleteButton,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  Box,
-  Typography,
-  Button as MuiButton,
-} from "@mui/material";
+import { Box, Typography, Button as MuiButton } from "@mui/material";
 import { useEffect, useLayoutEffect } from "react";
 import { useModuleContext } from "../modules/ModuleContext";
-import CreateButton from "../CreateButton";
+import CreateButton from "../createButton/CreateButton";
 
 const ListActions = (props: {
   learningModuleId: string;
   learningFragmentId: string;
 }) => {
   const listContext = useListContext();
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
 
   return listContext.data?.length > 0 ? (
     <TopToolbar sx={{ minHeight: "48px !important" }}>
@@ -48,7 +39,14 @@ const ListActions = (props: {
         learningModuleId={props.learningModuleId}
         learningFragmentId={props.learningFragmentId}
       />
-      <ExportButton />
+      <ExportButton
+        meta={{
+          domainId,
+          learningScenarioId,
+          learningModuleId: props.learningModuleId,
+          learningFragmentId: props.learningFragmentId,
+        }}
+      />
     </TopToolbar>
   ) : null;
 };
@@ -110,14 +108,10 @@ export const ActivityList = (props: {
             />
           }
           actions={
-            props.edit ? (
-              <ListActions
-                learningModuleId={learningModuleId}
-                learningFragmentId={learningFragmentId}
-              />
-            ) : (
-              <></>
-            )
+            <ListActions
+              learningModuleId={learningModuleId}
+              learningFragmentId={learningFragmentId}
+            />
           }
           // filters={ActivityFilters}
           queryOptions={{
@@ -190,6 +184,9 @@ const ActivityDatagrid = (props: {
         "& .RaDatagrid-table": {
           borderCollapse: "separate",
         },
+        "& .column-undefined": {
+          width: "8rem",
+        },
       }}
       className="fragments-activities-table"
     >
@@ -205,6 +202,7 @@ const ActivityDatagrid = (props: {
       />
       <FunctionField
         label="resources.activities.type"
+        source="type"
         render={(record: any) =>
           record && record.type
             ? translate("resources.activities.typeSelection." + record.type)

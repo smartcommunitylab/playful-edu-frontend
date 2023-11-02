@@ -34,7 +34,6 @@ const BackButtonMenu = (props: {
   const label = sidebarState ? translate(props.label) : "";
 
   function back(KEY: string) {
-    // removeFromStore(KEY);
     redirect("/" + props.redirect);
   }
 

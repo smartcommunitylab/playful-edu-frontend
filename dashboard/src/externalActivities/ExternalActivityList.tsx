@@ -28,12 +28,17 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 
-const ListActions = () => (
-  <TopToolbar>
-    <CreateExternalActivityButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+
+  return (
+    <TopToolbar>
+      <CreateExternalActivityButton />
+      <ExportButton meta={{ domainId }} />
+    </TopToolbar>
+  );
+};
 
 const ExternalActivityFilters = [
   <TextInput label="ra.action.search" source="title" alwaysOn />,
@@ -89,6 +94,9 @@ export const ExternalActivityList = () => {
           sx={{
             "& .RaBulkActionsToolbar-topToolbar": {
               backgroundColor: "initial",
+            },
+            "& .column-undefined": {
+              width: "8rem",
             },
           }}
         >

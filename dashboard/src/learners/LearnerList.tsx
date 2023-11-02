@@ -27,15 +27,20 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 
-const ListActions = () => (
-  <TopToolbar>
-    <CreateLearnerButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+
+  return (
+    <TopToolbar>
+      <CreateLearnerButton />
+      <ExportButton meta={{ domainId }} />
+    </TopToolbar>
+  );
+};
 
 const LearnerFilters = [
-  <TextInput label="ra.action.search" source="name" alwaysOn />,
+  <TextInput label="ra.action.search" source="text" alwaysOn />,
 ];
 
 const PostBulkActionButtons = () => {
@@ -76,8 +81,15 @@ export const LearnerList = () => {
         actions={<ListActions />}
         filter={{ domainId: params.domainId }}
         queryOptions={{ meta: { domainId: params.domainId } }}
+        filters={LearnerFilters}
         title="titlePages.learners.list"
-        sx={{ justifyContent: "center" }}
+        sx={{
+          justifyContent: "center",
+          "& .RaList-actions": { flexWrap: "nowrap", flexDirection: "row" },
+          "& .column-undefined": {
+            width: "8rem",
+          },
+        }}
       >
         <Datagrid
           bulkActionButtons={<PostBulkActionButtons />}
@@ -88,9 +100,7 @@ export const LearnerList = () => {
           }}
         >
           <TextField source="firstname" label="resources.learners.firstname" />
-          <span> </span>
           <TextField source="lastname" label="resources.learners.lastname" />
-          <span> </span>
           <TextField source="email" label="resources.learners.email" />
           <TextField source="nickname" label="resources.learners.nickname" />
 

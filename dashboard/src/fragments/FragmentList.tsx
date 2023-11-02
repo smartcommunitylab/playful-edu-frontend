@@ -38,15 +38,21 @@ import {
 import { useModuleContext } from "../modules/ModuleContext";
 import Checkbox from "@mui/material/Checkbox";
 import React from "react";
-import CreateButton from "../CreateButton";
+import CreateButton from "../createButton/CreateButton";
 
 const ListActions = () => {
   const listContext = useListContext();
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+  const learningModuleId = params.learningModuleId
+    ? params.learningModuleId
+    : params.id;
 
   return listContext.data?.length > 0 ? (
     <TopToolbar sx={{ minHeight: "48px !important", zIndex: "2" }}>
       <CreateFragmentButton />
-      <ExportButton />
+      <ExportButton meta={{ domainId, learningScenarioId, learningModuleId }} />
     </TopToolbar>
   ) : null;
 };
@@ -176,11 +182,19 @@ const CustomDatagridRow = ({
             } else return null;
           })}
 
-          <TableCell>
+          <TableCell
+            sx={{
+              width: "8rem",
+            }}
+          >
             <EditFragmentButton />
           </TableCell>
 
-          <TableCell>
+          <TableCell
+            sx={{
+              width: "8rem",
+            }}
+          >
             <ShowFragmentButton />
           </TableCell>
         </TableRow>
@@ -231,7 +245,7 @@ export const FragmentList = (props: { edit: boolean }) => {
       <ResourceContextProvider value="fragments">
         <List
           empty={<Empty />}
-          actions={props.edit ? <ListActions /> : <></>}
+          actions={<ListActions />}
           //filters={FragmentFilters}
           queryOptions={{
             meta: { domainId, learningScenarioId, learningModuleId },

@@ -19,7 +19,7 @@ export const ModuleCreate = () => {
   const onSuccess = () => {
     redirect(`/modules/d/${domainId}/s/${learningScenarioId}`);
   };
-  
+
   return (
     <Create
       mutationOptions={{ onSuccess }}
@@ -27,17 +27,32 @@ export const ModuleCreate = () => {
       title="titlePages.modules.create"
     >
       <BackButton />
-      <SimpleForm>
+      <SimpleForm
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
           fullWidth
           label="resources.modules.title"
         />
-        <TextInput source="desc" label="resources.modules.description" />
-        <TextInput source="level" label="resources.modules.level" />
-        <DateInput source="dateFrom" label="resources.modules.dateFrom" />
-        <DateInput source="dateTo" label="resources.modules.dateTo" />
+        <TextInput
+          source="desc"
+          label="resources.modules.description"
+          fullWidth
+          multiline={true}
+        />
+        <TextInput source="level" label="resources.modules.level" fullWidth />
+        <DateInput
+          source="dateFrom"
+          label="resources.modules.dateFrom"
+          fullWidth
+        />
+        <DateInput source="dateTo" label="resources.modules.dateTo" fullWidth />
       </SimpleForm>
     </Create>
   );

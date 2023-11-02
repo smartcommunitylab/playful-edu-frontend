@@ -2,18 +2,16 @@ import {
   Datagrid,
   TextField,
   TopToolbar,
-  EditButton,
   useGetRecordId,
   ResourceContextProvider,
   List,
-  ExportButton,
   Button,
   useRedirect,
   useTranslate,
   Link,
+  TextInput,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import CreateButton from "../CreateButton";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Card,
@@ -27,7 +25,7 @@ const ListActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
-  const to = `/scenario-learners/d/${domainId}/s/${recordId}/edit`;
+  const to = `/scenarios/d/${domainId}/s/${recordId}/learners/edit`;
   const redirect = useRedirect();
 
   if (!recordId) return null;
@@ -49,14 +47,14 @@ const Empty = () => {
   const domainId = params.domainId;
   const recordId = useGetRecordId();
   const translate = useTranslate();
-  const to = `/scenario-learners/d/${domainId}/s/${recordId}/edit`;
+  const to = `/scenarios/d/${domainId}/s/${recordId}/learners/edit`;
 
   return (
     <Box display="flex" alignItems="start" textAlign="center" mt={10}>
       <Card>
         <CardContent sx={{ padding: "33px !important" }}>
           <Typography variant="h4" paragraph>
-            {translate("resources.learningScenarios.emptyLearners")}
+            {translate("resources.learningScenarios.noScenarioLearners")}
           </Typography>
           <Typography variant="body1">
             {translate("resources.learningScenarios.addLearners")}
@@ -75,6 +73,8 @@ const Empty = () => {
   );
 };
 
+const Filters = [<TextInput label="ra.action.search" source="text" alwaysOn />];
+
 export const LearningScenarioLearnerShow = () => {
   const params = useParams();
   const learningScenarioId = params.id;
@@ -85,11 +85,13 @@ export const LearningScenarioLearnerShow = () => {
         empty={<Empty />}
         actions={<ListActions />}
         filter={{ domainId: params.domainId }}
+        filters={Filters}
         queryOptions={{
           meta: { domainId: params.domainId, learningScenarioId },
         }}
         title="titlePages.learners.list"
         sx={{ justifyContent: "center" }}
+        storeKey="scenarioLearners.show.listParams"
       >
         <Datagrid
           bulkActionButtons={false}

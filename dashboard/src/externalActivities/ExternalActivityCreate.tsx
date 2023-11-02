@@ -36,7 +36,13 @@ export const ExternalActivityCreate = () => {
       title="titlePages.externalActivities.create"
     >
       <BackButton />
-      <SimpleForm>
+      <SimpleForm
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
@@ -46,10 +52,12 @@ export const ExternalActivityCreate = () => {
         <TextInput
           source="desc"
           fullWidth
+          multiline={true}
           label="resources.externalActivities.description"
         />
         <TextInput
           source="language"
+          fullWidth
           label="resources.externalActivities.language"
         />
         <SelectInput
@@ -62,6 +70,7 @@ export const ExternalActivityCreate = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.externalActivities.type"
         />
         <SelectInput
@@ -74,6 +83,7 @@ export const ExternalActivityCreate = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.externalActivities.tool"
         />
         <SelectInput
@@ -86,17 +96,20 @@ export const ExternalActivityCreate = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.externalActivities.difficulty"
         />
-        <TextInput source="extId" />
-        <TextInput source="extGroupId" />
+        <TextInput source="extId" fullWidth />
+        <TextInput source="extGroupId" fullWidth />
         <TextInput
           source="extUrl"
           type="url"
+          fullWidth
           label="resources.externalActivities.url"
         />
         <TextInput
           source="groupCorrelator"
+          fullWidth
           label="resources.externalActivities.groupCorrelator"
         />
         <ReferenceArrayInput
@@ -105,7 +118,10 @@ export const ExternalActivityCreate = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.externalActivities.preconditions" />
+          <AutocompleteArrayInput
+            label="resources.externalActivities.preconditions"
+            fullWidth
+          />
         </ReferenceArrayInput>
         <ReferenceArrayInput
           source="effects"
@@ -113,7 +129,10 @@ export const ExternalActivityCreate = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.externalActivities.effects" />
+          <AutocompleteArrayInput
+            label="resources.externalActivities.effects"
+            fullWidth
+          />
         </ReferenceArrayInput>
       </SimpleForm>
     </Create>

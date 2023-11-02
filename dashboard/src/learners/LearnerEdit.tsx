@@ -7,6 +7,7 @@ import {
   TextInput,
   Toolbar,
   TopToolbar,
+  email,
   required,
   useGetRecordId,
   useRecordContext,
@@ -80,24 +81,37 @@ export const LearnerEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.learners.edit" />}
     >
-      <SimpleForm toolbar={<EditToolbar />}>
+      <SimpleForm
+        toolbar={<EditToolbar />}
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="firstname"
-          validate={[required()]}
+          validate={required()}
           fullWidth
           label="resources.learners.firstname"
         />
         <TextInput
           source="lastname"
-          multiline={true}
+          validate={required()}
+          fullWidth
           label="resources.learners.lastname"
         />
         <TextInput
           source="email"
-          type="email"
+          validate={[required(), email()]}
+          fullWidth
           label="resources.learners.email"
         />
-        <TextInput source="nickname" label="resources.learners.nickname" />
+        <TextInput
+          source="nickname"
+          label="resources.learners.nickname"
+          fullWidth
+        />
       </SimpleForm>
     </Edit>
   );

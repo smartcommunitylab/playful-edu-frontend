@@ -35,7 +35,10 @@ const ScenarioInput = (props: { source: string; label: string }) => {
   );
 
   return (
-    <Labeled label="resources.learningScenarios.publicScenario">
+    <Labeled
+      label="resources.learningScenarios.publicScenario"
+      sx={{ rowGap: "0 !important" }}
+    >
       <>
         <div style={{ padding: "5px 0 20px 0px" }}>
           <Chip
@@ -121,7 +124,13 @@ export const LearningScenarioCreate = () => {
       title="titlePages.learningScenarios.create"
     >
       <BackButton />
-      <SimpleForm>
+      <SimpleForm
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
@@ -130,16 +139,15 @@ export const LearningScenarioCreate = () => {
         />
         <TextInput
           source="desc"
+          fullWidth
+          multiline={true}
           label="resources.learningScenarios.description"
         />
         <TextInput
           source="language"
+          fullWidth
           label="resources.learningScenarios.language"
         />
-        {/* <BooleanInput
-          source="publicScenario"
-          label="resources.learningScenarios.publicScenario"
-        /> */}
         <ScenarioInput
           source="publicScenario"
           label="resources.learningScenarios.publicScenario"
@@ -150,7 +158,10 @@ export const LearningScenarioCreate = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.learningScenarios.educators" />
+          <AutocompleteArrayInput
+            label="resources.learningScenarios.educators"
+            fullWidth
+          />
         </ReferenceArrayInput>
       </SimpleForm>
     </Create>

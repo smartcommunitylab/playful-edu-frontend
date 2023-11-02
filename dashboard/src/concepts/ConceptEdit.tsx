@@ -76,7 +76,7 @@ export const ConceptEdit = () => {
       title={<Title translationKey="titlePages.concepts.edit" />}
     >
       <SimpleForm toolbar={<EditToolbar />}>
-        <TextInput source="title" validate={[required()]} fullWidth label="resources.concepts.title" />
+        <TextInput source="title" validate={required()} fullWidth label="resources.concepts.title" />
       </SimpleForm>
     </Edit>
   );

@@ -50,9 +50,7 @@ const EditToolbar = (props: any) => {
       <DeleteButton
         redirect={to}
         confirmTitle={
-          <Title
-            translationKey="titlePages.externalActivities.delete"
-          />
+          <Title translationKey="titlePages.externalActivities.delete" />
         }
       />
     </Toolbar>
@@ -80,7 +78,14 @@ export const ExternalActivityEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.externalActivities.edit" />}
     >
-      <SimpleForm toolbar={<EditToolbar />}>
+      <SimpleForm
+        toolbar={<EditToolbar />}
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
@@ -90,10 +95,12 @@ export const ExternalActivityEdit = () => {
         <TextInput
           source="desc"
           fullWidth
+          multiline={true}
           label="resources.externalActivities.description"
         />
         <TextInput
           source="language"
+          fullWidth
           label="resources.externalActivities.language"
         />
         <SelectInput
@@ -106,6 +113,7 @@ export const ExternalActivityEdit = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.externalActivities.type"
         />
         <SelectInput
@@ -118,6 +126,7 @@ export const ExternalActivityEdit = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.externalActivities.tool"
         />
         <SelectInput
@@ -130,17 +139,20 @@ export const ExternalActivityEdit = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.externalActivities.difficulty"
         />
-        <TextInput source="extId" />
-        <TextInput source="extGroupId" />
+        <TextInput source="extId" fullWidth />
+        <TextInput source="extGroupId" fullWidth />
         <TextInput
           source="extUrl"
           type="url"
+          fullWidth
           label="resources.externalActivities.url"
         />
         <TextInput
           source="groupCorrelator"
+          fullWidth
           label="resources.externalActivities.groupCorrelator"
         />
         <ReferenceArrayInput
@@ -149,7 +161,7 @@ export const ExternalActivityEdit = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.externalActivities.preconditions" />
+          <AutocompleteArrayInput label="resources.externalActivities.preconditions" fullWidth />
         </ReferenceArrayInput>
         <ReferenceArrayInput
           source="effects"
@@ -157,7 +169,7 @@ export const ExternalActivityEdit = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.externalActivities.effects" />
+          <AutocompleteArrayInput label="resources.externalActivities.effects" fullWidth />
         </ReferenceArrayInput>
       </SimpleForm>
     </Edit>

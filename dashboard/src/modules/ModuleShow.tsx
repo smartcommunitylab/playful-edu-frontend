@@ -47,6 +47,9 @@ const FragmentsActivitiesLists = () => {
   const translate = useTranslate();
 
   const [fragmentId, setFragmentId] = useState("");
+  const [isFragmentSingleton, setIsFragmentSingleton] = useState<
+    boolean | undefined
+  >(undefined);
   const [storedFragmentInfo, setStoredFragmentInfo] = useStore<{
     fragmentId: string;
   }>("fragmentInfo");
@@ -61,7 +64,12 @@ const FragmentsActivitiesLists = () => {
 
   const handleRowClick = (record: RaRecord<Identifier> | undefined) => {
     const fragmentId = record ? (record.id as string) : "";
+    const isFragmentSingleton = record
+      ? record.type === "singleton"
+      : undefined;
+
     setFragmentId(fragmentId);
+    setIsFragmentSingleton(isFragmentSingleton);
     setStoredFragmentInfo({ fragmentId });
   };
 
@@ -91,6 +99,9 @@ const FragmentsActivitiesLists = () => {
       );
       if (index != -1) {
         setFragmentId(storedFragmentInfo.fragmentId);
+
+        const isCurrentFragmentSingleton = data[index].type === "singleton";
+        setIsFragmentSingleton(isCurrentFragmentSingleton);
       } else setAreLoadingActivities(false);
     } else if (!data || data.length === 0 || !storedFragmentInfo) {
       setAreLoadingActivities(false);
@@ -109,6 +120,7 @@ const FragmentsActivitiesLists = () => {
         value={{
           onRowClick: handleRowClick,
           selectedFragmentId: fragmentId,
+          isFragmentSingleton: isFragmentSingleton,
           hideActivityList: hideActivityList,
           handleFragmentListChanges: handleFragmentListChanges,
           updateXArrow: updateXarrow,

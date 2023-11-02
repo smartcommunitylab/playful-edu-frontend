@@ -2,6 +2,7 @@ import {
   Create,
   SimpleForm,
   TextInput,
+  email,
   required,
   useRedirect,
   useStore,
@@ -26,24 +27,36 @@ export const EducatorCreate = () => {
       title="titlePages.educators.create"
     >
       <BackButton />
-      <SimpleForm>
+      <SimpleForm
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="firstname"
-          validate={[required()]}
+          validate={required()}
           fullWidth
           label="resources.educators.firstname"
         />
         <TextInput
           source="lastname"
-          multiline={true}
+          validate={required()}
+          fullWidth
           label="resources.educators.lastname"
         />
         <TextInput
           source="email"
-          type="email"
+          validate={[required(), email()]}
+          fullWidth
           label="resources.educators.email"
         />
-        <TextInput source="nickname" label="resources.educators.nickname" />
+        <TextInput
+          source="nickname"
+          label="resources.educators.nickname"
+          fullWidth
+        />
       </SimpleForm>
     </Create>
   );

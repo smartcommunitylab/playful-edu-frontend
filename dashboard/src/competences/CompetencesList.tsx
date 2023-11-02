@@ -33,12 +33,17 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 
-const ListActions = () => (
-  <TopToolbar>
-    <CreateDomainButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+
+  return (
+    <TopToolbar>
+      <CreateDomainButton />
+      <ExportButton meta={{ domainId }} />
+    </TopToolbar>
+  );
+};
 
 const CompetencesFilters = [
   <TextInput label="ra.action.search" source="title" alwaysOn />,
@@ -92,6 +97,9 @@ export const CompetencesList = () => {
           sx={{
             "& .RaBulkActionsToolbar-topToolbar": {
               backgroundColor: "initial",
+            },
+            "& .column-undefined": {
+              width: "8rem",
             },
           }}
         >

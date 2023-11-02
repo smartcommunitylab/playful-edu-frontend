@@ -92,7 +92,14 @@ const EditToolbar = (props: any) => {
 
 const FramgmentEditChildren = () => {
   return (
-    <SimpleForm toolbar={<EditToolbar />}>
+    <SimpleForm
+      toolbar={<EditToolbar />}
+      sx={{
+        "& .MuiStack-root": {
+          rowGap: "0.5rem",
+        },
+      }}
+    >
       <TextInput
         source="title"
         validate={[required()]}
@@ -117,7 +124,7 @@ const FramgmentEditChildren = () => {
         ]}
         label="resources.learningFragments.type"
         validate={required()}
-        sx={{ minWidth: "265px" }}
+        fullWidth
       />
       <SelectInput
         source="setCompletionRule"
@@ -132,7 +139,8 @@ const FramgmentEditChildren = () => {
           },
         ]}
         label="resources.learningFragments.rule"
-        sx={{ minWidth: "265px" }}
+        validate={required()}
+        fullWidth
       />
       <FormDataConsumer>
         {({ formData, ...rest }) => {
@@ -143,9 +151,12 @@ const FramgmentEditChildren = () => {
             return (
               <NumberInput
                 source="minActivities"
-                validate={minValue(1, "resources.validation.minValue")}
+                validate={[
+                  required(),
+                  minValue(1, "resources.validation.minValue"),
+                ]}
                 label="resources.learningFragments.minimumNumberOfActivities"
-                sx={{ minWidth: "265px" }}
+                fullWidth
               ></NumberInput>
             );
         }}
@@ -167,12 +178,23 @@ export const FragmentEdit = () => {
     );
   };
 
+  const transform = (data: any) => {
+    if (data.setCompletionRule == "all") {
+      delete data.minActivities;
+    }
+
+    return {
+      ...data,
+    };
+  };
+
   return (
     <Edit
       mutationOptions={{ onSuccess }}
       actions={<PostEditActions />}
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.learningFragments.edit" />}
+      transform={transform}
     >
       <FramgmentEditChildren />
     </Edit>

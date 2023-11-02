@@ -50,11 +50,7 @@ const EditToolbar = (props: any) => {
       <SaveButton />
       <DeleteButton
         redirect={to}
-        confirmTitle={
-          <Title
-            translationKey="titlePages.competences.delete"
-          />
-        }
+        confirmTitle={<Title translationKey="titlePages.competences.delete" />}
       />
     </Toolbar>
   );
@@ -68,7 +64,7 @@ export const CompetencesEdit = () => {
   const onSuccess = () => {
     redirect(`/competences/d/${domainId}`);
   };
-  
+
   const { total } = useGetList("concepts", {
     meta: { domainId },
   });
@@ -81,14 +77,26 @@ export const CompetencesEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.competences.edit" />}
     >
-      <SimpleForm toolbar={<EditToolbar />}>
+      <SimpleForm
+        toolbar={<EditToolbar />}
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           label="resources.competences.title"
           validate={[required()]}
           fullWidth
         />
-        <TextInput source="desc" label="resources.competences.description" />
+        <TextInput
+          source="desc"
+          label="resources.competences.description"
+          fullWidth
+          multiline={true}
+        />
         <SelectInput
           source="type"
           choices={[
@@ -99,6 +107,7 @@ export const CompetencesEdit = () => {
               ),
             },
           ]}
+          fullWidth
           label="resources.competences.type"
         />
         <ReferenceArrayInput
@@ -107,7 +116,10 @@ export const CompetencesEdit = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.competences.concepts" />
+          <AutocompleteArrayInput
+            label="resources.competences.concepts"
+            fullWidth
+          />
         </ReferenceArrayInput>
       </SimpleForm>
     </Edit>

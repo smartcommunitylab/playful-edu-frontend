@@ -18,20 +18,39 @@ export const FragmentCreate = () => {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const redirect = useRedirect();
+
   const onSuccess = () => {
     redirect(
       `/modules/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}`
     );
   };
 
+  const transform = (data: any) => {
+    if (data.setCompletionRule == "all") {
+      delete data.minActivities;
+    }
+
+    return {
+      ...data,
+      domainId,
+      learningModuleId,
+    };
+  };
+
   return (
     <Create
       mutationOptions={{ onSuccess }}
-      transform={(data: any) => ({ ...data, domainId, learningModuleId })}
+      transform={transform}
       title="titlePages.learningFragments.create"
     >
       <BackButton />
-      <SimpleForm>
+      <SimpleForm
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
@@ -56,7 +75,7 @@ export const FragmentCreate = () => {
           ]}
           label="resources.learningFragments.type"
           validate={required()}
-          sx={{ minWidth: "265px" }}
+          fullWidth
         />
         <SelectInput
           source="setCompletionRule"
@@ -71,7 +90,8 @@ export const FragmentCreate = () => {
             },
           ]}
           label="resources.learningFragments.rule"
-          sx={{ minWidth: "265px" }}
+          validate={required()}
+          fullWidth
         />
         <FormDataConsumer>
           {({ formData, ...rest }) => {
@@ -82,9 +102,12 @@ export const FragmentCreate = () => {
               return (
                 <NumberInput
                   source="minActivities"
-                  validate={minValue(1, "resources.validation.minValue")}
+                  validate={[
+                    required(),
+                    minValue(1, "resources.validation.minValue"),
+                  ]}
                   label="resources.learningFragments.minimumNumberOfActivities"
-                  sx={{ minWidth: "265px" }}
+                  fullWidth
                 ></NumberInput>
               );
           }}

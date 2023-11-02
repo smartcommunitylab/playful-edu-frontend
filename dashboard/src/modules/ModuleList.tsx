@@ -33,12 +33,18 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 
-const ListActions = () => (
-  <TopToolbar>
-    <CreateModuleButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.learningScenarioId;
+
+  return (
+    <TopToolbar>
+      <CreateModuleButton />
+      <ExportButton meta={{ domainId, learningScenarioId }} />
+    </TopToolbar>
+  );
+};
 
 const ModuleFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
@@ -76,7 +82,6 @@ export const ModuleList = () => {
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
-  const translate = useTranslate();
 
   return (
     <ResourceContextProvider value="modules">
@@ -94,6 +99,9 @@ export const ModuleList = () => {
           sx={{
             "& .RaBulkActionsToolbar-topToolbar": {
               backgroundColor: "initial",
+            },
+            "& .column-undefined": {
+              width: "8rem",
             },
           }}
         >

@@ -10,43 +10,34 @@ import {
   SaveButton,
   TextInput,
   useTranslate,
-  useStore,
-  useGetOne,
-  SaveContextProvider,
-  useUpdate,
   Datagrid,
-  ResourceContextProvider,
-  Button,
-  Empty,
+  Edit,
+  ShowButton,
+  useListContext,
+  Link,
+  useGetList,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Card } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 
-const PostEditActions = () => {
+const EditActions = () => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
   const to = `/scenarios/d/${domainId}/s/${recordId}/learners`;
-  const redirect = useRedirect();
   if (!recordId) return null;
+
   return (
-    <>
-      <TopToolbar
-        sx={{
-          alignItems: "center",
-        }}
-      >
-        <Button
-          color="primary"
-          onClick={() => redirect(to)}
-          label="ra.action.show"
-        >
-          <VisibilityIcon />
-        </Button>
-      </TopToolbar>
-    </>
+    <TopToolbar sx={{ flex: "0 1 auto !important" }}>
+      <ShowButton to={to} />
+    </TopToolbar>
   );
 };
 
@@ -76,131 +67,150 @@ const Title = () => {
   return title;
 };
 
-export const LearningScenarioLearnerEdit = () => {
-  const params = useParams();
-  const domainId = params.domainId;
-  const learningScenarioId = params.id;
-  const redirect = useRedirect();
-  const [update] = useUpdate();
-  const [selectedIds, setSelectedIds] = useStore(
-    "scenario-learners.selectedIds"
-  );
+interface DatagridProps {
+  onSelectedIdsChange: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
-  // get the learning scenario
-  const { data: scenario } = useGetOne("scenarios", {
-    id: learningScenarioId,
-  });
+const ScenarioLearnerDatagrid = ({ onSelectedIdsChange }: DatagridProps) => {
+  const { onUnselectItems, onSelect, selectedIds } = useListContext();
+  const record = useRecordContext();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    onUnselectItems();
+    onSelect(record?.learners);
+
     return () => {
-      setSelectedIds([]);
+      onUnselectItems();
     };
   }, []);
 
   useEffect(() => {
-    setSelectedIds(scenario?.learners);
-  }, [scenario]);
-
-  // save
-  const save = (data: any) => {
-    const previousData = scenario;
-    const currentData = { ...previousData };
-    currentData.learners = selectedIds;
-
-    update(
-      "scenarios",
-      {
-        id: learningScenarioId,
-        data: currentData,
-        previousData,
-      },
-      {
-        onSuccess: () => {
-          redirect(`/scenarios/d/${domainId}/s/${learningScenarioId}/learners`);
-        },
-        //onError: () => {},
-      }
-    );
-  };
-
-  const postFilters = [
-    <TextInput
-      label="ra.action.search"
-      source="text"
-      sx={{
-        "& .MuiFormHelperText-root": {
-          display: "none",
-        },
-      }}
-      alwaysOn
-    />,
-  ];
+    if (selectedIds) {
+      onSelectedIdsChange(selectedIds);
+    }
+  }, [selectedIds]);
 
   return (
-    <ResourceContextProvider value="scenario-learners">
-      <Card
-        sx={{
-          marginTop: "2rem",
-        }}
-      >
-        <SaveContextProvider
-          value={{ save, saving: false, mutationMode: "pessimistic" }}
-        >
-          <SimpleForm
-            toolbar={<EditToolbar />}
-            sx={{
-              "& .MuiStack-root": { alignItems: "stretch" },
-            }}
-          >
-            <List
-              //empty={<Empty />}
-              actions={<PostEditActions />}
-              filters={postFilters}
-              queryOptions={{
-                meta: { domainId: params.domainId },
-              }}
-              sx={{
-                justifyContent: "center",
-                "& .RaList-actions": {
-                  marginBottom: "3rem",
-                  alignItems: "center",
-                  flexWrap: "nowrap",
-                  flexDirection: "row",
-                },
-              }}
+    <Datagrid
+      bulkActionButtons={<PostBulkActionButtons />}
+      sx={{
+        "& .RaBulkActionsToolbar-icon": {
+          display: "none",
+        },
+        "& .RaBulkActionsToolbar-topToolbar": {
+          backgroundColor: "initial",
+        },
+      }}
+    >
+      <TextField source="firstname" label="resources.learners.firstname" />
+      <span> </span>
+      <TextField source="lastname" label="resources.learners.lastname" />
+      <span> </span>
+      <TextField source="email" label="resources.learners.email" />
+      <TextField source="nickname" label="resources.learners.nickname" />
+    </Datagrid>
+  );
+};
+
+const Empty = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const translate = useTranslate();
+  const to = `/learners/d/${domainId}/create`;
+
+  return (
+    <Box display="flex" textAlign="center" justifyContent="center" mt={10}>
+      <Card>
+        <CardContent sx={{ padding: "33px !important" }}>
+          <Typography variant="h4" paragraph>
+            {translate("resources.learningScenarios.noDomainLearners")}
+          </Typography>
+          <Typography variant="body1">
+            {translate("resources.learners.addOne")}
+          </Typography>
+
+          <Box mt={3}>
+            <Link to={to}>
+              <MuiButton color="primary" variant="contained">
+                {translate("ra.action.create")}
+              </MuiButton>
+            </Link>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
+  );
+};
+
+const Filters = [<TextInput label="ra.action.search" source="text" alwaysOn />];
+
+export const LearningScenarioLearnerEdit = () => {
+  const params = useParams();
+  const domainId = params.domainId;
+  const learningScenarioId = params.id;
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const { total, isLoading } = useGetList("learners", { meta: { domainId } });
+  const [isLearnersListEmpty, setIsLearnersListEmpty] = useState<
+    boolean | undefined
+  >(undefined);
+
+  useLayoutEffect(() => {
+    if (total !== undefined) {
+      setIsLearnersListEmpty(total === 0);
+    }
+  }, [total]);
+
+  const redirect = useRedirect();
+  const onSuccess = () => {
+    redirect(`/scenarios/d/${domainId}/s/${learningScenarioId}/learners`);
+  };
+
+  return (
+    <>
+      {isLoading === false && (
+        <>
+          {!isLearnersListEmpty && (
+            <Edit
+              actions={<EditActions />}
+              mutationMode="pessimistic"
+              transform={(data: any) => ({ ...data, learners: selectedIds })}
+              mutationOptions={{ onSuccess }}
               title={<Title />}
             >
-              <Datagrid
-                bulkActionButtons={<PostBulkActionButtons />}
+              <SimpleForm
+                toolbar={<EditToolbar />}
                 sx={{
-                  "& .RaBulkActionsToolbar-icon": {
-                    display: "none",
-                  },
-                  "& .RaBulkActionsToolbar-topToolbar": {
-                    backgroundColor: "initial",
-                  },
+                  "& .MuiStack-root": { alignItems: "stretch" },
                 }}
               >
-                <TextField
-                  source="firstname"
-                  label="resources.learners.firstname"
-                />
-                <span> </span>
-                <TextField
-                  source="lastname"
-                  label="resources.learners.lastname"
-                />
-                <span> </span>
-                <TextField source="email" label="resources.learners.email" />
-                <TextField
-                  source="nickname"
-                  label="resources.learners.nickname"
-                />
-              </Datagrid>
-            </List>
-          </SimpleForm>
-        </SaveContextProvider>
-      </Card>
-    </ResourceContextProvider>
+                <List
+                  resource="learners"
+                  empty={false}
+                  actions={false}
+                  filters={Filters}
+                  queryOptions={{
+                    meta: { domainId },
+                  }}
+                  sx={{
+                    justifyContent: "center",
+                    "& .RaList-actions": {
+                      marginBottom: "3rem",
+                      alignItems: "center",
+                    },
+                  }}
+                  title=" "
+                  storeKey="scenarioLearners.edit.listParams"
+                >
+                  <ScenarioLearnerDatagrid
+                    onSelectedIdsChange={setSelectedIds}
+                  />
+                </List>
+              </SimpleForm>
+            </Edit>
+          )}
+          {isLearnersListEmpty && <Empty />}
+        </>
+      )}
+    </>
   );
 };

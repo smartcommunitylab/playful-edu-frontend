@@ -28,7 +28,7 @@ export const ConceptCreate = () => {
     >
       <BackButton />
       <SimpleForm>
-        <TextInput source="title" validate={[required()]} fullWidth label="resources.concepts.title" />
+        <TextInput source="title" validate={required()} fullWidth label="resources.concepts.title" />
       </SimpleForm>
     </Create>
   );

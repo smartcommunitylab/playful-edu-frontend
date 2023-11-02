@@ -76,6 +76,7 @@ const ScenarioInput = (props: { source: string; label: string }) => {
   return (
     <Labeled
       label="resources.learningScenarios.publicScenario"
+      sx={{ rowGap: "0 !important" }}
     >
       <>
         <div style={{ padding: "5px 0 20px 0px" }}>
@@ -96,7 +97,9 @@ const ScenarioInput = (props: { source: string; label: string }) => {
                 : "1px solid rgba(0, 0, 0, 0.2)",
               "& .MuiChip-label": {
                 fontSize: "0.95rem",
-                color: fieldValue ? "rgba(0, 0, 0, 0.87)" : "rgba(0, 0, 0, 0.6)",
+                color: fieldValue
+                  ? "rgba(0, 0, 0, 0.87)"
+                  : "rgba(0, 0, 0, 0.6)",
               },
               "& .MuiChip-icon": {
                 fontSize: "1.25rem",
@@ -106,7 +109,7 @@ const ScenarioInput = (props: { source: string; label: string }) => {
               },
             }}
           />
-          
+
           <Chip
             label={translate(
               "resources.learningScenarios.publicScenarioOption.private"
@@ -123,7 +126,9 @@ const ScenarioInput = (props: { source: string; label: string }) => {
                 : "1px solid rgba(0, 0, 0, 0.2)",
               "& .MuiChip-label": {
                 fontSize: "0.95rem",
-                color: !fieldValue ? "rgba(0, 0, 0, 0.87)" : "rgba(0, 0, 0, 0.6)",
+                color: !fieldValue
+                  ? "rgba(0, 0, 0, 0.87)"
+                  : "rgba(0, 0, 0, 0.6)",
               },
               "& .MuiChip-icon": {
                 fontSize: "1.25rem",
@@ -160,7 +165,14 @@ export const LearningScenarioEdit = () => {
       mutationMode="pessimistic"
       title={<Title translationKey="titlePages.learningScenarios.edit" />}
     >
-      <SimpleForm toolbar={<EditToolbar />}>
+      <SimpleForm
+        toolbar={<EditToolbar />}
+        sx={{
+          "& .MuiStack-root": {
+            rowGap: "0.5rem",
+          },
+        }}
+      >
         <TextInput
           source="title"
           validate={[required()]}
@@ -169,10 +181,13 @@ export const LearningScenarioEdit = () => {
         />
         <TextInput
           source="desc"
+          fullWidth
+          multiline={true}
           label="resources.learningScenarios.description"
         />
         <TextInput
           source="language"
+          fullWidth
           label="resources.learningScenarios.language"
         />
         <ScenarioInput
@@ -185,7 +200,10 @@ export const LearningScenarioEdit = () => {
           queryOptions={{ meta: { domainId } }}
           perPage={total}
         >
-          <AutocompleteArrayInput label="resources.learningScenarios.educators" />
+          <AutocompleteArrayInput
+            label="resources.learningScenarios.educators"
+            fullWidth
+          />
         </ReferenceArrayInput>
       </SimpleForm>
     </Edit>

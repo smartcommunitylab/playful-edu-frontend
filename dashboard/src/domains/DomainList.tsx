@@ -79,6 +79,9 @@ export const DomainList = () => {
           "& .RaBulkActionsToolbar-topToolbar": {
             backgroundColor: "initial",
           },
+          "& .column-undefined": {
+              width: "8rem",
+            },
         }}
       >
         <DomainButton
