@@ -254,12 +254,13 @@ const EditActivityButton = (props: {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = props.learningModuleId;
   const learningFragmentId = props.learningFragmentId;
-
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${record.id}/edit`;
+  const { isScenarioRunning } = useModuleContext();
+
   if (!record) return null;
   return (
     <>
-      <EditButton to={to}></EditButton>
+      <EditButton to={to} disabled={isScenarioRunning}></EditButton>
     </>
   );
 };
@@ -293,12 +294,15 @@ const CreateActivityButton = (props: {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = props.learningModuleId;
   const learningFragmentId = props.learningFragmentId;
-  const { isFragmentSingleton } = useModuleContext();
-
+  const { isFragmentSingleton, isScenarioRunning } = useModuleContext();
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/create`;
+
   return (
     <>
-      <CreateButton to={to} disabled={isFragmentSingleton}></CreateButton>
+      <CreateButton
+        to={to}
+        disabled={isFragmentSingleton || isScenarioRunning}
+      ></CreateButton>
     </>
   );
 };

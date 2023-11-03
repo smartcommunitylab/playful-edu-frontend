@@ -9,6 +9,7 @@ interface ModuleContextValue {
   handleFragmentListChanges: (data: any[]) => void;
   updateXArrow: () => void;
   setAreLoadingActivities: (areLoading: boolean | undefined) => void;
+  isScenarioRunning?: boolean;
 }
 
 export const ModuleContext = createContext<ModuleContextValue | undefined>(

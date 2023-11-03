@@ -306,11 +306,12 @@ const EditFragmentButton = () => {
     ? params.learningModuleId
     : params.id;
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${record.id}/edit`;
+  const { isScenarioRunning } = useModuleContext();
 
   if (!record) return null;
   return (
     <>
-      <EditButton to={to}></EditButton>
+      <EditButton to={to} disabled={isScenarioRunning}></EditButton>
     </>
   );
 };
@@ -341,9 +342,11 @@ const CreateFragmentButton = () => {
     ? params.learningModuleId
     : params.id;
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/create`;
+  const { isScenarioRunning } = useModuleContext();
+
   return (
     <>
-      <CreateButton to={to}></CreateButton>
+      <CreateButton to={to} disabled={isScenarioRunning}></CreateButton>
     </>
   );
 };

@@ -218,6 +218,7 @@ const messages = {
       addOne: "Would you like to add one?",
       singular: "module",
       plural: "modules",
+      toDateBeforeFromDate: "The end date must be later than the start date",
     },
     learningFragments: {
       menu: "Fragments",

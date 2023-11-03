@@ -1,17 +1,17 @@
 import {
   EditButton,
   FunctionField,
-  SelectField,
   Show,
   SimpleShowLayout,
   TextField,
   TopToolbar,
+  useGetOne,
   useGetRecordId,
-  useRecordContext,
   useTranslate,
 } from "react-admin";
 import { useParams } from "react-router-dom";
 import { Title } from "../Title";
+import { useLayoutEffect, useState } from "react";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
@@ -20,13 +20,27 @@ const PostShowActions = () => {
   const learningScenarioId = params.learningScenarioId;
   const learningModuleId = params.learningModuleId;
   const to = `/fragments/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${recordId}/edit`;
+  const [isScenarioRunning, setIsScenarioRunning] = useState<
+    boolean | undefined
+  >(undefined);
+  const { data, isLoading } = useGetOne("scenarios", {
+    id: learningScenarioId,
+  });
+
+  useLayoutEffect(() => {
+    if (data) {
+      setIsScenarioRunning(data.running);
+    }
+  }, [data]);
 
   if (!recordId) return null;
   return (
     <>
-      <TopToolbar>
-        <EditButton to={to} />
-      </TopToolbar>
+      {!isLoading && (
+        <TopToolbar>
+          <EditButton to={to} disabled={isScenarioRunning} />
+        </TopToolbar>
+      )}
     </>
   );
 };

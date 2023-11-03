@@ -9,8 +9,6 @@ import {
   ShowButton,
   TextInput,
   useTranslate,
-  useStore,
-  Button,
   useRedirect,
   useRecordContext,
   DateField,
@@ -18,12 +16,8 @@ import {
   Link,
   useListContext,
   BulkDeleteButton,
+  useGetOne,
 } from "react-admin";
-import {
-  DOMAIN_URL_PARAM,
-  MODULO_URL_PARAM,
-  SCENARIO_URL_PARAM,
-} from "../constants";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -32,17 +26,29 @@ import {
   Typography,
   Button as MuiButton,
 } from "@mui/material";
+import { useLayoutEffect, useState } from "react";
 
-const ListActions = () => {
+const ListActions = (props: {
+  isScenarioRunning: boolean | undefined;
+  isLoading: boolean;
+}) => {
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
+  const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
 
   return (
-    <TopToolbar>
-      <CreateModuleButton />
-      <ExportButton meta={{ domainId, learningScenarioId }} />
-    </TopToolbar>
+    <>
+      {!props.isLoading && (
+        <TopToolbar>
+          <CreateButton
+            to={to}
+            disabled={props.isScenarioRunning}
+          ></CreateButton>
+          <ExportButton meta={{ domainId, learningScenarioId }} />
+        </TopToolbar>
+      )}
+    </>
   );
 };
 
@@ -50,7 +56,9 @@ const ModuleFilters = [
   <TextInput label="ra.action.search" source="name" alwaysOn />,
 ];
 
-const PostBulkActionButtons = () => {
+const PostBulkActionButtons = (props: {
+  isScenarioRunning: boolean | undefined;
+}) => {
   const translate = useTranslate();
   const listContext = useListContext();
 
@@ -74,6 +82,7 @@ const PostBulkActionButtons = () => {
       mutationMode="pessimistic"
       confirmTitle={title}
       confirmContent={content}
+      disabled={props.isScenarioRunning}
     />
   );
 };
@@ -82,12 +91,29 @@ export const ModuleList = () => {
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
+  const [isScenarioRunning, setIsScenarioRunning] = useState<
+    boolean | undefined
+  >(undefined);
+  const { data, isLoading } = useGetOne("scenarios", {
+    id: learningScenarioId,
+  });
+
+  useLayoutEffect(() => {
+    if (data) {
+      setIsScenarioRunning(data.running);
+    }
+  }, [data]);
 
   return (
     <ResourceContextProvider value="modules">
       <List
         empty={<Empty />}
-        actions={<ListActions />}
+        actions={
+          <ListActions
+            isScenarioRunning={isScenarioRunning}
+            isLoading={isLoading}
+          />
+        }
         //filters={ModuleFilters}
         queryOptions={{ meta: { domainId, learningScenarioId } }}
         title="titlePages.modules.list"
@@ -95,7 +121,9 @@ export const ModuleList = () => {
         pagination={false}
       >
         <Datagrid
-          bulkActionButtons={<PostBulkActionButtons />}
+          bulkActionButtons={
+            <PostBulkActionButtons isScenarioRunning={isScenarioRunning} />
+          }
           sx={{
             "& .RaBulkActionsToolbar-topToolbar": {
               backgroundColor: "initial",
@@ -130,7 +158,7 @@ export const ModuleList = () => {
             label="resources.modules.dateTo"
             sortable={false}
           />
-          <EditModuleButton />
+          <EditModuleButton isScenarioRunning={isScenarioRunning} />
           <ShowModuleButton />
         </Datagrid>
       </List>
@@ -138,17 +166,19 @@ export const ModuleList = () => {
   );
 };
 
-const EditModuleButton = () => {
-  const redirect = useRedirect();
+const EditModuleButton = (props: {
+  isScenarioRunning: boolean | undefined;
+}) => {
   const record = useRecordContext();
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}/edit`;
+
   if (!record) return null;
   return (
     <>
-      <EditButton to={to}></EditButton>
+      <EditButton to={to} disabled={props.isScenarioRunning}></EditButton>
     </>
   );
 };
@@ -160,22 +190,11 @@ const ShowModuleButton = () => {
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${record.id}`;
+
   if (!record) return null;
   return (
     <>
       <ShowButton to={to}></ShowButton>
-    </>
-  );
-};
-
-const CreateModuleButton = () => {
-  const params = useParams();
-  const domainId = params.domainId;
-  const learningScenarioId = params.learningScenarioId;
-  const to = `/modules/d/${domainId}/s/${learningScenarioId}/create`;
-  return (
-    <>
-      <CreateButton to={to}></CreateButton>
     </>
   );
 };

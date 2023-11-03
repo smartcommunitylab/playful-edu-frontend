@@ -213,11 +213,12 @@ const messages = {
       description: "Descrizione",
       level: "Livello",
       dateFrom: "Data di inizio",
-      dateTo: "Data di fine",
+      dateTo: "Data di conclusione",
       empty: "Nessun modulo presente",
       addOne: "Vorresti aggiungerne uno?",
       singular: "modulo",
       plural: "moduli",
+      toDateBeforeFromDate: "La data di conclusione deve essere successiva alla data di inizio",
     },
     learningFragments: {
       menu: "Frammenti",

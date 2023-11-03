@@ -8,6 +8,7 @@ import {
   SimpleShowLayout,
   TextField,
   TopToolbar,
+  useGetOne,
   useGetRecordId,
   useShowContext,
   useSidebarState,
@@ -20,27 +21,35 @@ import Paper from "@mui/material/Paper";
 import { FragmentList } from "../fragments/FragmentList";
 import { ActivityList } from "../activities/ActivityList";
 import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Grid, Typography, useMediaQuery, Theme } from "@mui/material";
 import { ModuleContext } from "./ModuleContext";
 
-const PostShowActions = () => {
+const PostShowActions = (props: {
+  isScenarioRunning: boolean | undefined;
+  isLoading: boolean;
+}) => {
   const recordId = useGetRecordId();
   const params = useParams();
   const domainId = params.domainId;
   const learningScenarioId = params.learningScenarioId;
   const to = `/modules/d/${domainId}/s/${learningScenarioId}/m/${recordId}/edit`;
+
   if (!recordId) return null;
   return (
     <>
-      <TopToolbar>
-        <EditButton to={to}></EditButton>
-      </TopToolbar>
+      {!props.isLoading && (
+        <TopToolbar>
+          <EditButton to={to} disabled={props.isScenarioRunning}></EditButton>
+        </TopToolbar>
+      )}
     </>
   );
 };
 
-const FragmentsActivitiesLists = () => {
+const FragmentsActivitiesLists = (props: {
+  isScenarioRunning: boolean | undefined;
+}) => {
   const { isLoading } = useShowContext();
   const learningModuleId = useGetRecordId();
   const updateXarrow = useXarrow();
@@ -125,6 +134,7 @@ const FragmentsActivitiesLists = () => {
           handleFragmentListChanges: handleFragmentListChanges,
           updateXArrow: updateXarrow,
           setAreLoadingActivities: setAreLoadingActivities,
+          isScenarioRunning: props.isScenarioRunning,
         }}
       >
         <Xwrapper>
@@ -204,9 +214,30 @@ const FragmentsActivitiesLists = () => {
 };
 
 export const ModuleShow = () => {
+  const params = useParams();
+  const learningScenarioId = params.learningScenarioId;
+
+  const [isScenarioRunning, setIsScenarioRunning] = useState<
+    boolean | undefined
+  >(undefined);
+  const { data, isLoading } = useGetOne("scenarios", {
+    id: learningScenarioId,
+  });
+
+  useLayoutEffect(() => {
+    if (data) {
+      setIsScenarioRunning(data.running);
+    }
+  }, [data]);
+
   return (
     <Show
-      actions={<PostShowActions />}
+      actions={
+        <PostShowActions
+          isScenarioRunning={isScenarioRunning}
+          isLoading={isLoading}
+        />
+      }
       title={<Title translationKey="titlePages.modules.show" />}
     >
       <SimpleShowLayout>
@@ -215,7 +246,7 @@ export const ModuleShow = () => {
         <TextField source="level" label="resources.modules.level" />
         <DateField source="dateFrom" label="resources.modules.dateFrom" />
         <DateField source="dateTo" label="resources.modules.dateTo" />
-        <FragmentsActivitiesLists />
+        <FragmentsActivitiesLists isScenarioRunning={isScenarioRunning} />
       </SimpleShowLayout>
     </Show>
   );

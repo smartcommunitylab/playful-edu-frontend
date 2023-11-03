@@ -12,6 +12,7 @@ import {
   SingleFieldList,
   TextField,
   TopToolbar,
+  useGetOne,
   useGetRecordId,
   useRecordContext,
   useRedirect,
@@ -27,6 +28,7 @@ import {
 } from "../constants";
 import { useParams } from "react-router-dom";
 import { Title } from "../Title";
+import { useLayoutEffect, useState } from "react";
 
 const PostShowActions = () => {
   const recordId = useGetRecordId();
@@ -36,12 +38,27 @@ const PostShowActions = () => {
   const learningModuleId = params.learningModuleId;
   const learningFragmentId = params.learningFragmentId;
   const to = `/activities/d/${domainId}/s/${learningScenarioId}/m/${learningModuleId}/f/${learningFragmentId}/a/${recordId}/edit`;
+  const [isScenarioRunning, setIsScenarioRunning] = useState<
+    boolean | undefined
+  >(undefined);
+  const { data, isLoading } = useGetOne("scenarios", {
+    id: learningScenarioId,
+  });
+
+  useLayoutEffect(() => {
+    if (data) {
+      setIsScenarioRunning(data.running);
+    }
+  }, [data]);
+
   if (!recordId) return null;
   return (
     <>
-      <TopToolbar>
-        <EditButton to={to}></EditButton>
-      </TopToolbar>
+      {!isLoading && (
+        <TopToolbar>
+          <EditButton to={to} disabled={isScenarioRunning}></EditButton>
+        </TopToolbar>
+      )}
     </>
   );
 };

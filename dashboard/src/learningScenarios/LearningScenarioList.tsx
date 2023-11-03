@@ -183,13 +183,21 @@ const CustomDatagridBody = (props: DatagridBodyProps) => (
   <DatagridBody {...props} row={<CustomDatagridRow />} />
 );
 
-const CustomDatagrid = (props: DatagridProps) => (
-  <Datagrid
-    {...props}
-    body={<CustomDatagridBody />}
-    bulkActionButtons={<PostBulkActionButtons />}
-  />
-);
+const CustomDatagrid = (props: DatagridProps) => {
+  const { isLoading } = useListContext();
+
+  return (
+    <>
+      {!isLoading && (
+        <Datagrid
+          {...props}
+          body={<CustomDatagridBody />}
+          bulkActionButtons={<PostBulkActionButtons />}
+        />
+      )}
+    </>
+  );
+};
 
 export const LearningScenarioList = () => {
   const params = useParams();

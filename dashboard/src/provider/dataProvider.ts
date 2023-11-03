@@ -93,7 +93,31 @@ const customDataProvider = (
       });
     },
     getManyReference: (resource, params) => {
-      throw new Error("Unsupported");
+      //handle pagination request as pageable (page,size)
+      const { page, perPage } = params.pagination;
+      const { field, order } = params.sort;
+      const query = {
+        [params.target]: params.id, // reference key with field
+        sort: field + "," + order, //sorting
+        page: page - 1, //page starts from zero
+        size: perPage,
+      };
+
+      const url = `${apiUrl}/${resource}?${stringify(query)}`;
+      return httpClient(url).then(({ status, json }) => {
+        if (status !== 200) {
+          throw new Error("Invalid response status " + status);
+        }
+        if (!json.content) {
+          throw new Error("the response must match page<> model");
+        }
+
+        //extract data from content
+        return {
+          data: json.content,
+          total: parseInt(json.totalElements),
+        };
+      });
     },
     update: (resource, params) => {
       const url = `${apiUrl}/${resource}/${params.id}`;

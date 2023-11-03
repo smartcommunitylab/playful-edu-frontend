@@ -20,7 +20,6 @@ import {
   useTranslate,
 } from "react-admin";
 import { useParams } from "react-router-dom";
-import { DOMAIN_URL_PARAM, SCENARIO_URL_PARAM } from "../constants";
 import { Title } from "../Title";
 import Paper from "@mui/material/Paper";
 import { FragmentList } from "../fragments/FragmentList";
@@ -29,6 +28,7 @@ import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import { useEffect, useState } from "react";
 import { Grid, Typography, useMediaQuery, Theme } from "@mui/material";
 import { ModuleContext } from "./ModuleContext";
+import { useFormContext } from "react-hook-form";
 
 const PostEditActions = () => {
   const recordId = useGetRecordId();
@@ -232,6 +232,81 @@ const FragmentsActivitiesLists = () => {
   );
 };
 
+const ModuleEditForm = () => {
+  const { getValues, setError, clearErrors } = useFormContext();
+
+  const fromDateValidator = (dateFrom: any) => {
+    const dateTo = getValues("dateTo");
+
+    if (dateTo && dateFrom) {
+      const dateFromTime = new Date(dateFrom).getTime();
+      const dateToTime = new Date(dateTo).getTime();
+
+      if (dateFromTime > dateToTime) {
+        setError("dateTo", {
+          type: "manual",
+          message: "resources.modules.toDateBeforeFromDate",
+        });
+        return "resources.modules.toDateBeforeFromDate";
+      }
+    }
+
+    if (dateTo) clearErrors("dateTo");
+    return undefined;
+  };
+
+  const toDateValidator = (dateTo: any) => {
+    const dateFrom = getValues("dateFrom");
+
+    if (dateFrom && dateTo) {
+      const dateFromTime = new Date(dateFrom).getTime();
+      const dateToTime = new Date(dateTo).getTime();
+
+      if (dateFromTime > dateToTime) {
+        setError("dateFrom", {
+          type: "manual",
+          message: "resources.modules.toDateBeforeFromDate",
+        });
+        return "resources.modules.toDateBeforeFromDate";
+      }
+    }
+
+    if (dateFrom) clearErrors("dateFrom");
+    return undefined;
+  };
+
+  return (
+    <>
+      <TextInput
+        source="title"
+        validate={[required()]}
+        fullWidth
+        label="resources.modules.title"
+      />
+      <TextInput
+        source="desc"
+        fullWidth
+        multiline={true}
+        label="resources.modules.description"
+      />
+      <TextInput source="level" label="resources.modules.level" fullWidth />
+      <DateInput
+        source="dateFrom"
+        label="resources.modules.dateFrom"
+        validate={fromDateValidator}
+        fullWidth
+      />
+      <DateInput
+        source="dateTo"
+        label="resources.modules.dateTo"
+        validate={toDateValidator}
+        fullWidth
+      />
+      <FragmentsActivitiesLists />
+    </>
+  );
+};
+
 export const ModuleEdit = () => {
   const params = useParams();
   const domainId = params.domainId;
@@ -258,27 +333,7 @@ export const ModuleEdit = () => {
           },
         }}
       >
-        <TextInput
-          source="title"
-          validate={[required()]}
-          fullWidth
-          label="resources.modules.title"
-        />
-        <TextInput
-          source="desc"
-          fullWidth
-          multiline={true}
-          label="resources.modules.description"
-        />
-        <TextInput source="level" label="resources.modules.level" fullWidth />
-        <DateInput
-          source="dateFrom"
-          label="resources.modules.dateFrom"
-          fullWidth
-        />
-        <DateInput source="dateTo" label="resources.modules.dateTo" fullWidth />
-
-        <FragmentsActivitiesLists />
+        <ModuleEditForm />
       </SimpleForm>
     </Edit>
   );

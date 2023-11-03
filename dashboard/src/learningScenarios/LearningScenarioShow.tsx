@@ -69,6 +69,7 @@ const PostShowActions = () => {
   const domainId = params.domainId;
   const to = `/scenarios/d/${domainId}/s/${recordId}/element/edit`;
   if (!recordId) return null;
+  
   return (
     <>
       <TopToolbar>
